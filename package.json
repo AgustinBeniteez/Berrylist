@@ -1,0 +1,25 @@
+{
+  "name": "proyecto-berry",
+  "version": "1.0.0",
+  "description": "## Descripción",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "run": "node -e \"console.log('Iniciando servidor en http://localhost:3000')\" && node src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AgustinBeniteez/Proyecto-berry.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AgustinBeniteez/Proyecto-berry/issues"
+  },
+  "homepage": "https://github.com/AgustinBeniteez/Proyecto-berry#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

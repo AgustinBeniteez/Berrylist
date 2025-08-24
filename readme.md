@@ -34,6 +34,24 @@ Berry es una aplicación web diseñada para ayudarte a organizar y gestionar tus
 - Frontend: HTML5, CSS3, JavaScript, Node.js
 - Diseño Responsivo para adaptarse a diferentes dispositivos
 
+## Instalación
+1. Clona este repositorio:
+   ```
+   git clone https://github.com/AgustinBeniteez/Proyecto-berry.git
+   cd Proyecto-berry
+   ```
+
+2. Instala las dependencias:
+   ```
+   npm install
+   ```
+   
+   > **IMPORTANTE**: Asegúrate de instalar las dependencias antes de ejecutar el servidor, de lo contrario, recibirás un error de módulo no encontrado.
+
+## ABRIR SERVER LOCAL HOST
+   ```
+   npm run run
+   ```
 ## Próximas Funcionalidades
 
 - Notificaciones para recordatorios
