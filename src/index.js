@@ -17,12 +17,30 @@ app.get('/', (req, res) => {
     res.render('pages/index');
 });
 
-app.get('/about', (req, res) => {
-    res.render('pages/about');
+app.get('/dashboard', (req, res) => {
+    // Detectar si es una solicitud AJAX o una carga de página normal
+    const isAjaxRequest = req.xhr || req.headers.accept.indexOf('json') > -1;
+    
+    if (isAjaxRequest) {
+        // Si es una solicitud AJAX, renderizar solo el contenido principal
+        res.render('pages/dashboard', { layout: false });
+    } else {
+        // Si es una carga normal, renderizar la página completa
+        res.render('pages/dashboard');
+    }
 });
 
-app.get('/services', (req, res) => {
-    res.render('pages/services', { title: 'Servicios' });
+// Rutas para cargar secciones parciales
+app.get('/partials/work-section', (req, res) => {
+    res.render('partials/work-section');
+});
+
+app.get('/partials/study-section', (req, res) => {
+    res.render('partials/study-section');
+});
+
+app.get('/partials/leisure-section', (req, res) => {
+    res.render('partials/leisure-section');
 });
 
 // Middleware para manejar rutas no encontradas (error 404)

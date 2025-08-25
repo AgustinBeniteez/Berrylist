@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <%- include('../partials/head'); %>
+  <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body class="dashboard-page">
+  <!-- Theme Switch -->
+  <div class="theme-switch-wrapper">
+    <span class="slider-icon"><i class="fas fa-sun"></i></span>
+    <label class="theme-switch">
+      <input type="checkbox">
+      <span class="slider"></span>
+    </label>
+    <span class="slider-icon"><i class="fas fa-moon"></i></span>
+  </div>
+
+  <div class="dashboard-layout">
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <img src="/img/Berrylist-logo.webp" alt="Berrylist Logo" class="sidebar-logo">
+        <h2>Berrylist</h2>
+      </div>
+      <ul class="sidebar-nav">
+        <li><a href="#" class="nav-btn" data-section="work"><i class="fas fa-briefcase"></i> <span>Work Section</span></a></li>
+        <li><a href="#" class="nav-btn" data-section="study"><i class="fas fa-book"></i> <span>Study Section</span></a></li>
+        <li><a href="#" class="nav-btn" data-section="leisure"><i class="fas fa-gamepad"></i> <span>Leisure Section</span></a></li>
+      </ul>
+    </div>
+
+    <!-- Content Area -->
+    <div class="content-area">
+      <main id="main-content">
+        <!-- Default content with cards -->
+        <h1>Dashboard</h1>
+        <p>Selecciona una sección para comenzar</p>
+        
+        <div class="section-cards">
+          <div class="card" data-section="work">
+            <div class="card-icon"><i class="fas fa-briefcase"></i></div>
+            <h3>Work Section</h3>
+            <p>Gestiona tus tareas laborales y proyectos profesionales.</p>
+            <button class="card-btn" data-section="work">Ir a Work</button>
+          </div>
+          
+          <div class="card" data-section="study">
+            <div class="card-icon"><i class="fas fa-book"></i></div>
+            <h3>Study Section</h3>
+            <p>Organiza tus estudios, cursos y material educativo.</p>
+            <button class="card-btn" data-section="study">Ir a Study</button>
+          </div>
+          
+          <div class="card" data-section="leisure">
+            <div class="card-icon"><i class="fas fa-gamepad"></i></div>
+            <h3>Leisure Section</h3>
+            <p>Planifica tu tiempo libre y actividades recreativas.</p>
+            <button class="card-btn" data-section="leisure">Ir a Leisure</button>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+  
+  <%- include('../partials/footer'); %>
+
+  <script src="/js/main.js"></script>
+  <script src="/js/theme-switcher.js"></script>
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>
