@@ -52,6 +52,14 @@ section {
   transition: all 0.3s ease;
 }
 
+.menu-toggle {
+  display: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 101;
+}
+
 [data-theme="dark"] .landing-header {
   background-color: transparent;
 }
@@ -639,18 +647,70 @@ section {
 /* Responsive */
 @media (max-width: 768px) {
   .landing-header {
-    flex-direction: column;
+    flex-direction: row;
     padding: 1rem;
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+  
+  .menu-toggle {
+    display: block;
+  }
+  
+  .landing-nav {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 80%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.9);
+    padding: 4rem 1rem 1rem;
+    transition: left 0.3s ease;
+    z-index: 100;
+  }
+  
+  .landing-nav.active {
+    left: 0;
   }
   
   .landing-nav ul {
     margin: 1rem 0;
     gap: 1rem;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .landing-nav li {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .landing-nav a {
+    display: block;
+    padding: 0.8rem 0;
+    border: 1px solid white;
+    border-radius: 4px;
+  }
+  
+  .landing-nav a::after {
+    display: none;
   }
   
   .auth-buttons {
-    margin-top: 1rem;
+    margin-left: auto;
+    margin-top: 0;
+    display: flex;
+    gap: 0.5rem;
   }
+  
+  .login-btn {
+    display: none;
+  }
+  
+  .get-started-btn {
+    padding: 0.4rem 1rem;
+    font-size: 0.9rem;
+  }
+
   
   .hero-title {
     font-size: 3rem;

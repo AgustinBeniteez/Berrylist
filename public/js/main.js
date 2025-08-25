@@ -3,6 +3,24 @@
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Proyecto Berry cargado correctamente');
     
+    // Funcionalidad del menú hamburguesa para móviles
+    const menuToggle = document.querySelector('.menu-toggle');
+    const landingNav = document.querySelector('.landing-nav');
+    
+    if (menuToggle) {
+        menuToggle.addEventListener('click', () => {
+            landingNav.classList.toggle('active');
+        });
+        
+        // Cerrar menú al hacer clic en un enlace
+        const navLinks = document.querySelectorAll('.landing-nav a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                landingNav.classList.remove('active');
+            });
+        });
+    }
+    
     // Ejemplo de funcionalidad interactiva
     const features = document.querySelectorAll('.feature');
     
