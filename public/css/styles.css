@@ -1,3 +1,15 @@
+/* Variables de color */
+:root { 
+    --primary-color: #2c3e50; 
+    --secondary-color: #3498db; 
+    --background-color: #f4f4f4; 
+    --text-color: #333; 
+    --hover-primary-color: #2980b9;
+    --feature-background: #fff;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    /* Additional theme colors */ 
+}
+
 /* Estilos generales */
 * {
     margin: 0;
@@ -8,22 +20,23 @@
 body {
     font-family: 'Arial', sans-serif;
     line-height: 1.6;
-    color: #333;
-    background-color: #f4f4f4;
+    color: var(--text-color);
+    background-color: var(--background-color);
 }
 
 a {
-    color: #3498db;
+    color: var(--secondary-color);
     text-decoration: none;
+    transition: color 0.3s ease;
 }
 
 a:hover {
-    color: #2980b9;
+    color: var(--hover-primary-color);
 }
 
 /* Header */
 header {
-    background-color: #2c3e50;
+    background-color: var(--primary-color);
     color: #fff;
     padding: 1rem 0;
     text-align: center;
@@ -45,10 +58,11 @@ nav ul li {
 
 nav ul li a {
     color: #fff;
+    transition: color 0.3s ease;
 }
 
 nav ul li a:hover {
-    color: #3498db;
+    color: var(--secondary-color);
 }
 
 /* Main content */
@@ -59,16 +73,16 @@ main {
 }
 
 .hero {
-    background-color: #fff;
+    background-color: var(--feature-background);
     padding: 2rem;
     border-radius: 5px;
     margin-bottom: 2rem;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px var(--shadow-color);
     text-align: center;
 }
 
 .hero h2 {
-    color: #2c3e50;
+    color: var(--primary-color);
     margin-bottom: 1rem;
 }
 
@@ -80,20 +94,20 @@ main {
 }
 
 .feature {
-    background-color: #fff;
+    background-color: var(--feature-background);
     padding: 1.5rem;
     border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px var(--shadow-color);
 }
 
 .feature h3 {
-    color: #2c3e50;
+    color: var(--primary-color);
     margin-bottom: 1rem;
 }
 
 /* Footer */
 footer {
-    background-color: #2c3e50;
+    background-color: var(--primary-color);
     color: #fff;
     text-align: center;
     padding: 1rem 0;

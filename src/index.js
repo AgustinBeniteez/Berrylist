@@ -17,10 +17,6 @@ app.get('/about', (req, res) => {
     res.send('<h1>Acerca de Proyecto Berry</h1><p>Esta es la página de información sobre el proyecto.</p><a href="/">Volver al inicio</a>');
 });
 
-app.get('/contact', (req, res) => {
-    res.send('<h1>Contacto</h1><p>Puedes contactarnos en: contacto@proyectoberry.com</p><a href="/">Volver al inicio</a>');
-});
-
 // Iniciar el servidor
 app.listen(PORT, () => {
     console.log(`Servidor ejecutándose en http://localhost:${PORT}`);
