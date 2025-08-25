@@ -1,0 +1,183 @@
+/* Estilos para el layout principal basado en la imagen de ejemplo */
+
+/* Layout principal tipo dashboard */
+.dashboard-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-auto-rows: minmax(150px, auto);
+  gap: 15px;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Tarjetas para cada sección */
+.dashboard-card {
+  background-color: var(--card-background);
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 10px var(--shadow-color);
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 2px solid var(--card-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px var(--shadow-color);
+}
+
+.dashboard-card h2 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: var(--accent-color);
+  font-size: 1.5rem;
+}
+
+/* Estilos específicos para diferentes tipos de tarjetas */
+.card-work {
+  grid-column: span 1;
+  grid-row: span 2;
+  background-color: var(--nav-background);
+  color: var(--nav-text);
+}
+
+.card-study {
+  grid-column: span 1;
+  grid-row: span 1;
+  background-color: var(--nav-background);
+  color: var(--nav-text);
+}
+
+.card-tiempo-libre {
+  background-color: var(--accent-color);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  display: inline-block;
+  font-size: 0.9rem;
+  margin-top: 10px;
+  border: 1px solid white;
+}
+
+.card-films {
+  grid-column: span 1;
+  grid-row: span 2;
+}
+
+.card-games {
+  grid-column: span 1;
+  grid-row: span 1;
+}
+
+.card-songs {
+  grid-column: span 1;
+  grid-row: span 1;
+}
+
+.card-serie {
+  grid-column: span 1;
+  grid-row: span 2;
+}
+
+/* Grid para la galería de imágenes */
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 5px;
+  height: 100%;
+}
+
+.image-grid-item {
+  background-color: #333;
+  border-radius: 4px;
+}
+
+/* Navegación lateral para páginas secundarias */
+.sidebar-layout {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  min-height: calc(100vh - 200px); /* Ajustado para dejar espacio para el footer */
+}
+
+.sidebar {
+  background-color: var(--nav-background);
+  color: var(--nav-text);
+  padding: 20px;
+  position: fixed;
+  height: 100vh;
+  width: 250px;
+  overflow-y: auto;
+}
+
+.sidebar h2 {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: var(--nav-text);
+}
+
+.sidebar-nav {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar-nav li {
+  margin-bottom: 10px;
+}
+
+.sidebar-nav a {
+  color: var(--nav-text);
+  text-decoration: none;
+  display: block;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.sidebar-nav a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--accent-color);
+}
+
+.sidebar-nav a.active {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+.content-area {
+  grid-column: 2;
+  padding: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboard-layout {
+    grid-template-columns: 1fr;
+  }
+  
+  .card-work,
+  .card-films,
+  .card-serie {
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+  
+  .sidebar-layout {
+    grid-template-columns: 1fr;
+  }
+  
+  .sidebar {
+    position: static;
+    height: auto;
+    width: 100%;
+  }
+  
+  .content-area {
+    grid-column: 1;
+  }
+}

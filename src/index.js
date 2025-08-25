@@ -5,16 +5,24 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Configurar EJS como motor de plantillas
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, '../views'));
+
 // Configurar middleware para archivos estáticos
 app.use(express.static(path.join(__dirname, '../public')));
 
 // Rutas
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/index.html'));
+    res.render('pages/index');
 });
 
 app.get('/about', (req, res) => {
-    res.send('<h1>Acerca de Proyecto Berry</h1><p>Esta es la página de información sobre el proyecto.</p><a href="/">Volver al inicio</a>');
+    res.render('pages/about');
+});
+
+app.get('/services', (req, res) => {
+    res.render('pages/services', { title: 'Servicios' });
 });
 
 // Iniciar el servidor

@@ -4,6 +4,9 @@
 
 Berry es una aplicación web diseñada para ayudarte a organizar y gestionar tus listas personales en diferentes categorías de tu vida. Puedes mantener un seguimiento de tus actividades laborales, académicas y de ocio en un solo lugar.
 
+## Directrices de diseño
+   [Documentacion de directrices de diseño DevReadme.md](./DevReadme.md)
+
 ## Características Principales
 
 ### Sección de Trabajo 💼

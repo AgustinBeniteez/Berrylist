@@ -1,0 +1,104 @@
+/* Estilos para el footer */
+.footer {
+  background-color: #333333;
+  color: #fff;
+  padding: 2rem 0 1rem;
+  margin-top: 0;
+  width: 100%;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 2rem;
+    flex-direction: row;
+    align-items: center
+}
+
+.footer-nav-container {
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+  width: 100%;
+  margin-top: 1rem;
+  align-items: flex-start;
+}
+
+.footer-logo h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.footer-links ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-links li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-link {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+  
+  &:hover {
+    color: var(--accent-color);
+  }
+}
+
+.footer-social {
+  display: flex;
+  gap: 1rem;
+}
+
+.social-link {
+  color: #fff;
+  font-size: 1.2rem;
+  transition: color 0.3s ease;
+  
+  &:hover {
+    color: var(--accent-color);
+  }
+}
+
+.footer-legal ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-legal li {
+  margin-bottom: 0.5rem;
+}
+
+.footer-bottom {
+  text-align: center;
+  padding-top: 1.5rem;
+  border-top: 2px solid var(--accent-color);
+  margin-top: 1.5rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .footer-logo, .footer-social {
+    margin-bottom: 1.5rem;
+  }
+  
+  .footer-social {
+    justify-content: center;
+  }
+  
+  .footer-nav-container {
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+}

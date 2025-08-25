@@ -1,14 +1,5 @@
-/* Variables de color */
-:root { 
-    --primary-color: #2c3e50; 
-    --secondary-color: #3498db; 
-    --background-color: #f4f4f4; 
-    --text-color: #333; 
-    --hover-primary-color: #2980b9;
-    --feature-background: #fff;
-    --shadow-color: rgba(0, 0, 0, 0.1);
-    /* Additional theme colors */ 
-}
+/* Importar variables de theme.css */
+@import url('theme.css');
 
 /* Estilos generales */
 * {
@@ -22,6 +13,9 @@ body {
     line-height: 1.6;
     color: var(--text-color);
     background-color: var(--background-color);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 a {
@@ -31,7 +25,12 @@ a {
 }
 
 a:hover {
-    color: var(--hover-primary-color);
+    color: var(--accent-color);
+}
+
+/* Main content */
+main {
+    flex: 1;
 }
 
 /* Header */
@@ -62,7 +61,7 @@ nav ul li a {
 }
 
 nav ul li a:hover {
-    color: var(--secondary-color);
+    color: var(--accent-color);
 }
 
 /* Main content */
@@ -82,7 +81,7 @@ main {
 }
 
 .hero h2 {
-    color: var(--primary-color);
+    color: var(--accent-color);
     margin-bottom: 1rem;
 }
 
@@ -101,7 +100,7 @@ main {
 }
 
 .feature h3 {
-    color: var(--primary-color);
+    color: var(--accent-color);
     margin-bottom: 1rem;
 }
 

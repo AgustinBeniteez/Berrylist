@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body>
+  <!-- Theme Switch -->
+  <div class="theme-switch-wrapper">
+    <span class="slider-icon"><i class="fas fa-sun"></i></span>
+    <label class="theme-switch">
+      <input type="checkbox">
+      <span class="slider"></span>
+    </label>
+    <span class="slider-icon"><i class="fas fa-moon"></i></span>
+  </div>
+
+  <main>
+    <div class="dashboard-layout">
+      <!-- Tarjeta Work -->
+      <div class="dashboard-card card-work">
+        <h2>Work</h2>
+        <div class="card-tiempo-libre">tiempo libre</div>
+      </div>
+      
+      <!-- Tarjeta Study -->
+      <div class="dashboard-card card-study">
+        <h2>Study</h2>
+      </div>
+      
+      <!-- Tarjeta Films -->
+      <div class="dashboard-card card-films">
+        <h2>Films</h2>
+      </div>
+      
+      <!-- Tarjeta Games -->
+      <div class="dashboard-card card-games">
+        <h2>Games</h2>
+      </div>
+      
+      <!-- Tarjeta Songs -->
+      <div class="dashboard-card card-songs">
+        <h2>Songs</h2>
+      </div>
+      
+      <!-- Tarjeta Serie -->
+      <div class="dashboard-card card-serie">
+        <h2>Serie</h2>
+      </div>
+      
+      <!-- Tarjeta con Grid de Imágenes -->
+      <div class="dashboard-card">
+        <div class="image-grid">
+          <div class="image-grid-item"></div>
+          <div class="image-grid-item"></div>
+          <div class="image-grid-item"></div>
+          <div class="image-grid-item"></div>
+          <div class="image-grid-item"></div>
+          <div class="image-grid-item"></div>
+          <div class="image-grid-item"></div>
+          <div class="image-grid-item"></div>
+          <div class="image-grid-item"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <%- include('../partials/footer'); %>
+
+  <script src="/js/main.js"></script>
+  <script src="/js/theme-switcher.js"></script>
+</body>
+</html>

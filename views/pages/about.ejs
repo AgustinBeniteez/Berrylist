@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <%- include('../partials/head'); %>
+</head>
+<body>
+  <!-- Theme Switch -->
+  <div class="theme-switch-wrapper">
+    <span class="slider-icon"><i class="fas fa-sun"></i></span>
+    <label class="theme-switch">
+      <input type="checkbox">
+      <span class="slider"></span>
+    </label>
+    <span class="slider-icon"><i class="fas fa-moon"></i></span>
+  </div>
+
+  <div class="sidebar-layout">
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+      <h2>Proyecto Berry</h2>
+      <ul class="sidebar-nav">
+        <li><a href="/">Inicio</a></li>
+        <li><a href="/about" class="active">Acerca de</a></li>
+        <li><a href="/services">Servicios</a></li>
+      </ul>
+    </div>
+
+    <!-- Content Area -->
+    <div class="content-area">
+      <main>
+        <h1>Acerca de Proyecto Berry</h1>
+        <p>Esta es la página de información sobre el proyecto.</p>
+      </main>
+    </div>
+  </div>
+  
+  <%- include('../partials/footer'); %>
+
+  <script src="/js/main.js"></script>
+  <script src="/js/theme-switcher.js"></script>
+</body>
+</html>
