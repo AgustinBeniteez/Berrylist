@@ -15,8 +15,9 @@
     <nav class="landing-nav">
       <ul>
         <li><a href="/">Home</a></li>
-        <li><a href="/about">About</a></li>
-        <li><a href="/services">Services</a></li>
+        <li><a href="/dashboard" data-section="work">Work Section</a></li>
+        <li><a href="/dashboard" data-section="study">Study Section</a></li>
+        <li><a href="/dashboard" data-section="leisure">Leisure Section</a></li>
       </ul>
     </nav>
     <div class="auth-buttons">
@@ -94,6 +95,7 @@
   <%- include('../partials/footer'); %>
 
   <script src="/js/main.js"></script>
+  <script src="/js/nav-section-links.js"></script>
   <script src="/js/theme-switcher.js"></script>
   <script>
     // Forzar modo oscuro en la landing page
