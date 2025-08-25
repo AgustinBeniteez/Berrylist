@@ -3,7 +3,7 @@ const path = require('path');
 
 // Inicializar la aplicación Express
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 // Configurar EJS como motor de plantillas
 app.set('view engine', 'ejs');
@@ -23,6 +23,11 @@ app.get('/about', (req, res) => {
 
 app.get('/services', (req, res) => {
     res.render('pages/services', { title: 'Servicios' });
+});
+
+// Middleware para manejar rutas no encontradas (error 404)
+app.use((req, res) => {
+    res.status(404).render('pages/404');
 });
 
 // Iniciar el servidor
