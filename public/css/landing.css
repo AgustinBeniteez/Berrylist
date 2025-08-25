@@ -4,8 +4,8 @@
   --primary-color: #7D1045;
   --primary-rgb: 156, 39, 176;
   --hover-primary-color: #7D1045;
-  --accent-color: #c91d56;
-  --hover-accent-color: #f50057;
+  --accent-color: #7D1045;
+  --hover-accent-color: #7D1045;
   --text-color: #333;
   --light-text: #666;
   --background-color: #000000;
@@ -352,6 +352,7 @@ section {
   font-size: 7rem;
   margin-bottom: 0;
   font-weight: 700;
+  color: white;
   text-shadow: 0 2px 15px rgba(0, 0, 0, 0.7);
   letter-spacing: 2px;
   animation: titlePulse 3s ease-in-out infinite;
@@ -472,7 +473,7 @@ section {
 
 [data-theme="dark"] .feature-box {
   background-color: var(--card-background);
-  border-left-color: var(--accent-color);
+  border-left-color: var(--border-color);
 }
 
 
@@ -502,7 +503,6 @@ section {
 
 .feature-box {
   background-color: var(--card-background);
-  border-radius: 12px;
   padding: 0;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
   transition: transform 0.4s ease, box-shadow 0.4s ease;
