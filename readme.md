@@ -48,6 +48,30 @@ Berry es una aplicación web diseñada para ayudarte a organizar y gestionar tus
    ```
    npm install
    ```
+
+3. Inicia el servidor de desarrollo:
+   ```
+   npm start
+   ```
+   La aplicación estará disponible en http://localhost:3000
+
+## Despliegue en Vercel
+
+1. Asegúrate de que el archivo `vercel.json` esté en la raíz del proyecto.
+
+2. Conecta tu repositorio de GitHub con Vercel:
+   - Crea una cuenta en [Vercel](https://vercel.com)
+   - Importa el repositorio desde GitHub
+   - Vercel detectará automáticamente la configuración de Node.js
+
+3. Configura las variables de entorno si es necesario.
+
+4. Despliega la aplicación haciendo clic en "Deploy".
+
+5. Si encuentras errores 404, verifica que:
+   - El archivo `vercel.json` esté correctamente configurado
+   - El punto de entrada (`src/index.js`) sea accesible
+   - No haya archivos importantes excluidos por `.gitignore`
    
    > **IMPORTANTE**: Asegúrate de instalar las dependencias antes de ejecutar el servidor, de lo contrario, recibirás un error de módulo no encontrado.
 
