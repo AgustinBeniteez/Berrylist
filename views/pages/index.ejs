@@ -1,72 +1,104 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en" data-theme="dark">
 <head>
   <%- include('../partials/head'); %>
+  <link rel="stylesheet" href="/css/landing.css">
 </head>
-<body>
-  <!-- Theme Switch -->
-  <div class="theme-switch-wrapper">
-    <span class="slider-icon"><i class="fas fa-sun"></i></span>
-    <label class="theme-switch">
-      <input type="checkbox">
-      <span class="slider"></span>
-    </label>
-    <span class="slider-icon"><i class="fas fa-moon"></i></span>
-  </div>
+<body class="landing-page">
+  <!-- Theme Switch eliminado de la landing page -->
 
-  <main>
-    <div class="dashboard-layout">
-      <!-- Tarjeta Work -->
-      <div class="dashboard-card card-work">
-        <h2>Work</h2>
-        <div class="card-tiempo-libre">tiempo libre</div>
+  <!-- Header con navegación -->
+  <header class="landing-header">
+    <nav class="landing-nav">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+        <li><a href="/services">Services</a></li>
+      </ul>
+    </nav>
+    <div class="auth-buttons">
+      <a href="#" class="login-btn">Log In</a>
+      <a href="#" class="get-started-btn">Enter Website</a>
+    </div>
+  </header>
+
+  <!-- Hero Section con imágenes de fondo -->
+  <section class="hero-collage">
+    <div class="collage-container">
+      <div class="collage-image large" id="image1"></div>
+      <div class="collage-image medium" id="image2"></div>
+      <div class="collage-image small" id="image3"></div>
+      <div class="collage-image medium" id="image4"></div>
+    </div>
+    <div class="blur-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-title-container">
+        <h1 class="hero-title">Berrylist</h1>
+        <img src="/img/Berrylist-logo.webp" alt="Berrylist Logo" class="hero-logo">
       </div>
-      
-      <!-- Tarjeta Study -->
-      <div class="dashboard-card card-study">
-        <h2>Study</h2>
-      </div>
-      
-      <!-- Tarjeta Films -->
-      <div class="dashboard-card card-films">
-        <h2>Films</h2>
-      </div>
-      
-      <!-- Tarjeta Games -->
-      <div class="dashboard-card card-games">
-        <h2>Games</h2>
-      </div>
-      
-      <!-- Tarjeta Songs -->
-      <div class="dashboard-card card-songs">
-        <h2>Songs</h2>
-      </div>
-      
-      <!-- Tarjeta Serie -->
-      <div class="dashboard-card card-serie">
-        <h2>Serie</h2>
-      </div>
-      
-      <!-- Tarjeta con Grid de Imágenes -->
-      <div class="dashboard-card">
-        <div class="image-grid">
-          <div class="image-grid-item"></div>
-          <div class="image-grid-item"></div>
-          <div class="image-grid-item"></div>
-          <div class="image-grid-item"></div>
-          <div class="image-grid-item"></div>
-          <div class="image-grid-item"></div>
-          <div class="image-grid-item"></div>
-          <div class="image-grid-item"></div>
-          <div class="image-grid-item"></div>
+      <a href="/dashboard" class="cta-button">Enter Website</a>
+    </div>
+  </section>
+
+  <!-- Características Principales -->
+  <section class="main-features">
+    <div class="container">
+      <h2 class="section-title">Our Features</h2>
+      <div class="features-container">
+        <div class="feature-box">
+          <div class="feature-box-header header-trabajo"></div>
+          <div class="feature-box-content">
+            <div class="feature-icon"><i class="fas fa-briefcase"></i></div>
+            <h3>Work Section 💼</h3>
+            <ul>
+              <li>Work schedule management</li>
+              <li>Task and project tracking</li>
+              <li>Meeting organization</li>
+            </ul>
+          </div>
+        </div>
+        <div class="feature-box">
+          <div class="feature-box-header header-estudio"></div>
+          <div class="feature-box-content">
+            <div class="feature-icon"><i class="fas fa-book"></i></div>
+            <h3>Study Section 📚</h3>
+            <ul>
+              <li>Class schedules</li>
+              <li>Exam dates</li>
+              <li>Study session planning</li>
+            </ul>
+          </div>
+        </div>
+        <div class="feature-box">
+          <div class="feature-box-header header-ocio"></div>
+          <div class="feature-box-content">
+            <div class="feature-icon"><i class="fas fa-gamepad"></i></div>
+            <h3>Entertainment Section 🎮</h3>
+            <ul>
+              <li>Movies to watch</li>
+              <li>TV shows tracking</li>
+              <li>Games to play</li>
+              <li>Favorite songs</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
-  </main>
+  </section>
+
+  <!-- La sección de Perfil Personal ha sido eliminada -->
 
   <%- include('../partials/footer'); %>
 
   <script src="/js/main.js"></script>
   <script src="/js/theme-switcher.js"></script>
+  <script>
+    // Forzar modo oscuro en la landing page
+    document.addEventListener('DOMContentLoaded', () => {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('theme', 'dark');
+      // No se manipula el botón de cambio de tema ya que fue eliminado de esta página
+    });
+  </script>
 </body>
 </html>
