@@ -48,6 +48,19 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
     
+    // Botones de añadir evento (para la sección de calendario)
+    const addEventButtons = document.querySelectorAll('.add-event-btn');
+    addEventButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        alert('Funcionalidad para añadir evento en desarrollo');
+      });
+    });
+    
+    // Inicializar calendario si estamos en la sección de calendario
+    if (document.querySelector('.calendar-section')) {
+      initCalendar();
+    }
+    
     // Botones de editar tarea
     const editButtons = document.querySelectorAll('.task-edit');
     editButtons.forEach(btn => {
@@ -82,6 +95,97 @@ document.addEventListener('DOMContentLoaded', function() {
       loadSection(section);
     });
   });
+  
+  // Función para inicializar el calendario
+  function initCalendar() {
+    const calendarDays = document.querySelector('.calendar-days');
+    const currentMonthElement = document.querySelector('.current-month');
+    const prevMonthBtn = document.querySelector('.prev-month');
+    const nextMonthBtn = document.querySelector('.next-month');
+    
+    let currentDate = new Date();
+    let currentMonth = currentDate.getMonth();
+    let currentYear = currentDate.getFullYear();
+    
+    // Función para actualizar el calendario
+    function updateCalendar() {
+      // Actualizar el título del mes
+      const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+      currentMonthElement.textContent = `${monthNames[currentMonth]} ${currentYear}`;
+      
+      // Limpiar días existentes
+      calendarDays.innerHTML = '';
+      
+      // Obtener el primer día del mes
+      const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+      
+      // Obtener el último día del mes
+      const lastDay = new Date(currentYear, currentMonth + 1, 0).getDate();
+      
+      // Obtener el último día del mes anterior
+      const prevMonthLastDay = new Date(currentYear, currentMonth, 0).getDate();
+      
+      // Añadir días del mes anterior
+      for (let i = firstDay; i > 0; i--) {
+        const day = document.createElement('div');
+        day.classList.add('day', 'prev-month');
+        day.textContent = prevMonthLastDay - i + 1;
+        calendarDays.appendChild(day);
+      }
+      
+      // Añadir días del mes actual
+      for (let i = 1; i <= lastDay; i++) {
+        const day = document.createElement('div');
+        day.classList.add('day');
+        day.textContent = i;
+        
+        // Marcar el día actual
+        if (i === currentDate.getDate() && currentMonth === currentDate.getMonth() && currentYear === currentDate.getFullYear()) {
+          day.classList.add('today');
+        }
+        
+        // Ejemplo: marcar algunos días con eventos (esto se podría cargar desde una API)
+        if ((i === 4 || i === 15 || i === 18) && currentMonth === currentDate.getMonth()) {
+          day.classList.add('has-events');
+        }
+        
+        calendarDays.appendChild(day);
+      }
+      
+      // Añadir días del mes siguiente (para completar la última fila)
+      const totalDaysDisplayed = firstDay + lastDay;
+      const nextMonthDays = 42 - totalDaysDisplayed; // 6 filas x 7 días = 42
+      
+      for (let i = 1; i <= nextMonthDays; i++) {
+        const day = document.createElement('div');
+        day.classList.add('day', 'next-month');
+        day.textContent = i;
+        calendarDays.appendChild(day);
+      }
+    }
+    
+    // Inicializar el calendario
+    updateCalendar();
+    
+    // Eventos para los botones de navegación
+    prevMonthBtn.addEventListener('click', function() {
+      currentMonth--;
+      if (currentMonth < 0) {
+        currentMonth = 11;
+        currentYear--;
+      }
+      updateCalendar();
+    });
+    
+    nextMonthBtn.addEventListener('click', function() {
+      currentMonth++;
+      if (currentMonth > 11) {
+        currentMonth = 0;
+        currentYear++;
+      }
+      updateCalendar();
+    });
+  }
   
   // Añadir eventos a los botones de las tarjetas
   cardButtons.forEach(btn => {

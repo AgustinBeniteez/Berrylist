@@ -31,6 +31,10 @@ app.get('/dashboard', (req, res) => {
 });
 
 // Rutas para cargar secciones parciales
+app.get('/partials/calendar-section', (req, res) => {
+    res.render('partials/calendar-section');
+});
+
 app.get('/partials/work-section', (req, res) => {
     res.render('partials/work-section');
 });

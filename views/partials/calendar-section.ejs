@@ -1,0 +1,81 @@
+<div class="section-content calendar-section">
+  <h1>Calendar Section</h1>
+  
+  <div class="section-header">
+    <p>Organiza tus eventos y visualiza tu agenda completa.</p>
+    <button class="add-event-btn"><i class="fas fa-plus"></i> Nuevo Evento</button>
+  </div>
+  
+  <div class="calendar-container">
+    <div class="calendar-header">
+      <button class="prev-month"><i class="fas fa-chevron-left"></i></button>
+      <h2 class="current-month">Octubre 2023</h2>
+      <button class="next-month"><i class="fas fa-chevron-right"></i></button>
+    </div>
+    
+    <div class="weekdays">
+      <div>Dom</div>
+      <div>Lun</div>
+      <div>Mar</div>
+      <div>Mié</div>
+      <div>Jue</div>
+      <div>Vie</div>
+      <div>Sáb</div>
+    </div>
+    
+    <div class="calendar-days">
+      <!-- Los días se generarán dinámicamente con JavaScript -->
+      <!-- Ejemplo de estructura -->
+      <div class="day prev-month">30</div>
+      <div class="day">1</div>
+      <div class="day">2</div>
+      <div class="day">3</div>
+      <div class="day has-events">4</div>
+      <div class="day">5</div>
+      <div class="day">6</div>
+      <!-- ... más días ... -->
+    </div>
+  </div>
+  
+  <div class="upcoming-events">
+    <h3>Próximos Eventos</h3>
+    
+    <div class="event-item">
+      <div class="event-date">
+        <span class="event-day">15</span>
+        <span class="event-month">OCT</span>
+      </div>
+      <div class="event-info">
+        <h4>Reunión de Equipo</h4>
+        <p>Revisión de objetivos trimestrales</p>
+        <div class="event-meta">
+          <span class="event-time"><i class="far fa-clock"></i> 10:00 - 11:30</span>
+          <span class="event-location"><i class="fas fa-map-marker-alt"></i> Sala de Conferencias</span>
+        </div>
+      </div>
+      <div class="event-actions">
+        <button class="edit-btn"><i class="fas fa-edit"></i></button>
+        <button class="delete-btn"><i class="fas fa-trash"></i></button>
+      </div>
+    </div>
+    
+    <div class="event-item">
+      <div class="event-date">
+        <span class="event-day">18</span>
+        <span class="event-month">OCT</span>
+      </div>
+      <div class="event-info">
+        <h4>Entrega de Proyecto</h4>
+        <p>Fecha límite para entrega final</p>
+        <div class="event-meta">
+          <span class="event-time"><i class="far fa-clock"></i> Todo el día</span>
+          <span class="event-location"><i class="fas fa-map-marker-alt"></i> Oficina</span>
+        </div>
+      </div>
+      <div class="event-actions">
+        <button class="edit-btn"><i class="fas fa-edit"></i></button>
+        <button class="delete-btn"><i class="fas fa-trash"></i></button>
+      </div>
+    </div>
+  </div>
+</div>

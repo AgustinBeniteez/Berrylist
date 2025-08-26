@@ -457,6 +457,10 @@ section {
 }
 
 /* Imágenes de fondo para las características */
+.header-calendario {
+  background-image: url('/img/landingpage/calendar.webp');
+}
+
 .header-trabajo {
   background-image: url('/img/landingpage/notepad.webp');
 }
