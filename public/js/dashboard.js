@@ -4,6 +4,34 @@ document.addEventListener('DOMContentLoaded', function() {
   const navButtons = document.querySelectorAll('.nav-btn');
   const cardButtons = document.querySelectorAll('.card-btn');
   const sidebarHeader = document.querySelector('.sidebar-header');
+  const sidebarToggle = document.getElementById('sidebar-toggle');
+  const sidebar = document.getElementById('sidebar');
+  
+  // Función para controlar la visibilidad del sidebar en móvil
+  if (sidebarToggle && sidebar) {
+    sidebarToggle.addEventListener('click', function() {
+      sidebar.classList.toggle('show');
+    });
+    
+    // Cerrar sidebar al hacer clic en un enlace (en móvil)
+    navButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        if (window.innerWidth <= 768) {
+          sidebar.classList.remove('show');
+        }
+      });
+    });
+    
+    // Cerrar sidebar al hacer clic fuera de él (en móvil)
+    document.addEventListener('click', function(event) {
+      if (window.innerWidth <= 768 && 
+          !sidebar.contains(event.target) && 
+          !sidebarToggle.contains(event.target) &&
+          sidebar.classList.contains('show')) {
+        sidebar.classList.remove('show');
+      }
+    });
+  }
   
   // Función para cargar una sección
   async function loadSection(sectionName) {

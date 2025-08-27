@@ -30,15 +30,7 @@
   --accent-color: #7D1045;
 }
 
-/* Estilos para el switch de tema */
-.theme-switch-wrapper {
-  display: flex;
-  align-items: center;
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 100;
-}
+
 
 .theme-switch {
   display: inline-block;

@@ -5,37 +5,44 @@
   <link rel="stylesheet" href="/css/dashboard.css">
 </head>
 <body class="dashboard-page">
-  <!-- Theme Switch -->
-  <div class="theme-switch-wrapper">
-    <span class="slider-icon"><i class="fas fa-sun"></i></span>
-    <label class="theme-switch">
-      <input type="checkbox">
-      <span class="slider"></span>
-    </label>
-    <span class="slider-icon"><i class="fas fa-moon"></i></span>
-  </div>
-  
-  <!-- Home Button -->
-  <div class="home-button-wrapper">
-    <a href="/" class="home-button">
-      <i class="fas fa-home"></i>
-      <span>Inicio</span>
-    </a>
+  <!-- Mobile Toggle Button -->
+  <div class="mobile-toggle-wrapper">
+    <button id="sidebar-toggle" class="sidebar-toggle-btn">
+      <i class="fas fa-bars"></i>
+    </button>
   </div>
 
   <div class="dashboard-layout">
     <!-- Sidebar Navigation -->
-    <div class="sidebar">
+    <div class="sidebar" id="sidebar">
       <div class="sidebar-header">
         <img src="/img/Berrylist-logo.webp" alt="Berrylist Logo" class="sidebar-logo">
         <h2>Berrylist</h2>
       </div>
+      
       <ul class="sidebar-nav">
         <li><a href="#" class="nav-btn" data-section="calendar"><i class="fas fa-calendar-alt"></i> <span>Calendar Section</span></a></li>
         <li><a href="#" class="nav-btn" data-section="work"><i class="fas fa-briefcase"></i> <span>Work Section</span></a></li>
         <li><a href="#" class="nav-btn" data-section="study"><i class="fas fa-book"></i> <span>Study Section</span></a></li>
         <li><a href="#" class="nav-btn" data-section="leisure"><i class="fas fa-gamepad"></i> <span>Leisure Section</span></a></li>
       </ul>
+      
+      <!-- Home Button in sidebar footer -->
+      <div class="sidebar-footer">
+        <!-- Theme Switch moved to just above home button -->
+        <div class="theme-switch-wrapper">
+          <span class="slider-icon"><i class="fas fa-sun"></i></span>
+          <label class="theme-switch">
+            <input type="checkbox">
+            <span class="slider"></span>
+          </label>
+          <span class="slider-icon"><i class="fas fa-moon"></i></span>
+        </div>
+        <a href="/" class="home-button">
+          <i class="fas fa-home"></i>
+          <span>Inicio</span>
+        </a>
+      </div>
     </div>
 
     <!-- Content Area -->
