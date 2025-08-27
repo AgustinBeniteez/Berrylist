@@ -98,8 +98,17 @@ document.addEventListener('DOMContentLoaded', function() {
       
       const sectionContent = await response.text();
       
+      // Actualizar la URL sin recargar la página
+      window.history.pushState({section: sectionName}, '', `/dashboard/${sectionName}`);
+      
       // Actualizar el contenido principal
       mainContent.innerHTML = sectionContent;
+      
+      // Activar la sección cargada
+      const sectionElement = mainContent.querySelector('.section-content');
+      if (sectionElement) {
+        sectionElement.classList.add('active');
+      }
       
       // Actualizar la clase activa en los botones de navegación
       navButtons.forEach(btn => {
@@ -170,6 +179,12 @@ document.addEventListener('DOMContentLoaded', function() {
     btn.addEventListener('click', function(e) {
       e.preventDefault();
       const section = this.dataset.section;
+      
+      // Actualizar la clase activa
+      navButtons.forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      
+      // Cargar la sección correspondiente y actualizar la URL
       loadSection(section);
     });
   });

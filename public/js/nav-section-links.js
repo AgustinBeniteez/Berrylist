@@ -47,10 +47,43 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Función para activar una sección específica en el dashboard
   function activateSection(section) {
-    // Buscar el botón de navegación correspondiente y simular un clic
+    // Buscar el botón de navegación correspondiente
     const navButton = document.querySelector(`.nav-btn[data-section="${section}"]`);
     if (navButton) {
-      navButton.click();
+      // Marcar el botón como activo
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+      navButton.classList.add('active');
+      
+      // Cargar el contenido de la sección
+      loadSectionContent(section);
+    }
+  }
+  
+  // Función para cargar el contenido de una sección
+  async function loadSectionContent(section) {
+    try {
+      const mainContent = document.getElementById('main-content');
+      if (!mainContent) return;
+      
+      // Hacer una petición para obtener el contenido de la sección
+      const response = await fetch(`/partials/sections/${section}-section`);
+      
+      if (!response.ok) {
+        throw new Error(`Error al cargar la sección: ${response.status}`);
+      }
+      
+      const sectionContent = await response.text();
+      
+      // Actualizar el contenido principal
+      mainContent.innerHTML = sectionContent;
+      
+      // Activar la sección cargada
+      const sectionElement = mainContent.querySelector('.section-content');
+      if (sectionElement) {
+        sectionElement.classList.add('active');
+      }
+    } catch (error) {
+      console.error('Error al cargar la sección:', error);
     }
   }
   
