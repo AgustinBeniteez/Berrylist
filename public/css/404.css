@@ -2,8 +2,8 @@
 @import url('theme.css');
 
 .error-page {
-  background-color: #000000;
-  color: #ffffff;
+  background-color: var(--primary-color);
+  color: var(--text-on-primary);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -32,7 +32,7 @@
 /* Título de error */
 .error-title {
   font-size: 4rem;
-  color: #fff;
+  color: var(--text-on-primary);
   font-family: 'Playfair Display', serif;
   font-weight: 400;
 }
@@ -49,7 +49,7 @@
 .error-code {
   font-size: 10rem;
   font-weight: bold;
-  color: #fff;
+  color: var(--text-on-primary);
   margin-bottom: 0;
   font-family: 'Playfair Display', serif;
 }
@@ -73,8 +73,8 @@
 .return-btn {
   display: inline-block;
   padding: 0.8rem 2rem;
-  background-color: #7D1045;
-  color: white;
+  background-color: var(--secondary-color);
+  color: var(--text-on-primary);
   border-radius: 30px;
   font-size: 1.1rem;
   transition: all 0.3s ease;
@@ -82,7 +82,7 @@
 }
 
 .return-btn:hover {
-  background-color: white;
+  background-color: var(--hover-primary-color);
   transform: translateY(-3px);
 }
 

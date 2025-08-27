@@ -1,38 +1,15 @@
 /* Dashboard Styles */
-:root { 
-  --primary-color: #0e0f0f; 
-  --secondary-color: #7D1045; 
-  --background-color: #f4f4f4; 
-  --text-color: #333; 
-  --hover-primary-color: #7D1045;
-  --feature-background: #fff;
-  --background-menu: #a593a3;
-  --shadow-color: rgba(0, 0, 0, 0.1);
-  --card-background: #fff;
+/* Importar variables de colores */
+@import url('colors.css');
+
+:root {
   --sidebar-width: 250px;
-  --task-completed: #27ae60;
-  --task-pending: #e74c3c;
-  --task-in-progress: #f39c12;
-  --priority-high: #e74c3c;
-  --priority-medium: #f39c12;
-  --priority-low: #27ae60;
 }
 body{
   overflow-x: hidden;
 }
 
-/* Dark theme variables */
-[data-theme="dark"] {
-  --background-menu: #333;
-  --primary-color: #0e0f0f;
-  --secondary-color: #7D1045;
-  --background-color: #1a1a1a;
-  --text-color: #f4f4f4;
-  --hover-primary-color: #7D1045;
-  --feature-background: #2c2c2c;
-  --shadow-color: rgba(0, 0, 0, 0.3);
-  --card-background: #2c2c2c;
-}
+/* No se necesitan variables de tema oscuro aquí, ya están en colors.css */
 
 /* Estilos generales */
 .dashboard-page {
@@ -54,7 +31,7 @@ body{
 .sidebar {
   width: var(--sidebar-width);
   background-color: var(--background-menu);
-  color: #fff;
+  color: var(--nav-text);
   padding: 1.5rem 0;
   height: 100vh;
   position: fixed;
@@ -79,7 +56,7 @@ body{
 
 .sidebar-toggle-btn {
   background-color: var(--secondary-color);
-  color: white;
+  color: var(--nav-text);
   border: none;
   border-radius: 50%;
   width: 45px;
@@ -102,7 +79,7 @@ body{
 .sidebar-footer {
   margin-top: auto;
   padding: 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid var(--shadow-color);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -113,7 +90,7 @@ body{
   display: flex;
   align-items: center;
   padding: 0 1.5rem 1.5rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--shadow-color);
   margin-bottom: 1.5rem;
   cursor: pointer;
 }
@@ -134,7 +111,7 @@ body{
 
 .sidebar-header:hover h2 {
   transform: translateY(-2px);
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 2px 10px var(--shadow-color);
 }
 
 .sidebar-nav {
@@ -151,7 +128,7 @@ body{
   display: flex;
   align-items: center;
   padding: 0.75rem 1.5rem;
-  color: #fff;
+  color: var(--text-on-primary);
   text-decoration: none;
   transition: all 0.3s ease;
   border-left: 4px solid transparent;
@@ -169,7 +146,7 @@ body{
 
 .sidebar-nav a:hover, 
 .sidebar-nav a.active {
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--shadow-color);
   border-left-color: var(--secondary-color);
 }
 
@@ -219,7 +196,7 @@ body{
   .sidebar-footer {
     margin-top: auto;
     padding: 1.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid var(--border-color);
     display: flex;
     gap: 1rem;
     align-content: center;
@@ -286,7 +263,7 @@ main p {
 }
 
 .slider-icon {
-  color: white;
+  color: var(--nav-text);
   margin: 0 0.5rem;
 }
 
@@ -311,7 +288,7 @@ main p {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #333;
+  background-color: var(--nav-background);
   transition: .4s;
   border-radius: 30px;
 }
@@ -323,13 +300,13 @@ main p {
   width: 22px;
   left: 4px;
   bottom: 4px;
-  background-color: white;
+  background-color: var(--text-on-primary);
   transition: .4s;
   border-radius: 50%;
 }
 
 input:checked + .slider {
-  background-color: #333;
+  background-color: var(--nav-background);
 }
 
 input:checked + .slider:before {
@@ -341,7 +318,7 @@ input:checked + .slider:before {
   display: flex;
   align-items: center;
   background-color: var(--secondary-color);
-  color: white;
+  color: var(--nav-text);
   padding: 0.5rem 1rem;
   border-radius: 2rem;
   text-decoration: none;
@@ -416,7 +393,7 @@ input:checked + .slider:before {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: white;
+  color: var(--nav-text);
   margin: 0;
   padding: 1rem;
   font-family: 'Playfair Display', serif;
@@ -425,19 +402,19 @@ input:checked + .slider:before {
   letter-spacing: 2px;
   text-align: center;
   transition: all 0.3s ease;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+  text-shadow: 2px 2px 4px var(--shadow-color);
   z-index: 2;
 }
 
 .card:hover h3 {
   transform: translate(-50%, -50%) scale(1.1);
-  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9);
+  text-shadow: 3px 3px 6px var(--shadow-color);
 }
 
 .card-btn:hover {
   background-color: var(--hover-primary-color);
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px var(--shadow-color);
 }
 
 /* Section Content Styles */
@@ -464,7 +441,7 @@ input:checked + .slider:before {
 
 .add-task-btn {
   background-color: var(--secondary-color);
-  color: white;
+  color: var(--nav-text);
   border: none;
   padding: 0.75rem 1.5rem;
   border-radius: 4px;
@@ -549,7 +526,7 @@ input:checked + .slider:before {
 .task-priority {
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
-  color: white;
+  color: var(--nav-text);
 }
 
 .task-priority.high {
@@ -590,7 +567,7 @@ input:checked + .slider:before {
 }
 
 .task-delete:hover {
-  color: #c0392b;
+  color: var(--task-pending);
 }
 
 /* Footer Adjustments */

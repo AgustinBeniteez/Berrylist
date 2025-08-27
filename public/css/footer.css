@@ -1,7 +1,7 @@
 /* Estilos para el footer */
 .footer {
-  background-color:var(--background-menu);
-  color: #fff;
+  background-color: var(--footer-background);
+  color: var(--text-on-primary);
   padding: 2rem 0 1rem;
   margin-top: 0;
   width: 100%;
@@ -53,7 +53,7 @@
 }
 
 .footer-link {
-  color: #fff;
+  color: var(--text-on-primary);
   text-decoration: none;
   transition: color 0.3s ease;
   

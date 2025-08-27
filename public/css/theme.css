@@ -1,34 +1,7 @@
-:root {
-  /* Modo claro (default) */
-  --primary-color: #1d2022;
-  --secondary-color: #7D1045;
-  --background-color: #f4f4f4;
-  --text-color: #333;
-  --hover-primary-color: #7D1045;
-  --feature-background: #fff;
-  --shadow-color: rgba(0, 0, 0, 0.1);
-  --nav-background: #333;
-  --nav-text: #fff;
-  --card-background: #fff;
-  --card-border: #7D1045;
-  --accent-color: #7D1045;
-}
+/* Importar variables de colores */
+@import url('colors.css');
 
-/* Modo oscuro */
-[data-theme="dark"] {
-  --primary-color: #1a242f;
-  --secondary-color: #7D1045;
-  --background-color: #121212;
-  --text-color: #f4f4f4;
-  --hover-primary-color: #7D1045;
-  --feature-background: #1e1e1e;
-  --shadow-color: rgba(0, 0, 0, 0.3);
-  --nav-background: #1a1a1a;
-  --nav-text: #f4f4f4;
-  --card-background: #1e1e1e;
-  --card-border: #7D1045;
-  --accent-color: #7D1045;
-}
+/* Las variables de colores ahora están definidas en colors.css */
 
 
 
@@ -44,7 +17,7 @@
 }
 
 .slider {
-  background-color: #ccc;
+  background-color: var(--background-color);
   bottom: 0;
   cursor: pointer;
   left: 0;
@@ -56,7 +29,7 @@
 }
 
 .slider:before {
-  background-color: white;
+  background-color: var(--text-on-primary);
   bottom: 4px;
   content: "";
   height: 16px;

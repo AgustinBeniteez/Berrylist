@@ -53,13 +53,13 @@
 
 .card-tiempo-libre {
   background-color: var(--accent-color);
-  color: white;
+  color: var(--text-on-primary);
   padding: 8px 12px;
   border-radius: 4px;
   display: inline-block;
   font-size: 0.9rem;
   margin-top: 10px;
-  border: 1px solid white;
+  border: 1px solid var(--border-color);
 }
 
 .card-films {
@@ -92,7 +92,7 @@
 }
 
 .image-grid-item {
-  background-color: #333;
+  background-color: var(--card-background);
   border-radius: 4px;
 }
 
@@ -134,17 +134,37 @@
   display: block;
   padding: 10px;
   border-radius: 5px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  position: relative;
+  padding-bottom: 15px;
 }
 
 .sidebar-nav a:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: var(--accent-color);
+  background-color: var(--hover-bg);
+  /* Eliminamos el cambio de color del texto */
+}
+
+.sidebar-nav a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 5px;
+  left: 10px;
+  background-color: var(--accent-color);
+  transform: skewX(-12deg);
+  transition: width 0.3s ease, transform 0.3s ease;
+  transform-origin: left;
+}
+
+.sidebar-nav a:hover::after,
+.sidebar-nav a.active::after {
+  width: calc(100% - 20px);
 }
 
 .sidebar-nav a.active {
   background-color: var(--accent-color);
-  color: white;
+  color: var(--text-on-primary);
 }
 
 .content-area {

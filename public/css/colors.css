@@ -1,0 +1,93 @@
+/* Variables de colores para todo el proyecto */
+:root {
+  /* Colores principales */
+  --primary-color: #0e0f0f;
+  --secondary-color: #7D1045;
+  --accent-color: #7D1045;
+  
+  /* Colores de fondo */
+  --background-color: #f4f4f4;
+  --feature-background: #fff;
+  --card-background: #fff;
+  --background-menu: #d5697c ;
+  --footer-background: #bb5567 ; /* Color más oscuro para el footer */
+  --nav-background: #333;
+  
+  /* Colores de texto */
+  --text-color: #333;
+  --nav-text: #fff;
+  
+  /* Colores de interacción */
+  --hover-primary-color: #7D1045;
+  --hover-accent-color: #7D1045;
+  --hover-bg: rgba(0, 0, 0, 0.05);
+  --primary-color-dark: #5d0c33;
+  --text-on-primary: #fff;
+  --text-muted: #666;
+  
+  /* Colores de sombras y bordes */
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --card-border: #7D1045;
+  --card-bg: #fff;
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.2);
+  --border-color: #e0e0e0;
+  --secondary-bg: #f9f9f9;
+  
+  /* Colores de tareas */
+  --task-completed: #27ae60;
+  --task-pending: #e74c3c;
+  --task-in-progress: #f39c12;
+  
+  /* Colores de prioridad */
+  --priority-high: #e74c3c;
+  --priority-medium: #f39c12;
+  --priority-low: #27ae60;
+  
+  /* Colores de información y alertas */
+  --info-color: #3498db;
+  --danger-color: #e74c3c;
+  --heading-color: #333;
+}
+
+/* Modo oscuro */
+[data-theme="dark"] {
+  /* Colores principales */
+  --primary-color: #1a242f;
+  --secondary-color: #7D1045;
+  --accent-color: #7D1045;
+  
+  /* Colores de fondo */
+  --background-color: #121212;
+  --feature-background: #1e1e1e;
+  --card-background: #2c2c2c;
+  --background-menu: #333;
+  --footer-background: #252525; /* Color más oscuro para el footer en modo oscuro */
+  --nav-background: #1a1a1a;
+  
+  /* Colores de texto */
+  --text-color: #f4f4f4;
+  --nav-text: #f4f4f4;
+  
+  /* Colores de interacción */
+  --hover-primary-color: #7D1045;
+  --hover-accent-color: #7D1045;
+  --hover-bg: rgba(255, 255, 255, 0.1);
+  --primary-color-dark: #5d0c33;
+  --text-on-primary: #f4f4f4;
+  --text-muted: #999;
+  
+  /* Colores de sombras y bordes */
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --card-border: #7D1045;
+  --card-bg: #2c2c2c;
+  --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --card-shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.5);
+  --border-color: #444;
+  --secondary-bg: #222;
+  
+  /* Colores de información y alertas */
+  --info-color: #3498db;
+  --danger-color: #e74c3c;
+  --heading-color: #f4f4f4;
+}
