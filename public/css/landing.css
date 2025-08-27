@@ -279,7 +279,7 @@ section {
 }
 
 #image2 {
-  background-image: url('/img/landingpage/notes.webp');
+  background-image: url('/img/landingpage/study.webp');
   transform: rotate(2deg);
 }
 
@@ -298,7 +298,7 @@ section {
 }
 
 #image4 {
-  background-image: url('/img/landingpage/songs.webp');
+  background-image: url('/img/landingpage/calendar.webp');
 }
 
 .blur-overlay {

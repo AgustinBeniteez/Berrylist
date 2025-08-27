@@ -6,6 +6,7 @@
   --text-color: #333; 
   --hover-primary-color: #7D1045;
   --feature-background: #fff;
+  --background-menu: #a593a3;
   --shadow-color: rgba(0, 0, 0, 0.1);
   --card-background: #fff;
   --sidebar-width: 250px;
@@ -22,6 +23,7 @@ body{
 
 /* Dark theme variables */
 [data-theme="dark"] {
+  --background-menu: #333;
   --primary-color: #0e0f0f;
   --secondary-color: #7D1045;
   --background-color: #1a1a1a;
@@ -51,7 +53,7 @@ body{
 /* Sidebar Styles */
 .sidebar {
   width: var(--sidebar-width);
-  background-color: #333;
+  background-color: var(--background-menu);
   color: #fff;
   padding: 1.5rem 0;
   height: 100vh;
@@ -379,7 +381,7 @@ input:checked + .slider:before {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   overflow: hidden;
   cursor: pointer;
-  height: 100vh;
+  height: 95vh;
   position: relative;
   flex: 1;
 }

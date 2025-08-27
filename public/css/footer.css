@@ -1,6 +1,6 @@
 /* Estilos para el footer */
 .footer {
-  background-color: #333333;
+  background-color:var(--background-menu);
   color: #fff;
   padding: 2rem 0 1rem;
   margin-top: 0;

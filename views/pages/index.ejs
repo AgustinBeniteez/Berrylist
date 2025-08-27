@@ -100,10 +100,20 @@
   <script src="/js/nav-section-links.js"></script>
   <script src="/js/theme-switcher.js"></script>
   <script>
-    // Forzar modo oscuro en la landing page
+    // Forzar modo oscuro en la landing page solo si el usuario no ha elegido un tema
     document.addEventListener('DOMContentLoaded', () => {
-      document.documentElement.setAttribute('data-theme', 'dark');
-      localStorage.setItem('theme', 'dark');
+      // Verificar si el usuario ha seleccionado un tema manualmente
+      const userSelectedTheme = getCookie('userTheme');
+      
+      if (!userSelectedTheme) {
+        // Solo forzar el tema oscuro si el usuario no ha elegido uno
+        document.documentElement.setAttribute('data-theme', 'dark');
+        // Usar la función setCookie definida en theme-switcher.js
+        if (typeof setCookie === 'function') {
+          setCookie('theme', 'dark', 730);
+          // No establecemos userTheme para no sobrescribir la preferencia del usuario
+        }
+      }
       // No se manipula el botón de cambio de tema ya que fue eliminado de esta página
     });
   </script>
