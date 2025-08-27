@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Referencias a elementos del DOM
   const mainContent = document.getElementById('main-content');
   const navButtons = document.querySelectorAll('.nav-btn');
-  const cardButtons = document.querySelectorAll('.card-btn');
+  const cards = document.querySelectorAll('.card');
   const sidebarHeader = document.querySelector('.sidebar-header');
   const sidebarToggle = document.getElementById('sidebar-toggle');
   const sidebar = document.getElementById('sidebar');
@@ -119,6 +119,14 @@ document.addEventListener('DOMContentLoaded', function() {
   navButtons.forEach(btn => {
     btn.addEventListener('click', function(e) {
       e.preventDefault();
+      const section = this.dataset.section;
+      loadSection(section);
+    });
+  });
+  
+  // Añadir eventos a las tarjetas
+  cards.forEach(card => {
+    card.addEventListener('click', function() {
       const section = this.dataset.section;
       loadSection(section);
     });

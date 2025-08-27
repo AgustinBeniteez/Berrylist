@@ -3,8 +3,8 @@
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-  // Buscar todos los enlaces con atributo data-section
-  const sectionLinks = document.querySelectorAll('a[data-section]');
+  // Buscar todos los enlaces y tarjetas con atributo data-section
+  const sectionLinks = document.querySelectorAll('a[data-section], .card[data-section]');
   
   // Añadir event listener a cada enlace
   sectionLinks.forEach(link => {
