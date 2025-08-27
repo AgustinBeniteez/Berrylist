@@ -17,6 +17,7 @@ app.get('/', (req, res) => {
     res.render('pages/index');
 });
 
+// Ruta principal del dashboard
 app.get('/dashboard', (req, res) => {
     // Detectar si es una solicitud AJAX o una carga de página normal
     const isAjaxRequest = req.xhr || req.headers.accept.indexOf('json') > -1;
@@ -27,6 +28,21 @@ app.get('/dashboard', (req, res) => {
     } else {
         // Si es una carga normal, renderizar la página completa
         res.render('pages/dashboard');
+    }
+});
+
+// Rutas específicas para cada sección del dashboard
+app.get('/dashboard/:section', (req, res) => {
+    const validSections = ['calendar', 'work', 'study', 'leisure'];
+    const section = req.params.section;
+    
+    if (validSections.includes(section)) {
+        res.render('pages/dashboard', { activeSection: section });
+    } else if (section === 'menu') {
+        // Ruta especial para el menú de selección
+        res.render('pages/dashboard');
+    } else {
+        res.redirect('/dashboard');
     }
 });
 

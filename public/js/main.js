@@ -53,11 +53,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Cuando el ratón sale de la navegación, mantener la línea en el último enlace activo
     const navContainer = document.querySelector('.landing-nav ul');
-    navContainer.addEventListener('mouseleave', () => {
-        // Opcional: si quieres que la línea desaparezca cuando el ratón sale de la navegación
-        if (activeLink) {
-            activeLink.classList.remove('active-nav-link');
-            activeLink = null;
-        }
-    });
+    if (navContainer) {
+        navContainer.addEventListener('mouseleave', () => {
+            // Opcional: si quieres que la línea desaparezca cuando el ratón sale de la navegación
+            if (activeLink) {
+                activeLink.classList.remove('active-nav-link');
+                activeLink = null;
+            }
+        });
+    }
 });

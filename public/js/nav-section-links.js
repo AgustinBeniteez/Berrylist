@@ -1,5 +1,6 @@
 /**
  * Script para manejar los enlaces de navegación que dirigen a secciones específicas del dashboard
+ * Permite la navegación directa a secciones mediante URL y actualiza la URL al cambiar de sección
  */
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -12,13 +13,16 @@ document.addEventListener('DOMContentLoaded', function() {
       // Obtener la sección a la que se quiere navegar
       const section = this.getAttribute('data-section');
       
-      // Si estamos en la página de dashboard, prevenir la navegación y activar la sección
-      if (window.location.pathname === '/dashboard') {
+      // Si estamos en cualquier ruta de dashboard, prevenir la navegación y activar la sección
+      if (window.location.pathname.startsWith('/dashboard')) {
         e.preventDefault();
+        // Actualizar la URL sin recargar la página
+        updateUrlWithoutReload(section);
         activateSection(section);
       } else {
-        // Si no estamos en dashboard, guardar la sección en localStorage para activarla después
-        localStorage.setItem('activeSection', section);
+        // Si no estamos en dashboard, navegar directamente a la sección
+        e.preventDefault();
+        window.location.href = `/dashboard/${section}`;
       }
     });
   });
@@ -27,10 +31,18 @@ document.addEventListener('DOMContentLoaded', function() {
   if (window.location.pathname === '/dashboard') {
     const activeSection = localStorage.getItem('activeSection');
     if (activeSection) {
-      // Activar la sección y limpiar localStorage
+      // Actualizar la URL y activar la sección
+      updateUrlWithoutReload(activeSection);
       activateSection(activeSection);
       localStorage.removeItem('activeSection');
     }
+  }
+  
+  // Función para actualizar la URL sin recargar la página
+  function updateUrlWithoutReload(section) {
+    // Si estamos en el menú de selección, usar la URL especial
+    const newUrl = section ? `/dashboard/${section}` : '/dashboard/menu';
+    window.history.pushState({ section: section }, '', newUrl);
   }
   
   // Función para activar una sección específica en el dashboard
@@ -41,4 +53,18 @@ document.addEventListener('DOMContentLoaded', function() {
       navButton.click();
     }
   }
+  
+  // Manejar eventos de navegación del navegador (botones atrás/adelante)
+  window.addEventListener('popstate', function(event) {
+    if (event.state && event.state.section) {
+      activateSection(event.state.section);
+    } else {
+      // Si no hay estado, estamos en la página principal del dashboard
+      if (window.location.pathname === '/dashboard') {
+        // Mostrar el dashboard principal
+        const dashboardBtn = document.querySelector('.sidebar-header');
+        if (dashboardBtn) dashboardBtn.click();
+      }
+    }
+  });
 });

@@ -352,6 +352,13 @@ input:checked + .slider:before {
   overflow: hidden;
 }
 
+.card-link {
+  flex: 1;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
 .card {
   background-color: var(--card-background);
   box-shadow: 0 4px 6px var(--shadow-color);

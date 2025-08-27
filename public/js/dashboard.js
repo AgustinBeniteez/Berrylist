@@ -7,6 +7,26 @@ document.addEventListener('DOMContentLoaded', function() {
   const sidebarToggle = document.getElementById('sidebar-toggle');
   const sidebar = document.getElementById('sidebar');
   
+  // Obtener la sección activa de la URL o de la variable serverActiveSection
+  let activeSection = '';
+  
+  // Verificar si hay una sección activa proporcionada por el servidor
+  if (typeof serverActiveSection !== 'undefined' && serverActiveSection) {
+    activeSection = serverActiveSection;
+  } else {
+    // Si no hay sección del servidor, intentar obtenerla de la URL
+    const urlPath = window.location.pathname;
+    const match = urlPath.match(/\/dashboard\/([\w-]+)/);
+    if (match && match[1]) {
+      // Si la sección es 'menu', no cargar ninguna sección específica
+      if (match[1] === 'menu') {
+        activeSection = '';
+      } else {
+        activeSection = match[1];
+      }
+    }
+  }
+  
   // Variable para almacenar el contenido original del dashboard
   let dashboardContent = mainContent.innerHTML;
   
@@ -40,6 +60,8 @@ document.addEventListener('DOMContentLoaded', function() {
   if (sidebarHeader) {
     sidebarHeader.addEventListener('click', function() {
       showDashboard();
+      // Actualizar la URL a /dashboard/menu
+      window.history.pushState({}, '', '/dashboard/menu');
     });
   }
   
@@ -163,8 +185,12 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
   
-  // Inicializar el dashboard
-  showDashboard();
+  // Inicializar el dashboard o cargar la sección activa
+  if (activeSection) {
+    loadSection(activeSection);
+  } else {
+    showDashboard();
+  }
   
   // Función para inicializar el calendario
   function initCalendar() {
@@ -257,13 +283,16 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
   
-  // Añadir eventos a los botones de las tarjetas
-  cardButtons.forEach(btn => {
-    btn.addEventListener('click', function() {
-      const section = this.dataset.section;
-      loadSection(section);
+  // Añadir eventos a los botones de las tarjetas si existen
+  const cardButtons = document.querySelectorAll('.card-button');
+  if (cardButtons && cardButtons.length > 0) {
+    cardButtons.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const section = this.dataset.section;
+        loadSection(section);
+      });
     });
-  });
+  }
   
   // Función para mostrar el contenido principal con las cards
   function showMainCards() {
