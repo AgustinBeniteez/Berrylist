@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', function() {
   const sidebarToggle = document.getElementById('sidebar-toggle');
   const sidebar = document.getElementById('sidebar');
   
+  // Variable para almacenar el contenido original del dashboard
+  let dashboardContent = mainContent.innerHTML;
+  
   // Función para controlar la visibilidad del sidebar en móvil
   if (sidebarToggle && sidebar) {
     sidebarToggle.addEventListener('click', function() {
@@ -22,7 +25,7 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
     
-    // Cerrar sidebar al hacer clic fuera de él (en móvil)
+      // Cerrar sidebar al hacer clic fuera de él (en móvil)
     document.addEventListener('click', function(event) {
       if (window.innerWidth <= 768 && 
           !sidebar.contains(event.target) && 
@@ -30,6 +33,34 @@ document.addEventListener('DOMContentLoaded', function() {
           sidebar.classList.contains('show')) {
         sidebar.classList.remove('show');
       }
+    });
+  }
+  
+  // Añadir evento de clic al encabezado de la barra lateral para mostrar el dashboard
+  if (sidebarHeader) {
+    sidebarHeader.addEventListener('click', function() {
+      showDashboard();
+    });
+  }
+  
+  // Función para mostrar el dashboard original
+  function showDashboard() {
+    mainContent.innerHTML = dashboardContent;
+    
+    // Quitar la clase activa de todos los botones de navegación
+    navButtons.forEach(btn => {
+      btn.classList.remove('active');
+    });
+    
+    // Añadir eventos a las tarjetas del dashboard
+    const dashboardCards = mainContent.querySelectorAll('.card');
+    dashboardCards.forEach(card => {
+      card.addEventListener('click', function() {
+        const section = this.dataset.section;
+        if (section) {
+          loadSection(section);
+        }
+      });
     });
   }
   
@@ -131,6 +162,9 @@ document.addEventListener('DOMContentLoaded', function() {
       loadSection(section);
     });
   });
+  
+  // Inicializar el dashboard
+  showDashboard();
   
   // Función para inicializar el calendario
   function initCalendar() {
