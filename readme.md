@@ -53,7 +53,7 @@ Berry es una aplicación web diseñada para ayudarte a organizar y gestionar tus
    ```
    npm start
    ```
-   La aplicación estará disponible en http://localhost:3001
+   La aplicación estará disponible en http://localhost:3005
 
 ## Despliegue en Vercel
 

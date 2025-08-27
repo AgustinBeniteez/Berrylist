@@ -3,7 +3,7 @@ const path = require('path');
 
 // Inicializar la aplicación Express
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3005;
 
 // Configurar EJS como motor de plantillas
 app.set('view engine', 'ejs');
@@ -47,20 +47,20 @@ app.get('/dashboard/:section', (req, res) => {
 });
 
 // Rutas para cargar secciones parciales
-app.get('/partials/calendar-section', (req, res) => {
-    res.render('partials/calendar-section');
+app.get('/partials/sections/calendar-section', (req, res) => {
+    res.render('partials/sections/calendar-section');
 });
 
-app.get('/partials/work-section', (req, res) => {
-    res.render('partials/work-section');
+app.get('/partials/sections/work-section', (req, res) => {
+    res.render('partials/sections/work-section');
 });
 
-app.get('/partials/study-section', (req, res) => {
-    res.render('partials/study-section');
+app.get('/partials/sections/study-section', (req, res) => {
+    res.render('partials/sections/study-section');
 });
 
-app.get('/partials/leisure-section', (req, res) => {
-    res.render('partials/leisure-section');
+app.get('/partials/sections/leisure-section', (req, res) => {
+    res.render('partials/sections/leisure-section');
 });
 
 // Middleware para manejar rutas no encontradas (error 404)
