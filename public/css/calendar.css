@@ -491,9 +491,40 @@
 
 /* Prevenir que el calendario desaparezca en producción */
 #calendar-widget .calendar-container {
-  display: block !important;
-  visibility: visible !important;
-  opacity: 1 !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Loading indicator styles */
+.calendar-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    text-align: center;
+}
+
+.loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid #007bff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 15px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.calendar-loading p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
 }
 
 /* Responsive Design */

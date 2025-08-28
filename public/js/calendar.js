@@ -6,6 +6,9 @@ class Calendar {
             return;
         }
         
+        // Mostrar indicador de carga
+        this.showLoadingIndicator();
+        
         this.currentDate = new Date();
         this.events = [];
         this.draggedEvent = null;
@@ -14,10 +17,17 @@ class Calendar {
         // Load saved events
         this.loadEventsFromStorage();
         
-        // Renderizar con un pequeño delay para asegurar que el DOM esté listo
-        setTimeout(() => {
-            this.init();
-        }, 50);
+        // Renderizar inmediatamente
+        this.init();
+    }
+    
+    showLoadingIndicator() {
+        this.container.innerHTML = `
+            <div class="calendar-loading">
+                <div class="loading-spinner"></div>
+                <p>Cargando calendario...</p>
+            </div>
+        `;
     }
 
     detectInitialWeekStart(){
@@ -180,22 +190,20 @@ class Calendar {
         `;
         this.container.innerHTML = calendarHTML;
         
-        // Asegurar que el contenedor esté visible después del renderizado
-        setTimeout(() => {
-            const container = this.container;
-            if (container) {
-                container.style.display = 'block';
-                container.style.visibility = 'visible';
-                container.style.opacity = '1';
-                
-                const calendarContainer = container.querySelector('.calendar-container');
-                if (calendarContainer) {
-                    calendarContainer.style.display = 'block';
-                    calendarContainer.style.visibility = 'visible';
-                    calendarContainer.style.opacity = '1';
-                }
+        // Asegurar visibilidad inmediata
+        const container = this.container;
+        if (container) {
+            container.style.display = 'block';
+            container.style.visibility = 'visible';
+            container.style.opacity = '1';
+            
+            const calendarContainer = container.querySelector('.calendar-container');
+            if (calendarContainer) {
+                calendarContainer.style.display = 'block';
+                calendarContainer.style.visibility = 'visible';
+                calendarContainer.style.opacity = '1';
             }
-        }, 10);
+        }
     }
 
     getMonthYear() {
@@ -594,15 +602,12 @@ function initializeCalendar() {
     }
     
     if (calendarWidget) {
-        // Limpiar contenido existente
-        calendarWidget.innerHTML = '';
-        
         // Ensure the calendar container is visible
         calendarWidget.style.display = 'block';
         calendarWidget.style.visibility = 'visible';
         calendarWidget.style.opacity = '1';
         
-        // Crear nueva instancia
+        // Crear nueva instancia (el constructor ya maneja el loading)
         window.berryCalendar = new Calendar('calendar-widget');
         console.log('Calendar initialized successfully');
         
@@ -647,17 +652,18 @@ if (typeof window !== 'undefined') {
                 return;
             }
             
-            // Verificar si el widget existe y está realmente vacío (no solo durante renderizado)
+            // Verificar si el widget existe y está realmente vacío
             if (calendarWidget) {
                 const isEmpty = !calendarWidget.innerHTML.trim();
                 const isHidden = calendarWidget.style.display === 'none';
                 const hasCalendarContent = calendarWidget.querySelector('.calendar-container');
+                const isLoading = calendarWidget.querySelector('.calendar-loading');
                 
-                // Solo reinicializar si está realmente vacío Y no tiene contenido del calendario
-                if ((isEmpty || isHidden) && !hasCalendarContent) {
-                    // Esperar un poco más para evitar reinicializaciones durante el renderizado
+                // Solo reinicializar si está vacío, no tiene contenido del calendario y no está cargando
+                if ((isEmpty || isHidden) && !hasCalendarContent && !isLoading) {
+                    // Esperar menos tiempo para verificación más rápida
                     const timeSinceLastCheck = Date.now() - lastCheckTime;
-                    if (timeSinceLastCheck < 3000) {
+                    if (timeSinceLastCheck < 1000) {
                         return; // Muy pronto para verificar
                     }
                     
@@ -675,7 +681,7 @@ if (typeof window !== 'undefined') {
                     initializeCalendar();
                 }
             }
-        }, 3000); // Aumentar intervalo a 3 segundos
+        }, 2000); // Reducir intervalo a 2 segundos para mejor responsividad
     }
     
     function stopCalendarMonitoring() {

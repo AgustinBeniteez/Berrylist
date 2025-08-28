@@ -201,13 +201,13 @@ document.addEventListener('DOMContentLoaded', function() {
            }
          }
          
-         // Iniciar monitoreo del calendario después de un delay para permitir renderizado completo
+         // Iniciar monitoreo del calendario después de un delay mínimo
          if (typeof window.startCalendarMonitoring === 'function') {
            setTimeout(() => {
              window.startCalendarMonitoring();
-           }, 2000);
+           }, 500);
          }
-       }, 100);
+       }, 50);
     }
     
     // Botones de editar tarea
