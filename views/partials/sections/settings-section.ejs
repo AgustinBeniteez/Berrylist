@@ -79,69 +79,7 @@
         </div>
       </section>
 
-      <!-- Data Management Section -->
-      <section class="settings-block">
-        <h2><i class="fas fa-download"></i> <span data-i18n="settings.dataManagement">Data Management</span></h2>
-        
-        <!-- Export Data -->
-        <div class="data-management-item">
-          <div class="data-action">
-            <button id="exportDataBtn" class="data-btn export-btn">
-              <i class="fas fa-file-export"></i>
-              <span data-i18n="settings.exportData">Export Data</span>
-            </button>
-            <p class="hint"><i class="fas fa-info-circle"></i> <span data-i18n="settings.exportHint">Download all your events and settings as a JSON file.</span></p>
-          </div>
-        </div>
-        
-        <!-- Import Data -->
-        <div class="data-management-item">
-          <div class="data-action">
-            <input type="file" id="importDataInput" accept=".json" style="display: none;">
-            <button id="importDataBtn" class="data-btn import-btn">
-              <i class="fas fa-file-import"></i>
-              <span data-i18n="settings.importData">Import Data</span>
-            </button>
-            <p class="hint"><i class="fas fa-info-circle"></i> <span data-i18n="settings.importHint">Upload a JSON file to restore your events and settings.</span></p>
-          </div>
-        </div>
-        
-        <!-- Backup Options -->
-        <div class="data-management-item">
-          <div class="data-action">
-            <button id="createBackupBtn" class="data-btn backup-btn">
-              <i class="fas fa-shield-alt"></i>
-              <span data-i18n="settings.createBackup">Create Backup</span>
-            </button>
-            <p class="hint"><i class="fas fa-info-circle"></i> <span data-i18n="settings.backupHint">Create a local backup of your data for safety.</span></p>
-          </div>
-        </div>
-        
-        <!-- Import Options Modal Trigger -->
-        <div class="data-management-item" id="importOptionsSection" style="display: none;">
-          <div class="import-options">
-            <h4><i class="fas fa-cog"></i> <span data-i18n="settings.importOptions">Import Options</span></h4>
-            <label class="import-option-label">
-              <input type="radio" name="importMode" value="replace" checked>
-              <span data-i18n="settings.replaceData">Replace existing data</span>
-            </label>
-            <label class="import-option-label">
-              <input type="radio" name="importMode" value="merge">
-              <span data-i18n="settings.mergeData">Merge with existing data</span>
-            </label>
-            <div class="import-actions">
-              <button id="confirmImportBtn" class="data-btn confirm-btn">
-                <i class="fas fa-check"></i>
-                <span data-i18n="settings.confirmImport">Confirm Import</span>
-              </button>
-              <button id="cancelImportBtn" class="data-btn cancel-btn">
-                <i class="fas fa-times"></i>
-                <span data-i18n="settings.cancel">Cancel</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
+
 
       <!-- Preferences Section -->
       <section class="settings-block">
@@ -221,4 +159,3 @@
 
 <!-- Data Management Scripts -->
 <script src="/js/user-data-manager.js"></script>
-<script src="/js/data-management-ui.js"></script>
