@@ -1,14 +1,25 @@
 class Calendar {
     constructor(containerId) {
+        console.log('Calendar: Iniciando constructor con containerId:', containerId);
         this.container = document.getElementById(containerId);
+        console.log('Calendar: Container encontrado:', this.container);
+        
+        if (!this.container) {
+            console.error('Calendar: No se pudo encontrar el elemento con ID:', containerId);
+            return;
+        }
+        
         this.currentDate = new Date();
         this.events = [];
         this.draggedEvent = null;
         // Week start preference: 'sunday' or 'monday'
         this.weekStart = this.detectInitialWeekStart();
+        console.log('Calendar: Week start configurado como:', this.weekStart);
         // Load saved events
         this.loadEventsFromStorage();
+        console.log('Calendar: Eventos cargados:', this.events.length);
         this.init();
+        console.log('Calendar: Inicialización completada');
     }
 
     detectInitialWeekStart(){

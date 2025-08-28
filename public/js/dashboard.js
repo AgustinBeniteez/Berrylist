@@ -88,9 +88,11 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Función para cargar una sección
   async function loadSection(sectionName) {
+    console.log('Dashboard: Cargando sección:', sectionName);
     try {
       // Hacer una petición para obtener el contenido de la sección
       const response = await fetch(`/partials/sections/${sectionName}-section`);
+      console.log('Dashboard: Respuesta del servidor para sección', sectionName, ':', response.status);
       
       if (!response.ok) {
         throw new Error(`Error al cargar la sección: ${response.status}`);
@@ -145,13 +147,25 @@ document.addEventListener('DOMContentLoaded', function() {
     // No necesitamos sobrescribir sus event listeners aquí
     
     // Inicializar calendario si existe el elemento
-    if (document.getElementById('calendar-widget')) {
+    const calendarElement = document.getElementById('calendar-widget');
+    console.log('Dashboard: Buscando elemento calendar-widget:', calendarElement);
+    
+    if (calendarElement) {
+      console.log('Dashboard: Elemento calendar-widget encontrado, inicializando calendario');
       // Destruir instancia anterior si existe
       if (window.berryCalendar) {
+        console.log('Dashboard: Destruyendo instancia anterior del calendario');
         window.berryCalendar = null;
       }
       // Crear nueva instancia del calendario
-      window.berryCalendar = new Calendar('calendar-widget');
+      try {
+        window.berryCalendar = new Calendar('calendar-widget');
+        console.log('Dashboard: Calendario inicializado exitosamente');
+      } catch (error) {
+        console.error('Dashboard: Error al inicializar el calendario:', error);
+      }
+    } else {
+      console.log('Dashboard: Elemento calendar-widget no encontrado');
     }
     
     // Botones de editar tarea
