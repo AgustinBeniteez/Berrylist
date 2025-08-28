@@ -1,6 +1,8 @@
 // Authentication JavaScript for Firebase
 
-// Import Firebase functions (will be available after firebase-config.js loads)
+// Import Firebase configuration
+import { firebasePromise } from './firebase-config.js';
+
 let auth, database;
 
 class AuthManager {
@@ -10,7 +12,7 @@ class AuthManager {
     }
 
     async init() {
-        // Wait for Firebase to be loaded
+        // Wait for Firebase to be initialized
         await this.waitForFirebase();
         
         // Get Firebase instances
@@ -30,17 +32,13 @@ class AuthManager {
         this.checkForLoginParameter();
     }
 
-    waitForFirebase() {
-        return new Promise((resolve) => {
-            const checkFirebase = () => {
-                if (window.firebaseAuth && window.firebaseDatabase) {
-                    resolve();
-                } else {
-                    setTimeout(checkFirebase, 100);
-                }
-            };
-            checkFirebase();
-        });
+    async waitForFirebase() {
+        try {
+            await firebasePromise;
+        } catch (error) {
+            console.error('Error initializing Firebase:', error);
+            throw error;
+        }
     }
 
     setupAuthStateListener() {

@@ -12,6 +12,20 @@ app.set('views', path.join(__dirname, '../views'));
 // Configurar middleware para archivos estáticos
 app.use(express.static(path.join(__dirname, '../public')));
 
+// Ruta para exponer variables de entorno de Firebase al frontend
+app.get('/api/firebase-config', (req, res) => {
+    res.json({
+        apiKey: process.env.FIREBASE_API_KEY,
+        authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+        databaseURL: process.env.FIREBASE_DATABASE_URL,
+        projectId: process.env.FIREBASE_PROJECT_ID,
+        storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+        messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+        appId: process.env.FIREBASE_APP_ID,
+        measurementId: process.env.FIREBASE_MEASUREMENT_ID
+    });
+});
+
 // Rutas
 app.get('/', (req, res) => {
     res.render('pages/index');
