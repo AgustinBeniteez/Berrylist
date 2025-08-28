@@ -3,6 +3,12 @@
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Proyecto Berry cargado correctamente');
     
+    // Inicializar sistema de internacionalización
+    if (window.I18n) {
+        window.i18n = new I18n();
+        window.i18n.init();
+    }
+    
     // Funcionalidad del menú hamburguesa para móviles
     const menuToggle = document.querySelector('.menu-toggle');
     const landingNav = document.querySelector('.landing-nav');

@@ -60,6 +60,21 @@
       });
     }
 
+    // Language select
+    const languageSelect = document.getElementById('settings-language');
+    if (languageSelect) {
+      // Set current language
+      const currentLang = window.i18n ? window.i18n.getCurrentLanguage() : 'en';
+      languageSelect.value = currentLang;
+      
+      languageSelect.addEventListener('change', (e) => {
+        const newLang = e.target.value;
+        if (window.i18n) {
+          window.i18n.setLanguage(newLang);
+        }
+      });
+    }
+
     // Week start select
     const weekSelect = document.getElementById('settings-weekstart');
     if (weekSelect){

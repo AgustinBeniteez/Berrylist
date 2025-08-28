@@ -123,9 +123,11 @@ class Calendar {
     }
 
     render() {
-        const weekdayLabels = this.weekStart === 'monday'
-          ? ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
-          : ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+        const weekdayLabels = window.i18n 
+            ? window.i18n.t(`calendar.weekdays.${this.weekStart}`)
+            : (this.weekStart === 'monday'
+                ? ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']
+                : ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']);
         const weekdaysHTML = weekdayLabels.map(d=>`<div class="calendar-weekday">${d}</div>`).join('');
         const calendarHTML = `
             <div class="calendar-container">
@@ -211,7 +213,7 @@ class Calendar {
     }
 
     getMonthYear() {
-        const months = [
+        const months = window.i18n ? window.i18n.t('calendar.months') : [
             'January', 'February', 'March', 'April', 'May', 'June',
             'July', 'August', 'September', 'October', 'November', 'December'
         ];

@@ -1,0 +1,245 @@
+{
+  "en": {
+    "navigation": {
+      "home": "Home",
+      "calendar": "Calendar",
+      "work": "Work",
+      "study": "Study",
+      "leisure": "Leisure",
+      "settings": "Settings",
+      "dashboard": "Dashboard",
+      "calendarSection": "Calendar Section",
+      "workSection": "Work Section",
+      "studySection": "Study Section",
+      "leisureSection": "Leisure Section"
+    },
+    "landing": {
+      "title": "Berrylist",
+      "goSite": "Go site",
+      "login": "Log In",
+      "getStarted": "Dashboard",
+      "ourFeatures": "Our Features",
+      "workScheduleManagement": "Work schedule management",
+      "taskProjectTracking": "Task and project tracking",
+      "meetingOrganization": "Meeting organization",
+      "classSchedules": "Class schedules",
+      "examDates": "Exam dates",
+      "studySessionPlanning": "Study session planning",
+      "moviesToWatch": "Movies to watch",
+      "tvShowsTracking": "TV shows tracking",
+      "gamesToPlay": "Games to play",
+      "favoriteSongs": "Favorite songs"
+    },
+    "calendar": {
+      "months": [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+      ],
+      "weekdays": {
+        "monday": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        "sunday": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+      },
+      "loadingCalendar": "Loading calendar..."
+    },
+    "sections": {
+      "workSection": "Work Section",
+      "studySection": "Study Section",
+      "leisureSection": "Leisure Section"
+    },
+    "settings": {
+      "title": "Settings",
+      "appearance": "Appearance",
+      "language": "Language",
+      "calendar": "Calendar",
+      "preferences": "Preferences",
+      "account": "Account",
+      "data": "Data",
+      "themeHint": "Switch between Light and Dark theme for better visual comfort.",
+      "languageHint": "Language selection feature is coming soon in future updates.",
+      "calendarHint": "Choose how your week is ordered in the calendar view.",
+      "notificationsHint": "Receive notifications for important updates and reminders.",
+      "autoSaveHint": "Automatically save your work as you make changes.",
+      "syncDataHint": "Synchronize your data across devices.",
+      "enableNotifications": "Enable notifications",
+      "autoSaveChanges": "Auto-save changes",
+      "syncData": "Sync data",
+      "comingSoon": "Coming soon",
+      "weekStart": {
+        "sunday": "Sunday - Saturday",
+        "monday": "Monday - Sunday",
+        "system": "System default"
+      },
+      "languages": {
+        "en": "English",
+        "es": "Español",
+        "fr": "Français"
+      }
+    },
+    "errors": {
+      "loadSectionError": "Error loading section. Please try again.",
+      "addTaskDevelopment": "Add task functionality in development"
+    }
+  },
+  "es": {
+    "navigation": {
+      "home": "Inicio",
+      "calendar": "Calendario",
+      "work": "Trabajo",
+      "study": "Estudio",
+      "leisure": "Ocio",
+      "settings": "Configuración",
+      "dashboard": "Panel",
+      "calendarSection": "Sección Calendario",
+      "workSection": "Sección Trabajo",
+      "studySection": "Sección Estudio",
+      "leisureSection": "Sección Ocio"
+    },
+    "landing": {
+      "title": "Berrylist",
+      "goSite": "Ir al sitio",
+      "login": "Iniciar Sesión",
+      "getStarted": "Panel",
+      "ourFeatures": "Características",
+      "workScheduleManagement": "Gestión de horarios de trabajo",
+      "taskProjectTracking": "Seguimiento de tareas y proyectos",
+      "meetingOrganization": "Organización de reuniones",
+      "classSchedules": "Horarios de clases",
+      "examDates": "Fechas de exámenes",
+      "studySessionPlanning": "Planificación de sesiones de estudio",
+      "moviesToWatch": "Películas por ver",
+      "tvShowsTracking": "Seguimiento de series de TV",
+      "gamesToPlay": "Juegos por jugar",
+      "favoriteSongs": "Canciones favoritas"
+    },
+    "calendar": {
+      "months": [
+        "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+        "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+      ],
+      "weekdays": {
+        "monday": ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"],
+        "sunday": ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"]
+      },
+      "loadingCalendar": "Cargando calendario..."
+    },
+    "sections": {
+      "workSection": "Sección Trabajo",
+      "studySection": "Sección Estudio",
+      "leisureSection": "Sección Ocio"
+    },
+    "settings": {
+      "title": "Configuración",
+      "appearance": "Apariencia",
+      "language": "Idioma",
+      "calendar": "Calendario",
+      "preferences": "Preferencias",
+      "account": "Cuenta",
+      "data": "Datos",
+      "themeHint": "Cambia entre tema Claro y Oscuro para mayor comodidad visual.",
+      "languageHint": "La función de selección de idioma estará disponible próximamente.",
+      "calendarHint": "Elige cómo se ordena tu semana en la vista del calendario.",
+      "notificationsHint": "Recibe notificaciones para actualizaciones importantes y recordatorios.",
+      "autoSaveHint": "Guarda automáticamente tu trabajo mientras realizas cambios.",
+      "syncDataHint": "Sincroniza tus datos entre dispositivos.",
+      "enableNotifications": "Habilitar notificaciones",
+      "autoSaveChanges": "Guardado automático",
+      "syncData": "Sincronizar datos",
+      "comingSoon": "Próximamente",
+      "weekStart": {
+        "sunday": "Domingo - Sábado",
+        "monday": "Lunes - Domingo",
+        "system": "Predeterminado del sistema"
+      },
+      "languages": {
+        "en": "English",
+        "es": "Español",
+        "fr": "Français"
+      }
+    },
+    "errors": {
+      "loadSectionError": "Error al cargar la sección. Por favor, intenta de nuevo.",
+      "addTaskDevelopment": "Funcionalidad para añadir tarea en desarrollo"
+    }
+  },
+  "fr": {
+    "navigation": {
+      "home": "Accueil",
+      "calendar": "Calendrier",
+      "work": "Travail",
+      "study": "Étude",
+      "leisure": "Loisirs",
+      "settings": "Paramètres",
+      "dashboard": "Tableau de bord",
+      "calendarSection": "Section Calendrier",
+      "workSection": "Section Travail",
+      "studySection": "Section Étude",
+      "leisureSection": "Section Loisirs"
+    },
+    "landing": {
+      "title": "Berrylist",
+      "goSite": "Aller au site",
+      "login": "Se connecter",
+      "getStarted": "Tableau de bord",
+      "ourFeatures": "Nos Fonctionnalités",
+      "workScheduleManagement": "Gestion des horaires de travail",
+      "taskProjectTracking": "Suivi des tâches et projets",
+      "meetingOrganization": "Organisation des réunions",
+      "classSchedules": "Horaires de cours",
+      "examDates": "Dates d'examens",
+      "studySessionPlanning": "Planification des sessions d'étude",
+      "moviesToWatch": "Films à regarder",
+      "tvShowsTracking": "Suivi des séries TV",
+      "gamesToPlay": "Jeux à jouer",
+      "favoriteSongs": "Chansons favorites"
+    },
+    "calendar": {
+      "months": [
+        "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
+        "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
+      ],
+      "weekdays": {
+        "monday": ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"],
+        "sunday": ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"]
+      },
+      "loadingCalendar": "Chargement du calendrier..."
+    },
+    "sections": {
+      "workSection": "Section Travail",
+      "studySection": "Section Étude",
+      "leisureSection": "Section Loisirs"
+    },
+    "settings": {
+      "title": "Paramètres",
+      "appearance": "Apparence",
+      "language": "Langue",
+      "calendar": "Calendrier",
+      "preferences": "Préférences",
+      "account": "Compte",
+      "data": "Données",
+      "themeHint": "Basculez entre le thème Clair et Sombre pour un meilleur confort visuel.",
+      "languageHint": "La fonction de sélection de langue sera bientôt disponible.",
+      "calendarHint": "Choisissez comment votre semaine est ordonnée dans la vue calendrier.",
+      "notificationsHint": "Recevez des notifications pour les mises à jour importantes et rappels.",
+      "autoSaveHint": "Sauvegardez automatiquement votre travail pendant que vous apportez des modifications.",
+      "syncDataHint": "Synchronisez vos données entre appareils.",
+      "enableNotifications": "Activer les notifications",
+      "autoSaveChanges": "Sauvegarde automatique",
+      "syncData": "Synchroniser les données",
+      "comingSoon": "Bientôt disponible",
+      "weekStart": {
+        "sunday": "Dimanche - Samedi",
+        "monday": "Lundi - Dimanche",
+        "system": "Par défaut du système"
+      },
+      "languages": {
+        "en": "English",
+        "es": "Español",
+        "fr": "Français"
+      }
+    },
+    "errors": {
+      "loadSectionError": "Erreur lors du chargement de la section. Veuillez réessayer.",
+      "addTaskDevelopment": "Fonctionnalité d'ajout de tâche en développement"
+    }
+  }
+}

@@ -1,11 +1,11 @@
 <div class="section-content settings-section">
   <div class="settings-container">
-    <h1><i class="fas fa-cog"></i> Settings</h1>
+    <h1><i class="fas fa-cog"></i> <span data-i18n="settings.title">Settings</span></h1>
 
     <div class="settings-grid">
       <!-- Theme Mode -->
       <section class="settings-block">
-        <h2><i class="fas fa-palette"></i> Appearance</h2>
+        <h2><i class="fas fa-palette"></i> <span data-i18n="settings.appearance">Appearance</span></h2>
         <div class="theme-switch-wrapper">
           <span class="slider-icon"><i class="fas fa-sun"></i></span>
           <label class="theme-switch" for="settings-theme-toggle">
@@ -14,72 +14,72 @@
           </label>
           <span class="slider-icon"><i class="fas fa-moon"></i></span>
         </div>
-        <p class="hint"><i class="fas fa-info-circle"></i> Switch between Light and Dark theme for better visual comfort.</p>
+        <p class="hint"><i class="fas fa-info-circle"></i> <span data-i18n="settings.themeHint">Switch between Light and Dark theme for better visual comfort.</span></p>
       </section>
 
       <!-- Language (placeholder) -->
       <section class="settings-block">
-        <h2><i class="fas fa-globe"></i> Language</h2>
+        <h2><i class="fas fa-globe"></i> <span data-i18n="settings.language">Language</span></h2>
         <div class="select-wrapper">
-           <select id="settings-language" class="settings-select" disabled>
-             <option value="en" selected>English</option>
-             <option value="es">Español</option>
-             <option value="fr">Français</option>
+           <select id="settings-language" class="settings-select">
+             <option value="en" data-i18n="settings.languages.en">English</option>
+             <option value="es" data-i18n="settings.languages.es">Español</option>
+             <option value="fr" data-i18n="settings.languages.fr">Français</option>
            </select>
          </div>
-        <p class="hint"><i class="fas fa-clock"></i> Language selection feature is coming soon in future updates.</p>
+        <p class="hint"><i class="fas fa-info-circle"></i> <span data-i18n="settings.languageHint">Select your preferred language for the interface.</span></p>
       </section>
 
       <!-- Week start order -->
       <section class="settings-block">
-        <h2><i class="fas fa-calendar-alt"></i> Calendar</h2>
+        <h2><i class="fas fa-calendar-alt"></i> <span data-i18n="settings.calendar">Calendar</span></h2>
         <div class="select-wrapper">
            <select id="settings-weekstart" class="settings-select">
-             <option value="sunday">Sunday - Saturday</option>
-             <option value="monday">Monday - Sunday</option>
-             <option value="system" selected>System default</option>
+             <option value="sunday" data-i18n="settings.weekStart.sunday">Sunday - Saturday</option>
+             <option value="monday" data-i18n="settings.weekStart.monday">Monday - Sunday</option>
+             <option value="system" selected data-i18n="settings.weekStart.system">System default</option>
            </select>
          </div>
-        <p class="hint"><i class="fas fa-info-circle"></i> Choose how your week is ordered in the calendar view.</p>
+        <p class="hint"><i class="fas fa-info-circle"></i> <span data-i18n="settings.calendarHint">Choose how your week is ordered in the calendar view.</span></p>
       </section>
 
       <!-- Additional Settings Section -->
       <section class="settings-block">
-        <h2><i class="fas fa-sliders-h"></i> Preferences</h2>
+        <h2><i class="fas fa-sliders-h"></i> <span data-i18n="settings.preferences">Preferences</span></h2>
         <div class="preference-item">
           <label class="preference-label">
             <input type="checkbox" class="preference-checkbox" checked>
             <i class="fas fa-bell preference-icon"></i>
-            <span class="preference-text">Enable notifications</span>
+            <span class="preference-text" data-i18n="settings.notifications">Enable notifications</span>
           </label>
-          <p class="hint"><i class="fas fa-info-circle"></i> Receive notifications for important updates and reminders.</p>
+          <p class="hint"><i class="fas fa-info-circle"></i> <span data-i18n="settings.notificationsHint">Receive notifications for important updates and reminders.</span></p>
         </div>
         
         <div class="preference-item">
           <label class="preference-label">
             <input type="checkbox" class="preference-checkbox">
             <i class="fas fa-save preference-icon"></i>
-            <span class="preference-text">Auto-save changes</span>
+            <span class="preference-text" data-i18n="settings.autoSave">Auto-save changes</span>
           </label>
-          <p class="hint"><i class="fas fa-info-circle"></i> Automatically save your work as you make changes.</p>
+          <p class="hint"><i class="fas fa-info-circle"></i> <span data-i18n="settings.autoSaveHint">Automatically save your work as you make changes.</span></p>
         </div>
       </section>
 
       <!-- New Settings Blocks -->
       <section class="settings-block">
-        <h2><i class="fas fa-user"></i> Account</h2>
-        <p class="hint"><i class="fas fa-clock"></i> Próximamente</p>
+        <h2><i class="fas fa-user"></i> <span data-i18n="settings.account">Account</span></h2>
+        <p class="hint"><i class="fas fa-clock"></i> <span data-i18n="settings.accountHint">Account management features are coming soon.</span></p>
       </section>
 
       <section class="settings-block">
-        <h2><i class="fas fa-database"></i> Data</h2>
+        <h2><i class="fas fa-database"></i> <span data-i18n="settings.data">Data</span></h2>
         <div class="preference-item">
           <label class="preference-label">
             <input type="checkbox" class="preference-checkbox" checked>
             <i class="fas fa-sync-alt preference-icon"></i>
-            <span class="preference-text">Sync data</span>
+            <span class="preference-text" data-i18n="settings.syncData">Sync data</span>
           </label>
-          <p class="hint"><i class="fas fa-info-circle"></i> Synchronize your data across devices.</p>
+          <p class="hint"><i class="fas fa-info-circle"></i> <span data-i18n="settings.dataHint">Synchronize your data across devices.</span></p>
         </div>
       </section>
     </div>
