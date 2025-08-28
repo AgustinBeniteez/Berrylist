@@ -1,6 +1,14 @@
-require('dotenv').config({ path: '.env.local' });
-const express = require('express');
-const path = require('path');
+import dotenv from 'dotenv';
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+// Configure dotenv for ES modules
+dotenv.config({ path: '.env.local' });
+
+// Get __dirname equivalent for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Inicializar la aplicación Express
 const app = express();

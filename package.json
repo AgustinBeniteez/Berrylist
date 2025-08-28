@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "## Descripción",
   "main": "src/index.js",
+  "type": "module",
   "scripts": {
     "start": "node src/index.js",
     "run": "node -e \"console.log('Iniciando servidor en http://localhost:3005')\" && node src/index.js",
-    "build": "echo \"No build step required\" && exit 0",
+    "build": "node -e \"console.log('Build completed successfully')\" && exit 0",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
