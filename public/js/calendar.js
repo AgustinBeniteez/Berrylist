@@ -6,7 +6,7 @@ class Calendar {
         this.draggedEvent = null;
         // Week start preference: 'sunday' or 'monday'
         this.weekStart = this.detectInitialWeekStart();
-        // Cargar eventos guardados
+        // Load saved events
         this.loadEventsFromStorage();
         this.init();
     }
@@ -53,7 +53,7 @@ class Calendar {
         const monthSelector = document.getElementById('monthSelector');
         
         if (yearSelector) {
-            // Generar opciones de años (limitado entre 1800 y 2150 por rendimiento)
+            // Generate year options (limited between 1800 and 2150 for performance)
             const currentYear = new Date().getFullYear();
             const minYear = 1800;
             const maxYear = 2150;
@@ -65,7 +65,7 @@ class Calendar {
                 yearSelector.appendChild(option);
             }
             
-            // Event listener para cambio de año
+            // Event listener for year change
             yearSelector.addEventListener('change', (e) => {
                 this.currentDate.setFullYear(parseInt(e.target.value));
                 this.render();
@@ -75,7 +75,7 @@ class Calendar {
         }
         
         if (monthSelector) {
-            // Event listener para cambio de mes
+            // Event listener for month change
             monthSelector.addEventListener('change', (e) => {
                 this.currentDate.setMonth(parseInt(e.target.value));
                 this.render();
@@ -116,18 +116,18 @@ class Calendar {
                         <h2 class="calendar-title" id="calendarTitle">${this.getMonthYear()}</h2>
                         <div class="calendar-date-selectors" id="dateSelectors" style="display: none;">
                             <select id="monthSelector" class="calendar-selector">
-                                <option value="0">Enero</option>
-                                <option value="1">Febrero</option>
-                                <option value="2">Marzo</option>
-                                <option value="3">Abril</option>
-                                <option value="4">Mayo</option>
-                                <option value="5">Junio</option>
-                                <option value="6">Julio</option>
-                                <option value="7">Agosto</option>
-                                <option value="8">Septiembre</option>
-                                <option value="9">Octubre</option>
-                                <option value="10">Noviembre</option>
-                                <option value="11">Diciembre</option>
+                                <option value="0">January</option>
+                                <option value="1">February</option>
+                                <option value="2">March</option>
+                                <option value="3">April</option>
+                                <option value="4">May</option>
+                                <option value="5">June</option>
+                                <option value="6">July</option>
+                                <option value="7">August</option>
+                                <option value="8">September</option>
+                                <option value="9">October</option>
+                                <option value="10">November</option>
+                                <option value="11">December</option>
                             </select>
                             <select id="yearSelector" class="calendar-selector"></select>
                         </div>
@@ -141,29 +141,29 @@ class Calendar {
                     ${this.generateCalendarDays()}
                 </div>
                 <div class="calendar-event-form" id="eventForm" style="display: none;">
-                    <h3>Agregar Evento</h3>
-                    <input type="text" id="eventTitle" placeholder="Título del evento">
+                    <h3>Add Event</h3>
+                    <input type="text" id="eventTitle" placeholder="Event title">
                     <input type="time" id="eventTime">
-                    <button id="saveEvent">Guardar</button>
-                    <button id="cancelEvent">Cancelar</button>
+                    <button id="saveEvent">Save</button>
+                    <button id="cancelEvent">Close</button>
                 </div>
             </div>
             
-            <!-- Modal para crear eventos -->
+            <!-- Modal for creating events -->
             <div class="event-modal" id="eventModal">
                 <div class="event-modal-content">
                     <div class="event-modal-header">
-                        <h3 class="event-modal-title">Crear Evento</h3>
+                        <h3 class="event-modal-title">Create Event</h3>
                         <button class="event-modal-close" id="closeEventModal">&times;</button>
                     </div>
                     <form class="event-modal-form" id="eventModalForm">
-                        <input type="text" id="modalEventTitle" placeholder="Título del evento" required>
+                        <input type="text" id="modalEventTitle" placeholder="Event title" required>
                         <input type="date" id="modalEventDate" required>
                         <input type="time" id="modalEventTime">
-                        <textarea id="modalEventDescription" placeholder="Descripción (opcional)" rows="4"></textarea>
+                        <textarea id="modalEventDescription" placeholder="Description (optional)" rows="4"></textarea>
                         <div class="event-modal-buttons">
-                            <button type="button" class="event-modal-btn event-modal-btn-secondary" id="cancelEventModal">Cancelar</button>
-                            <button type="submit" class="event-modal-btn event-modal-btn-primary">Crear Evento</button>
+                            <button type="button" class="event-modal-btn event-modal-btn-secondary" id="cancelEventModal">Cancel</button>
+                            <button type="submit" class="event-modal-btn event-modal-btn-primary">Create Event</button>
                         </div>
                     </form>
                 </div>
@@ -174,8 +174,8 @@ class Calendar {
 
     getMonthYear() {
         const months = [
-            'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-            'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+            'January', 'February', 'March', 'April', 'May', 'June',
+            'July', 'August', 'September', 'October', 'November', 'December'
         ];
         return `${months[this.currentDate.getMonth()]} ${this.currentDate.getFullYear()}`;
     }
@@ -195,7 +195,7 @@ class Calendar {
 
         let daysHTML = '';
 
-        // Días del mes anterior
+        // Days from previous month
         for (let i = firstDay - 1; i >= 0; i--) {
             const day = daysInPrevMonth - i;
             const prevMonth = month === 0 ? 11 : month - 1;
@@ -217,7 +217,7 @@ class Calendar {
             `;
         }
 
-        // Días del mes actual
+        // Days from current month
         for (let day = 1; day <= daysInMonth; day++) {
             const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
             const dayEvents = this.events.filter(event => event.date === dateStr);
@@ -237,7 +237,7 @@ class Calendar {
             `;
         }
 
-        // Días del mes siguiente
+        // Days from next month
         const totalCells = Math.ceil((firstDay + daysInMonth) / 7) * 7;
         const remainingCells = totalCells - (firstDay + daysInMonth);
         for (let day = 1; day <= remainingCells; day++) {
@@ -264,7 +264,7 @@ class Calendar {
     }
 
     attachEventListeners() {
-        // Navegación de meses
+        // Month navigation
         const prevBtn = document.getElementById('prevMonth');
         const nextBtn = document.getElementById('nextMonth');
         
@@ -287,17 +287,17 @@ class Calendar {
         // Navegación con scroll del mouse
         const calendarContainer = this.container.querySelector('.calendar-container');
         if (calendarContainer) {
-            // Variables para controlar el scroll suave
+            // Variables to control smooth scroll
             let scrollTimeout = null;
             let isScrolling = false;
             
             calendarContainer.addEventListener('wheel', (e) => {
-                e.preventDefault(); // Prevenir el scroll normal de la página
+                e.preventDefault(); // Prevent normal page scroll
                 
-                // Evitar múltiples cambios mientras se está procesando uno
+                // Avoid multiple changes while processing one
                 if (isScrolling) return;
                 
-                // Throttling para evitar cambios demasiado rápidos
+                // Throttling to avoid too rapid changes
                 if (scrollTimeout) {
                     clearTimeout(scrollTimeout);
                 }
@@ -305,27 +305,27 @@ class Calendar {
                 scrollTimeout = setTimeout(() => {
                     isScrolling = true;
                     
-                    // Añadir efecto de fade out
+                    // Add fade out effect
                     const calendarGrid = this.container.querySelector('.calendar-grid');
                     if (calendarGrid) {
                         calendarGrid.style.opacity = '0.7';
                         calendarGrid.style.transform = 'translateY(10px)';
                     }
                     
-                    // Cambiar mes después de un pequeño delay para el efecto visual
+                    // Change month after a small delay for visual effect
                     setTimeout(() => {
                         if (e.deltaY > 0) {
-                            // Scroll hacia abajo - mes siguiente
+                            // Scroll down - next month
                             this.currentDate.setMonth(this.currentDate.getMonth() + 1);
                         } else {
-                            // Scroll hacia arriba - mes anterior
+                            // Scroll up - previous month
                             this.currentDate.setMonth(this.currentDate.getMonth() - 1);
                         }
                         
                         this.render();
                         this.attachEventListeners();
                         
-                        // Restaurar el efecto visual
+                        // Restore visual effect
                         setTimeout(() => {
                             const newCalendarGrid = this.container.querySelector('.calendar-grid');
                             if (newCalendarGrid) {
@@ -335,13 +335,13 @@ class Calendar {
                             isScrolling = false;
                         }, 50);
                     }, 100);
-                }, 100); // Delay reducido para mayor responsividad
+                }, 100); // Reduced delay for better responsiveness
             });
         }
 
 
 
-        // Toggle selectors al hacer clic en el título
+        // Toggle selectors when clicking on title
         const title = document.getElementById('calendarTitle');
         const selectors = document.getElementById('dateSelectors');
         if (title && selectors) {
@@ -353,7 +353,7 @@ class Calendar {
                 }
             });
 
-            // Cerrar selectores al hacer clic fuera
+            // Close selectors when clicking outside
             document.addEventListener('click', (e) => {
                 if (!selectors.contains(e.target) && e.target !== title) {
                     selectors.style.display = 'none';
@@ -361,7 +361,7 @@ class Calendar {
             });
         }
 
-        // Eventos para la creación de eventos
+        // Events for event creation
         const calendarGrid = document.getElementById('calendarGrid');
         if (calendarGrid) {
             calendarGrid.addEventListener('click', (e) => {
@@ -371,12 +371,12 @@ class Calendar {
                 }
             });
             
-            // Habilitar arrastrar y soltar eventos
+            // Enable drag and drop events
             calendarGrid.addEventListener('dragstart', (e) => {
                 if (e.target.classList.contains('calendar-event')) {
                     this.draggedEvent = e.target;
                     e.dataTransfer.setData('text/plain', e.target.getAttribute('data-event-id'));
-                    // Añadir clase para indicar que se está arrastrando
+                    // Add class to indicate dragging
                     e.target.classList.add('dragging');
                 }
             });
@@ -384,7 +384,7 @@ class Calendar {
             calendarGrid.addEventListener('dragend', (e) => {
                 if (e.target.classList.contains('calendar-event')) {
                     e.target.classList.remove('dragging');
-                    // Remover todas las clases de drag-over
+                    // Remove all drag-over classes
                     document.querySelectorAll('.calendar-day-drag-over').forEach(day => {
                         day.classList.remove('calendar-day-drag-over');
                     });
@@ -399,7 +399,7 @@ class Calendar {
                     document.querySelectorAll('.calendar-day-drag-over').forEach(day => {
                         day.classList.remove('calendar-day-drag-over');
                     });
-                    // Añadir clase al día actual
+                    // Add class to current day
                     targetDay.classList.add('calendar-day-drag-over');
                 }
             });
@@ -418,7 +418,7 @@ class Calendar {
                 if (targetDay) {
                     const newDate = targetDay.getAttribute('data-date');
                     this.moveEvent(eventId, newDate);
-                    // Remover clase de drag-over
+                    // Remove drag-over class
                     targetDay.classList.remove('calendar-day-drag-over');
                 }
             });
@@ -447,7 +447,7 @@ class Calendar {
             modal.classList.add('show');
             modal.style.display = 'flex';
             
-            // Focus en el campo de título
+            // Focus on the title field
             const titleInput = document.getElementById('modalEventTitle');
             if (titleInput) {
                 setTimeout(() => titleInput.focus(), 100);
@@ -461,7 +461,7 @@ class Calendar {
             modal.classList.remove('show');
             modal.style.display = 'none';
             
-            // Limpiar el formulario
+            // Clear the form
             const form = document.getElementById('eventModalForm');
             if (form) {
                 form.reset();
@@ -476,26 +476,26 @@ class Calendar {
         const description = document.getElementById('modalEventDescription').value.trim();
         
         if (!title || !date) {
-            alert('Por favor, completa el título y la fecha del evento.');
+            alert('Please complete the event title and date.');
             return;
         }
         
-        // Crear el evento
+        // Create the event
         const event = {
-            id: Date.now().toString(), // ID único basado en timestamp
+            id: Date.now().toString(), // Unique ID based on timestamp
             title: title,
             date: date,
             time: time,
             description: description
         };
         
-        // Añadir el evento a la lista
+        // Add the event to the list
         this.events.push(event);
         
-        // Guardar en localStorage para persistencia
+        // Save to localStorage for persistence
         this.saveEventsToStorage();
         
-        // Cerrar modal y re-renderizar calendario
+        // Close modal and re-render calendar
         this.hideEventModal();
         this.render();
         this.attachEventListeners();
@@ -515,7 +515,7 @@ class Calendar {
         try {
             localStorage.setItem('berryCalendarEvents', JSON.stringify(this.events));
         } catch (error) {
-            console.warn('No se pudieron guardar los eventos en localStorage:', error);
+            console.warn('Could not save events to localStorage:', error);
         }
     }
 
@@ -526,7 +526,7 @@ class Calendar {
                 this.events = JSON.parse(savedEvents);
             }
         } catch (error) {
-            console.warn('No se pudieron cargar los eventos desde localStorage:', error);
+            console.warn('Could not load events from localStorage:', error);
             this.events = [];
         }
     }
@@ -556,12 +556,12 @@ class Calendar {
     }
 }
 
-// Inicializar el calendario cuando el DOM esté listo
+// Initialize calendar when DOM is ready
 document.addEventListener('DOMContentLoaded', function() {
     if (document.getElementById('calendar-widget')) {
         window.berryCalendar = new Calendar('calendar-widget');
         
-        // Configurar fecha actual en el formulario de actividades
+        // Set current date in the activities form
         const today = new Date().toISOString().split('T')[0];
         const activityDateInput = document.getElementById('activity-date');
         if (activityDateInput && !activityDateInput.value) {

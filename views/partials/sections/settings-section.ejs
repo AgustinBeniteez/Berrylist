@@ -1,41 +1,94 @@
 <div class="section-content settings-section">
   <div class="settings-container">
-    <h1>Settings</h1>
+    <h1><i class="fas fa-cog"></i> Settings</h1>
 
-    <!-- Theme Mode -->
-    <section class="settings-block">
-      <h2>Theme</h2>
-      <div class="theme-switch-wrapper">
-        <span class="slider-icon"><i class="fas fa-sun"></i></span>
-        <label class="theme-switch">
-          <input type="checkbox" id="settings-theme-toggle">
-          <span class="slider"></span>
-        </label>
-        <span class="slider-icon"><i class="fas fa-moon"></i></span>
-      </div>
-      <p class="hint">Switch between Light and Dark theme.</p>
-    </section>
+    <div class="settings-grid">
+      <!-- Theme Mode -->
+      <section class="settings-block">
+        <h2><i class="fas fa-palette"></i> Appearance</h2>
+        <div class="theme-switch-wrapper">
+          <span class="slider-icon"><i class="fas fa-sun"></i></span>
+          <label class="theme-switch" for="settings-theme-toggle">
+            <input type="checkbox" id="settings-theme-toggle">
+            <span class="slider"></span>
+          </label>
+          <span class="slider-icon"><i class="fas fa-moon"></i></span>
+        </div>
+        <p class="hint"><i class="fas fa-info-circle"></i> Switch between Light and Dark theme for better visual comfort.</p>
+      </section>
 
-    <!-- Language (placeholder) -->
-    <section class="settings-block">
-      <h2>Language</h2>
-      <select id="settings-language" class="settings-select" disabled>
-        <option value="en" selected>English</option>
-        <option value="es">Spanish</option>
-        <option value="fr">French</option>
-      </select>
-      <p class="hint">Language selection is not functional yet.</p>
-    </section>
+      <!-- Language (placeholder) -->
+      <section class="settings-block">
+        <h2><i class="fas fa-globe"></i> Language</h2>
+        <div class="select-wrapper">
+           <select id="settings-language" class="settings-select" disabled>
+             <option value="en" selected>English</option>
+             <option value="es">Español</option>
+             <option value="fr">Français</option>
+           </select>
+         </div>
+        <p class="hint"><i class="fas fa-clock"></i> Language selection feature is coming soon in future updates.</p>
+      </section>
 
-    <!-- Week start order -->
-    <section class="settings-block">
-      <h2>Week start</h2>
-      <select id="settings-weekstart" class="settings-select">
-        <option value="sunday">Sunday - Saturday</option>
-        <option value="monday">Monday - Sunday</option>
-        <option value="system" selected>System default</option>
-      </select>
-      <p class="hint">Choose how your week is ordered in the calendar.</p>
-    </section>
+      <!-- Week start order -->
+      <section class="settings-block">
+        <h2><i class="fas fa-calendar-alt"></i> Calendar</h2>
+        <div class="select-wrapper">
+           <select id="settings-weekstart" class="settings-select">
+             <option value="sunday">Sunday - Saturday</option>
+             <option value="monday">Monday - Sunday</option>
+             <option value="system" selected>System default</option>
+           </select>
+         </div>
+        <p class="hint"><i class="fas fa-info-circle"></i> Choose how your week is ordered in the calendar view.</p>
+      </section>
+
+      <!-- Additional Settings Section -->
+      <section class="settings-block">
+        <h2><i class="fas fa-sliders-h"></i> Preferences</h2>
+        <div class="preference-item">
+          <label class="preference-label">
+            <input type="checkbox" class="preference-checkbox" checked>
+            <i class="fas fa-bell preference-icon"></i>
+            <span class="preference-text">Enable notifications</span>
+          </label>
+          <p class="hint"><i class="fas fa-info-circle"></i> Receive notifications for important updates and reminders.</p>
+        </div>
+        
+        <div class="preference-item">
+          <label class="preference-label">
+            <input type="checkbox" class="preference-checkbox">
+            <i class="fas fa-save preference-icon"></i>
+            <span class="preference-text">Auto-save changes</span>
+          </label>
+          <p class="hint"><i class="fas fa-info-circle"></i> Automatically save your work as you make changes.</p>
+        </div>
+      </section>
+
+      <!-- New Settings Blocks -->
+      <section class="settings-block">
+        <h2><i class="fas fa-shield-alt"></i> Privacy</h2>
+        <div class="preference-item">
+          <label class="preference-label">
+            <input type="checkbox" class="preference-checkbox">
+            <i class="fas fa-user-secret preference-icon"></i>
+            <span class="preference-text">Private mode</span>
+          </label>
+          <p class="hint"><i class="fas fa-info-circle"></i> Hide your activity from other users.</p>
+        </div>
+      </section>
+
+      <section class="settings-block">
+        <h2><i class="fas fa-database"></i> Data</h2>
+        <div class="preference-item">
+          <label class="preference-label">
+            <input type="checkbox" class="preference-checkbox" checked>
+            <i class="fas fa-sync-alt preference-icon"></i>
+            <span class="preference-text">Sync data</span>
+          </label>
+          <p class="hint"><i class="fas fa-info-circle"></i> Synchronize your data across devices.</p>
+        </div>
+      </section>
+    </div>
   </div>
 </div>

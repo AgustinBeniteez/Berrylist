@@ -61,12 +61,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Función para cambiar el tema
+  // Función para cambiar el tema con animación
   function switchTheme(e) {
     const newTheme = e.target.checked ? 'dark' : 'light';
     
-    // Establecer el tema en el documento
-    document.documentElement.setAttribute('data-theme', newTheme);
+    // Agregar clase de transición para animación suave
+    document.body.classList.add('theme-transitioning');
+    
+    // Crear efecto de ondas durante la transición
+    createThemeTransitionEffect(newTheme);
+    
+    // Establecer el tema en el documento con un pequeño delay para la animación
+    setTimeout(() => {
+      document.documentElement.setAttribute('data-theme', newTheme);
+    }, 150);
+    
+    // Remover la clase de transición después de la animación
+    setTimeout(() => {
+      document.body.classList.remove('theme-transitioning');
+    }, 800);
     
     // Guardar la selección del usuario con prioridad
     setCookie('userTheme', newTheme, 730); // Guardar en cookie por 2 años
@@ -78,6 +91,48 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (e) {
       console.log('localStorage no disponible');
     }
+  }
+  
+  // Función para crear efecto visual durante la transición de tema
+  function createThemeTransitionEffect(newTheme) {
+    // Crear elemento de overlay para la transición
+    const overlay = document.createElement('div');
+    overlay.className = 'theme-transition-overlay';
+    overlay.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 9999;
+      background: ${newTheme === 'dark' ? 
+        'radial-gradient(circle at center, rgba(44, 62, 80, 0.8) 0%, transparent 70%)' : 
+        'radial-gradient(circle at center, rgba(135, 206, 235, 0.8) 0%, transparent 70%)'
+      };
+      opacity: 0;
+      transform: scale(0);
+      transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    `;
+    
+    document.body.appendChild(overlay);
+    
+    // Animar el overlay
+    requestAnimationFrame(() => {
+      overlay.style.opacity = '1';
+      overlay.style.transform = 'scale(3)';
+    });
+    
+    // Remover el overlay después de la animación
+    setTimeout(() => {
+      overlay.style.opacity = '0';
+      overlay.style.transform = 'scale(0)';
+      setTimeout(() => {
+        if (overlay.parentNode) {
+          overlay.parentNode.removeChild(overlay);
+        }
+      }, 300);
+    }, 400);
   }
 
   // Escuchar el evento de cambio en el switch si existe en la página

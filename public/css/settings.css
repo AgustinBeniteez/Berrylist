@@ -1,0 +1,665 @@
+/* Settings Section Styles */
+/* Siguiendo las pautas del DevReadme.md */
+@import url('colors.css');
+
+/* Variables específicas para settings */
+:root {
+  --settings-card-radius: 12px;
+  --settings-spacing: 1.5rem;
+  --settings-transition: all 0.3s ease;
+  --settings-shadow: 0 4px 12px var(--shadow-color);
+  --settings-shadow-hover: 0 8px 20px rgba(0, 0, 0, 0.15);
+  --settings-border: 1px solid var(--border-color);
+}
+
+/* Contenedor principal de settings */
+.settings-section {
+  padding: var(--settings-spacing);
+  background-color: var(--background-color);
+  min-height: 100vh;
+  max-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  font-family: 'Poppins', 'Arial', sans-serif;
+  
+  /* Estilos personalizados para el scroll */
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-color) var(--background-color);
+}
+
+/* Webkit scrollbar styles */
+.settings-section::-webkit-scrollbar {
+  width: 8px;
+}
+
+.settings-section::-webkit-scrollbar-track {
+  background: var(--background-color);
+  border-radius: 10px;
+}
+
+.settings-section::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--primary-color), var(--secondary-color));
+  border-radius: 10px;
+  transition: var(--settings-transition);
+}
+
+.settings-section::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, var(--secondary-color), var(--primary-color));
+  transform: scale(1.1);
+}
+
+.settings-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: var(--feature-background);
+  border-radius: var(--settings-card-radius);
+  box-shadow: var(--settings-shadow);
+  transition: var(--settings-transition);
+  
+  &:hover {
+    box-shadow: var(--settings-shadow-hover);
+    transform: translateY(-2px);
+  }
+}
+
+/* Settings Grid Layout */
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.settings-container h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--secondary-color);
+  text-align: center;
+  margin-bottom: 2rem;
+  letter-spacing: 1px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  
+  i {
+    font-size: 2.2rem;
+    animation: rotate 2s linear infinite;
+  }
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+    border-radius: 2px;
+  }
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Bloques de configuración */
+.settings-block {
+  background-color: var(--card-background);
+  border: var(--settings-border);
+  border-radius: var(--settings-card-radius);
+  padding: var(--settings-spacing);
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  transition: var(--settings-transition);
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(180deg, var(--secondary-color), var(--accent-color));
+    opacity: 0;
+    transition: var(--settings-transition);
+  }
+  
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--settings-shadow);
+    border-color: var(--secondary-color);
+    
+    &::before {
+      opacity: 1;
+    }
+  }
+}
+
+.settings-block h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--text-color);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  
+  i {
+    font-size: 1.3rem;
+    color: var(--secondary-color);
+    transition: var(--settings-transition);
+  }
+  
+  &:hover i {
+    transform: scale(1.1);
+    color: var(--accent-color);
+  }
+}
+
+/* Theme Switch Wrapper mejorado */
+.theme-switch-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+  padding: 1rem;
+  border-radius: 50px;
+  box-shadow: var(--settings-shadow);
+  margin: 1rem 0;
+  transition: var(--settings-transition);
+  
+  &:hover {
+    transform: scale(1.02);
+    box-shadow: var(--settings-shadow-hover);
+  }
+}
+
+.slider-icon {
+  color: var(--text-on-primary);
+  margin: 0 1rem;
+  font-size: 1.3rem;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  
+  &:hover {
+    transform: scale(1.2) rotate(15deg);
+    text-shadow: 0 0 15px currentColor;
+  }
+  
+  /* Animación específica para el sol */
+  &:first-child {
+    color: #FFD700;
+    
+    &:hover {
+      animation: sunGlow 2s ease-in-out infinite alternate;
+    }
+  }
+  
+  /* Animación específica para la luna */
+  &:last-child {
+    color: #E8E8E8;
+    
+    &:hover {
+      animation: moonGlow 2s ease-in-out infinite alternate;
+    }
+  }
+}
+
+/* Animaciones para los iconos */
+@keyframes sunGlow {
+  0% {
+    color: #FFD700;
+    text-shadow: 0 0 10px #FFD700, 0 0 20px #FFA500, 0 0 30px #FF8C00;
+    transform: scale(1.2) rotate(15deg);
+  }
+  100% {
+    color: #FFA500;
+    text-shadow: 0 0 15px #FFD700, 0 0 25px #FFA500, 0 0 35px #FF8C00;
+    transform: scale(1.3) rotate(25deg);
+  }
+}
+
+@keyframes moonGlow {
+  0% {
+    color: #E8E8E8;
+    text-shadow: 0 0 10px #E8E8E8, 0 0 20px #C0C0C0, 0 0 30px #A8A8A8;
+    transform: scale(1.2) rotate(-15deg);
+  }
+  100% {
+    color: #C0C0C0;
+    text-shadow: 0 0 15px #E8E8E8, 0 0 25px #C0C0C0, 0 0 35px #A8A8A8;
+    transform: scale(1.3) rotate(-25deg);
+  }
+}
+
+/* Theme Switch animacion */
+.theme-switch {
+  position: relative;
+  display: inline-block;
+  width: 70px;
+  height: 36px;
+  margin: 0 0.5rem;
+}
+
+.theme-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #87CEEB 0%, #4682B4 100%);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 36px;
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.2),
+    0 4px 15px rgba(70, 130, 180, 0.3);
+  overflow: hidden;
+  
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 
+      inset 0 2px 4px rgba(0, 0, 0, 0.2),
+      0 6px 20px rgba(70, 130, 180, 0.4);
+  }
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+  }
+  
+  &:hover::after {
+    transform: translateX(100%);
+  }
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 28px;
+  width: 28px;
+  left: 4px;
+  bottom: 4px;
+  background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 50%;
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(255, 215, 0, 0.5),
+    inset 0 2px 4px rgba(255, 255, 255, 0.3);
+  transform: scale(1);
+}
+
+/* Animación cuando está en modo oscuro */
+input:checked + .slider {
+  background: linear-gradient(135deg, #2C3E50 0%, #34495E 100%);
+  box-shadow: 
+    inset 0 2px 4px rgba(0, 0, 0, 0.4),
+    0 4px 15px rgba(44, 62, 80, 0.5);
+}
+
+input:checked + .slider:before {
+  transform: translateX(34px) scale(1.1);
+  background: linear-gradient(135deg, #E8E8E8 0%, #C0C0C0 100%);
+  box-shadow: 
+    0 4px 8px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(224, 224, 224, 0.3),
+    inset 0 2px 4px rgba(255, 255, 255, 0.2);
+}
+
+/* Animación de pulso cuando se hace clic */
+.theme-switch input:active + .slider:before {
+  transform: translateX(17px) scale(1.3);
+  transition: all 0.1s ease;
+}
+
+input:checked.theme-switch input:active + .slider:before {
+  transform: translateX(17px) scale(1.3);
+}
+
+/* Select mejorado */
+.settings-select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  background-color: var(--feature-background);
+  color: var(--text-color);
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  transition: var(--settings-transition);
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1rem;
+  
+  &:hover {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px rgba(125, 16, 69, 0.1);
+    transform: translateY(-1px);
+  }
+  
+  &:focus {
+    outline: none;
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px rgba(125, 16, 69, 0.2);
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: var(--secondary-bg);
+    
+    &:hover {
+      border-color: var(--border-color);
+      box-shadow: none;
+      transform: none;
+    }
+  }
+}
+
+/* Hint text mejorado */
+.hint {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+  font-style: italic;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  
+  i {
+    font-size: 0.8rem;
+    color: var(--secondary-color);
+    opacity: 0.7;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .settings-section {
+    padding: 1rem;
+  }
+  
+  .settings-container {
+    padding: 1.5rem;
+    margin: 0 1rem;
+  }
+  
+  .settings-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .settings-container h1 {
+    font-size: 2rem;
+    flex-direction: column;
+    gap: 0.5rem;
+    
+    i {
+      font-size: 1.8rem;
+    }
+  }
+  
+  .settings-block {
+    padding: 1rem;
+  }
+  
+  .settings-block h2 {
+    font-size: 1.2rem;
+    
+    i {
+      font-size: 1.1rem;
+    }
+  }
+  
+  .theme-switch-wrapper {
+    padding: 0.75rem;
+  }
+  
+  .slider-icon {
+    margin: 0 0.5rem;
+    font-size: 1.1rem;
+  }
+  
+  .preference-label {
+    gap: 0.5rem;
+  }
+  
+  .preference-icon {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .settings-container {
+    padding: 1rem;
+    margin: 0 0.5rem;
+  }
+  
+  .settings-container h1 {
+    font-size: 1.8rem;
+  }
+  
+  .settings-block {
+    padding: 0.75rem;
+  }
+}
+
+/* Animaciones adicionales */
+@keyframes settingsSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.settings-block {
+  animation: settingsSlideIn 0.5s ease forwards;
+}
+
+.settings-block:nth-child(2) {
+  animation-delay: 0.1s;
+}
+
+.settings-block:nth-child(3) {
+  animation-delay: 0.2s;
+}
+
+.settings-block:nth-child(4) {
+  animation-delay: 0.3s;
+}
+
+/* Estados de focus mejorados */
+.theme-switch input:focus + .slider {
+  box-shadow: 0 0 0 3px rgba(125, 16, 69, 0.3);
+}
+
+/* Animación de transición de tema para todo el documento */
+.theme-transitioning {
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.theme-transitioning * {
+  transition: background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+              color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.6s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+/* Efecto de brillo en el wrapper durante la transición */
+.theme-transitioning .theme-switch-wrapper {
+  animation: themeGlow 0.8s ease-in-out;
+}
+
+@keyframes themeGlow {
+  0%, 100% {
+    box-shadow: var(--settings-shadow);
+  }
+  50% {
+    box-shadow: 
+      var(--settings-shadow),
+      0 0 30px rgba(125, 16, 69, 0.6),
+      0 0 60px rgba(125, 16, 69, 0.3);
+    transform: scale(1.05);
+  }
+}
+
+/* Select wrapper */
+.select-wrapper {
+  position: relative;
+  margin-bottom: 0.5rem;
+}
+
+/* Preference items */
+.preference-item {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: var(--secondary-bg);
+  border-radius: 8px;
+  border-left: 4px solid transparent;
+  transition: var(--settings-transition);
+  
+  &:hover {
+    border-left-color: var(--secondary-color);
+    background-color: rgba(125, 16, 69, 0.05);
+  }
+}
+
+.preference-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--text-color);
+  gap: 0.75rem;
+  transition: var(--settings-transition);
+  
+  &:hover {
+    color: var(--secondary-color);
+  }
+}
+
+.preference-icon {
+  font-size: 1.1rem;
+  color: var(--secondary-color);
+  transition: var(--settings-transition);
+  
+  .preference-label:hover & {
+    transform: scale(1.1);
+    color: var(--accent-color);
+  }
+}
+
+.preference-checkbox {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border-color);
+  border-radius: 4px;
+  background-color: var(--feature-background);
+  cursor: pointer;
+  transition: var(--settings-transition);
+  position: relative;
+  appearance: none;
+  
+  &:checked {
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+    
+    &::after {
+      content: '✓';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+    }
+  }
+  
+  &:hover {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 3px rgba(125, 16, 69, 0.1);
+  }
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(125, 16, 69, 0.2);
+  }
+}
+
+.preference-text {
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+.preference-item .hint {
+  margin-top: 0.5rem;
+  margin-left: 2.75rem;
+  font-size: 0.85rem;
+}
+
+/* Mejoras adicionales para los títulos de sección */
+.settings-block h2 {
+  &::before {
+    content: attr(data-icon);
+  }
+}
+
+
+
+/* Efectos de hover mejorados para los selects */
+.settings-select option {
+  padding: 0.5rem;
+  background-color: var(--feature-background);
+  color: var(--text-color);
+}
+
+/* Mejoras de accesibilidad */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Mejoras para pantallas de alta resolución */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .slider:before {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  }
+  
+  .settings-container {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+}
