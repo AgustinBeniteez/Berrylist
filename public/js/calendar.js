@@ -55,7 +55,7 @@ class Calendar {
         if (yearSelector) {
             // Generate year options (limited between 1800 and 2150 for performance)
             const currentYear = new Date().getFullYear();
-            const minYear = 1800;
+            const minYear = 2020;
             const maxYear = 2150;
             yearSelector.innerHTML = '';
             for (let year = minYear; year <= maxYear; year++) {
