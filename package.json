@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/AgustinBeniteez/Proyecto-berry#readme",
   "dependencies": {
+    "dotenv": "^17.2.1",
     "ejs": "^3.1.10",
     "express": "^4.18.2",
     "firebase": "^12.1.0"
