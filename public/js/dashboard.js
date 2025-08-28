@@ -119,8 +119,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       });
       
-      // Inicializar eventos para los nuevos elementos cargados
-      initSectionEvents();
+      // Inicializar eventos para los nuevos elementos cargados después de un pequeño delay
+      // para asegurar que la sección esté completamente visible
+      setTimeout(() => {
+        initSectionEvents();
+      }, 100);
       
     } catch (error) {
       console.error('Error:', error);
@@ -146,7 +149,15 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
     
-    // La funcionalidad del calendario ha sido eliminada
+    // Inicializar calendario si existe el elemento
+    if (document.getElementById('calendar-widget')) {
+      // Destruir instancia anterior si existe
+      if (window.berryCalendar) {
+        window.berryCalendar = null;
+      }
+      // Crear nueva instancia del calendario
+      window.berryCalendar = new Calendar('calendar-widget');
+    }
     
     // Botones de editar tarea
     const editButtons = document.querySelectorAll('.task-edit');
