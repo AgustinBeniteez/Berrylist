@@ -6,19 +6,32 @@ class Calendar {
             return;
         }
         
+        // Clear any existing localStorage data to prevent conflicts
+        this.clearLocalStorage();
+        
         // Mostrar indicador de carga
         this.showLoadingIndicator();
         
         this.currentDate = new Date();
         this.events = [];
         this.draggedEvent = null;
+        this.realtimeListener = null;
+        this.realtimeListenerRef = null;
+        this.syncInterval = null;
         // Week start preference: 'sunday' or 'monday'
         this.weekStart = this.detectInitialWeekStart();
-        // Load saved events
-        this.loadEventsFromStorage();
-        
-        // Renderizar inmediatamente
-        this.init();
+        // Load saved events asynchronously
+        this.initializeCalendar();
+    }
+    
+    async initializeCalendar() {
+        try {
+            await this.loadEventsFromStorage();
+            this.init();
+        } catch (error) {
+            console.warn('Error initializing calendar:', error);
+            this.init(); // Initialize anyway with empty events
+        }
     }
     
     showLoadingIndicator() {
@@ -28,6 +41,16 @@ class Calendar {
                 <p>Loading calendar...</p>
             </div>
         `;
+    }
+
+    clearLocalStorage() {
+        try {
+            // Remove old calendar data from localStorage to prevent conflicts
+            localStorage.removeItem('berryCalendarEvents');
+            console.log('Cleared localStorage calendar data');
+        } catch (error) {
+            console.warn('Could not clear localStorage:', error);
+        }
     }
 
     detectInitialWeekStart(){
@@ -551,25 +574,278 @@ class Calendar {
         }
     }
 
-    saveEventsToStorage() {
+    async saveEventsToStorage() {
         try {
-            localStorage.setItem('berryCalendarEvents', JSON.stringify(this.events));
+            // Only save to Firebase Realtime Database if authenticated
+            if (window.firebaseAuth && window.firebaseAuth.currentUser && window.firebaseDatabase) {
+                const { ref, set } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+                
+                const userId = window.firebaseAuth.currentUser.uid;
+                const userEventsRef = ref(window.firebaseDatabase, `users/${userId}/events`);
+                
+                // Convert events array to object with event IDs as keys
+                const eventsObject = {};
+                this.events.forEach(event => {
+                    eventsObject[event.id] = {
+                        ...event,
+                        updatedAt: new Date().toISOString()
+                    };
+                });
+                
+                await set(userEventsRef, eventsObject);
+                console.log('Events synced to Firebase Realtime Database successfully');
+            } else if (window.syncManager) {
+                // If offline or not authenticated, add to sync queue
+                this.events.forEach(event => {
+                    window.syncManager.addToSyncQueue({
+                        type: 'create',
+                        data: event,
+                        eventId: event.id
+                    });
+                });
+            }
         } catch (error) {
-            console.warn('Could not save events to localStorage:', error);
+            console.warn('Could not save events:', error);
+            // If Firebase fails, add to sync queue for later
+            if (window.syncManager) {
+                this.events.forEach(event => {
+                    window.syncManager.addToSyncQueue({
+                        type: 'create',
+                        data: event,
+                        eventId: event.id
+                    });
+                });
+            }
         }
     }
 
-    loadEventsFromStorage() {
+    async loadEventsFromStorage() {
         try {
-            const savedEvents = localStorage.getItem('berryCalendarEvents');
-            if (savedEvents) {
-                this.events = JSON.parse(savedEvents);
+            // Only load from Firebase Realtime Database if user is authenticated
+            if (window.firebaseAuth && window.firebaseAuth.currentUser && window.firebaseDatabase) {
+                const { ref, get } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+                
+                const userId = window.firebaseAuth.currentUser.uid;
+                const userEventsRef = ref(window.firebaseDatabase, `users/${userId}/events`);
+                
+                const snapshot = await get(userEventsRef);
+                if (snapshot.exists()) {
+                    const eventsObject = snapshot.val();
+                    this.events = [];
+                    
+                    // Convert object back to array and sort by updatedAt
+                    Object.values(eventsObject).forEach(eventData => {
+                        delete eventData.updatedAt; // Remove Firebase metadata
+                        this.events.push(eventData);
+                    });
+                    
+                    // Sort events by date for consistency
+                    this.events.sort((a, b) => new Date(a.date) - new Date(b.date));
+                    console.log('Events loaded from Firebase Realtime Database successfully');
+                } else {
+                    // No events found for this user, initialize empty array
+                    this.events = [];
+                    console.log('No events found for user, starting with empty calendar');
+                }
+            } else {
+                // User not authenticated, start with empty events
+                this.events = [];
+                console.log('User not authenticated, starting with empty calendar');
             }
         } catch (error) {
-            console.warn('Could not load events from localStorage:', error);
+            console.warn('Could not load events:', error);
+            // Initialize empty events on error
             this.events = [];
         }
     }
+
+    // Method to sync events when user logs in
+    async syncEventsOnLogin() {
+        if (!window.firebaseAuth || !window.firebaseAuth.currentUser || !window.firebaseDatabase) {
+            return;
+        }
+
+        try {
+            const { ref, get } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+            
+            const userId = window.firebaseAuth.currentUser.uid;
+            const userEventsRef = ref(window.firebaseDatabase, `users/${userId}/events`);
+            
+            const snapshot = await get(userEventsRef);
+            if (snapshot.exists()) {
+                const eventsObject = snapshot.val();
+                this.events = [];
+                
+                // Convert object back to array
+                Object.values(eventsObject).forEach(eventData => {
+                    delete eventData.updatedAt; // Remove Firebase metadata
+                    this.events.push(eventData);
+                });
+                
+                // Sort events by date for consistency
+                this.events.sort((a, b) => new Date(a.date) - new Date(b.date));
+                
+                this.render();
+                this.attachEventListeners();
+                console.log('Events synced successfully on login');
+            }
+            
+            // Setup real-time listener for automatic updates
+                this.setupRealtimeListener();
+                
+                // Setup periodic sync as backup
+                this.setupPeriodicSync();
+        } catch (error) {
+            console.error('Error syncing events on login:', error);
+        }
+    }
+
+    // Setup real-time listener for Firebase Realtime Database
+    async setupRealtimeListener() {
+        if (!window.firebaseAuth || !window.firebaseAuth.currentUser || !window.firebaseDatabase) {
+            return;
+        }
+
+        try {
+            const { ref, onValue, off } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+            
+            const userId = window.firebaseAuth.currentUser.uid;
+            const userEventsRef = ref(window.firebaseDatabase, `users/${userId}/events`);
+            
+            // Remove existing listener if any
+            if (this.realtimeListener) {
+                off(this.realtimeListenerRef, 'value', this.realtimeListener);
+            }
+            
+            // Setup new listener
+            this.realtimeListenerRef = userEventsRef;
+            this.realtimeListener = onValue(userEventsRef, (snapshot) => {
+                if (snapshot.exists()) {
+                    const eventsObject = snapshot.val();
+                    const newEvents = [];
+                    
+                    // Convert object back to array
+                    Object.values(eventsObject).forEach(eventData => {
+                        const cleanEvent = { ...eventData };
+                        delete cleanEvent.updatedAt; // Remove Firebase metadata
+                        newEvents.push(cleanEvent);
+                    });
+                    
+                    // Sort events by date for consistency
+                    newEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
+                    
+                    // Only update if events actually changed
+                    if (JSON.stringify(this.events) !== JSON.stringify(newEvents)) {
+                        this.events = newEvents;
+                        this.render();
+                        this.attachEventListeners();
+                        console.log('Events updated from real-time sync');
+                    }
+                } else {
+                    // No events found, clear calendar
+                    if (this.events.length > 0) {
+                        this.events = [];
+                        this.render();
+                        this.attachEventListeners();
+                        console.log('Events cleared from real-time sync');
+                    }
+                }
+            }, (error) => {
+                console.warn('Real-time listener error:', error);
+            });
+            
+            console.log('Real-time listener setup successfully');
+        } catch (error) {
+            console.error('Error setting up real-time listener:', error);
+        }
+    }
+
+    // Setup periodic sync as backup to real-time listener
+     setupPeriodicSync() {
+         if (!window.firebaseAuth || !window.firebaseAuth.currentUser) {
+             return;
+         }
+
+         // Clear existing interval if any
+         if (this.syncInterval) {
+             clearInterval(this.syncInterval);
+         }
+
+         // Sync every 30 seconds as backup
+         this.syncInterval = setInterval(async () => {
+             if (window.firebaseAuth && window.firebaseAuth.currentUser && window.firebaseDatabase) {
+                 try {
+                     const { ref, get } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js');
+                     
+                     const userId = window.firebaseAuth.currentUser.uid;
+                     const userEventsRef = ref(window.firebaseDatabase, `users/${userId}/events`);
+                     
+                     const snapshot = await get(userEventsRef);
+                     if (snapshot.exists()) {
+                         const eventsObject = snapshot.val();
+                         const newEvents = [];
+                         
+                         // Convert object back to array
+                         Object.values(eventsObject).forEach(eventData => {
+                             const cleanEvent = { ...eventData };
+                             delete cleanEvent.updatedAt;
+                             newEvents.push(cleanEvent);
+                         });
+                         
+                         // Sort events by date
+                         newEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
+                         
+                         // Only update if events changed
+                         if (JSON.stringify(this.events) !== JSON.stringify(newEvents)) {
+                             this.events = newEvents;
+                             this.render();
+                             this.attachEventListeners();
+                             console.log('Events updated from periodic sync');
+                         }
+                     } else if (this.events.length > 0) {
+                         // No events found, clear calendar
+                         this.events = [];
+                         this.render();
+                         this.attachEventListeners();
+                         console.log('Events cleared from periodic sync');
+                     }
+                 } catch (error) {
+                     console.warn('Periodic sync error:', error);
+                 }
+             }
+         }, 30000); // 30 seconds
+
+         console.log('Periodic sync setup successfully (30s interval)');
+     }
+
+     // Method to cleanup real-time listener and periodic sync
+     cleanupRealtimeListener() {
+         // Cleanup real-time listener
+         if (this.realtimeListener && this.realtimeListenerRef) {
+             try {
+                 const { off } = window.firebaseDatabase ? 
+                     import('https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js') : 
+                     { off: () => {} };
+                 
+                 if (off) {
+                     off(this.realtimeListenerRef, 'value', this.realtimeListener);
+                 }
+                 
+                 this.realtimeListener = null;
+                 this.realtimeListenerRef = null;
+                 console.log('Real-time listener cleaned up');
+             } catch (error) {
+                 console.warn('Error cleaning up real-time listener:', error);
+             }
+         }
+
+         // Cleanup periodic sync
+         if (this.syncInterval) {
+             clearInterval(this.syncInterval);
+             this.syncInterval = null;
+             console.log('Periodic sync cleaned up');
+         }
+     }
 
     addEvent(title, date, time = '00:00', description = '') {
         const event = {

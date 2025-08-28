@@ -653,6 +653,520 @@ input:checked.theme-switch input:active + .slider:before {
   }
 }
 
+/* Account Section Styles */
+.user-account-info {
+  margin-top: 1rem;
+}
+
+.user-info-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: var(--background-color);
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  border: var(--settings-border);
+  transition: var(--settings-transition);
+}
+
+.user-info-item:hover {
+  background-color: var(--feature-background);
+  transform: translateX(5px);
+}
+
+.account-icon {
+  font-size: 1.2rem;
+  color: var(--primary-color);
+  min-width: 20px;
+}
+
+.user-info-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+.info-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.user-info-value {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-color);
+  word-break: break-word;
+}
+
+.account-actions {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: var(--settings-border);
+}
+
+.delete-account-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #dc3545, #c82333);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--settings-transition);
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+}
+
+.delete-account-btn:hover {
+  background: linear-gradient(135deg, #c82333, #a71e2a);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+}
+
+.delete-account-btn:active {
+  transform: translateY(0);
+}
+
+.not-logged-in {
+  text-align: center;
+  padding: 2rem;
+  background-color: var(--background-color);
+  border-radius: 8px;
+  border: var(--settings-border);
+}
+
+.not-logged-in .hint {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-muted);
+}
+
+/* Delete Account Modal Styles */
+.delete-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(5px);
+  animation: fadeIn 0.3s ease;
+}
+
+.delete-modal-content {
+  background-color: var(--feature-background);
+  border-radius: 12px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  animation: slideIn 0.3s ease;
+}
+
+.delete-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  background: linear-gradient(135deg, #dc3545, #c82333);
+  color: white;
+  border-radius: 12px 12px 0 0;
+}
+
+.delete-modal-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.delete-modal-header i {
+  font-size: 1.5rem;
+  animation: pulse 2s infinite;
+}
+
+.delete-modal-close {
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: var(--settings-transition);
+}
+
+.delete-modal-close:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.delete-modal-body {
+  padding: 1.5rem;
+}
+
+.warning-message {
+  background-color: rgba(220, 53, 69, 0.1);
+  border: 1px solid rgba(220, 53, 69, 0.3);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.warning-message i {
+  color: #dc3545;
+  font-size: 1.2rem;
+  margin-right: 0.5rem;
+}
+
+.warning-message p {
+  margin: 0.5rem 0;
+  color: var(--text-color);
+}
+
+.warning-message ul {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.warning-message li {
+  margin: 0.25rem 0;
+  color: var(--text-color);
+}
+
+.confirmation-input {
+  margin-top: 1.5rem;
+}
+
+.confirmation-input label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.delete-confirm-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: var(--settings-transition);
+}
+
+.delete-confirm-input:focus {
+  outline: none;
+  border-color: #dc3545;
+  box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1);
+}
+
+.delete-modal-footer {
+  display: flex;
+  gap: 1rem;
+  padding: 1.5rem;
+  border-top: 1px solid var(--border-color);
+  justify-content: flex-end;
+}
+
+.cancel-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--settings-transition);
+}
+
+.cancel-btn:hover {
+  background-color: var(--feature-background);
+  transform: translateY(-1px);
+}
+
+.confirm-delete-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #dc3545, #c82333);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--settings-transition);
+  box-shadow: 0 2px 8px rgba(220, 53, 69, 0.3);
+}
+
+.confirm-delete-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #c82333, #a71e2a);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+}
+
+.confirm-delete-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Modal Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* Responsive Design for Modal */
+@media (max-width: 768px) {
+  .delete-modal-content {
+    width: 95%;
+    margin: 1rem;
+  }
+  
+  .delete-modal-footer {
+    flex-direction: column;
+  }
+  
+  .cancel-btn,
+  .confirm-delete-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Data Management Section Styles */
+.data-management-item {
+  margin-bottom: 1.5rem;
+}
+
+.data-action {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.data-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--settings-transition);
+  text-decoration: none;
+  min-width: 160px;
+  justify-content: center;
+}
+
+.export-btn {
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: white;
+}
+
+.export-btn:hover {
+  background: linear-gradient(135deg, #218838, #1ea085);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+.import-btn {
+  background: linear-gradient(135deg, #007bff, #0056b3);
+  color: white;
+}
+
+.import-btn:hover {
+  background: linear-gradient(135deg, #0056b3, #004085);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+.backup-btn {
+  background: linear-gradient(135deg, #ffc107, #e0a800);
+  color: #212529;
+}
+
+.backup-btn:hover {
+  background: linear-gradient(135deg, #e0a800, #d39e00);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+}
+
+.confirm-btn {
+  background: linear-gradient(135deg, #28a745, #20c997);
+  color: white;
+}
+
+.confirm-btn:hover {
+  background: linear-gradient(135deg, #218838, #1ea085);
+  transform: translateY(-2px);
+}
+
+.cancel-btn {
+  background: linear-gradient(135deg, #6c757d, #5a6268);
+  color: white;
+}
+
+.cancel-btn:hover {
+  background: linear-gradient(135deg, #5a6268, #495057);
+  transform: translateY(-2px);
+}
+
+.data-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+.data-btn i {
+  font-size: 1rem;
+}
+
+/* Import Options Styles */
+.import-options {
+  background: var(--feature-background);
+  border: var(--settings-border);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.import-options h4 {
+  margin: 0 0 1rem 0;
+  color: var(--secondary-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.import-option-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  cursor: pointer;
+  color: var(--text-color);
+}
+
+.import-option-label input[type="radio"] {
+  margin: 0;
+}
+
+.import-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+/* Loading and Status Indicators */
+.data-btn.loading {
+  position: relative;
+  color: transparent;
+}
+
+.data-btn.loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-top: 2px solid currentColor;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Success/Error Messages */
+.data-message {
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.data-message.success {
+  background-color: rgba(40, 167, 69, 0.1);
+  color: #28a745;
+  border: 1px solid rgba(40, 167, 69, 0.2);
+}
+
+.data-message.error {
+  background-color: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+  border: 1px solid rgba(220, 53, 69, 0.2);
+}
+
+.data-message.info {
+  background-color: rgba(0, 123, 255, 0.1);
+  color: #007bff;
+  border: 1px solid rgba(0, 123, 255, 0.2);
+}
+
+/* Responsive Design for Data Management */
+@media (max-width: 768px) {
+  .import-actions {
+    flex-direction: column;
+  }
+  
+  .data-btn {
+    width: 100%;
+    min-width: auto;
+  }
+  
+  .import-option-label {
+    font-size: 0.9rem;
+  }
+}
+
 /* Mejoras para pantallas de alta resolución */
 @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
   .slider:before {

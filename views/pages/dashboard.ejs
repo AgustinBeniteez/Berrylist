@@ -3,6 +3,7 @@
 <head>
   <%- include('../partials/head'); %>
   <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/auth.css">
   <script>
     // Variable para almacenar la sección activa si se proporciona desde el servidor
     const serverActiveSection = '<%= typeof activeSection !== "undefined" ? activeSection : "" %>';
@@ -30,6 +31,30 @@
         <li><a href="#" class="nav-btn" data-section="study"><i class="fas fa-book"></i> <span data-i18n="navigation.study">Study</span></a></li>
         <li><a href="#" class="nav-btn" data-section="leisure"><i class="fas fa-gamepad"></i> <span data-i18n="navigation.leisure">Leisure</span></a></li>
       </ul>
+      
+      <!-- User Account Section -->
+      <div class="user-account-section" id="userAccountSection" style="display: none;">
+        <div class="user-info">
+          <div class="user-avatar" id="userAvatar">
+            <i class="fas fa-user-circle"></i>
+          </div>
+          <div class="user-details">
+            <span class="user-name" id="userName">Usuario</span>
+          </div>
+        </div>
+        <button class="logout-btn" id="logoutBtn">
+          <i class="fas fa-sign-out-alt"></i>
+          <span data-i18n="auth.logout">Log Out</span>
+        </button>
+      </div>
+      
+      <!-- Login Section (shown when not authenticated) -->
+      <div class="login-section" id="loginSection">
+        <button class="login-btn" id="loginBtn">
+          <i class="fas fa-sign-in-alt"></i>
+          <span data-i18n="auth.login">Log In</span>
+        </button>
+      </div>
       
       <!-- Settings and Home Button in sidebar footer -->
       <div class="sidebar-footer">
@@ -102,13 +127,37 @@
     </div>
   </div>
   
+  <!-- Login Modal -->
+  <div id="loginModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle" data-i18n="auth.login">Iniciar Sesión</h2>
+        <span class="close" id="closeModal">&times;</span>
+      </div>
+      
+      <div class="modal-body">
+        <!-- Google Sign-In Only -->
+        <div class="google-auth-container">
+          <p class="auth-description" data-i18n="auth.googleOnlyDescription">Inicia sesión con tu cuenta de Google para acceder a todas las funciones.</p>
+          
+          <button type="button" class="auth-btn google" id="googleSignInBtn">
+            <i class="fab fa-google"></i>
+            <span data-i18n="auth.signInWithGoogle">Iniciar sesión con Google</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
   <%- include('../partials/footer'); %>
 
   <script src="/js/main.js"></script>
   <script src="/js/theme-switcher.js"></script>
   <script src="/js/dashboard.js"></script>
   <script src="/js/nav-section-links.js"></script>
+  <script src="/js/sync-manager.js"></script>
   <script src="/js/calendar.js"></script>
   <script src="/js/settings.js"></script>
+  <script src="/js/auth.js"></script>
 </body>
 </html>

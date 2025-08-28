@@ -43,7 +43,107 @@
         <p class="hint"><i class="fas fa-info-circle"></i> <span data-i18n="settings.calendarHint">Choose how your week is ordered in the calendar view.</span></p>
       </section>
 
-      <!-- Additional Settings Section -->
+      <!-- Account Section -->
+      <section class="settings-block">
+        <h2><i class="fas fa-user"></i> <span data-i18n="settings.account">Account</span></h2>
+        
+        <!-- User Info Display -->
+        <div id="userAccountInfo" class="user-account-info" style="display: none;">
+          <div class="user-info-item">
+            <i class="fas fa-user account-icon"></i>
+            <div class="user-info-content">
+              <label class="info-label" data-i18n="settings.name">Name:</label>
+              <span id="userDisplayName" class="user-info-value">-</span>
+            </div>
+          </div>
+          
+          <div class="user-info-item">
+            <i class="fas fa-envelope account-icon"></i>
+            <div class="user-info-content">
+              <label class="info-label" data-i18n="settings.email">Email:</label>
+              <span id="userDisplayEmail" class="user-info-value">-</span>
+            </div>
+          </div>
+          
+          <div class="account-actions">
+            <button id="deleteAccountBtn" class="delete-account-btn">
+              <i class="fas fa-trash-alt"></i>
+              <span data-i18n="settings.deleteAccount">Delete Account</span>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Not logged in message -->
+        <div id="notLoggedInMessage" class="not-logged-in">
+          <p class="hint"><i class="fas fa-info-circle"></i> <span data-i18n="settings.loginRequired">Please log in to view account information.</span></p>
+        </div>
+      </section>
+
+      <!-- Data Management Section -->
+      <section class="settings-block">
+        <h2><i class="fas fa-download"></i> <span data-i18n="settings.dataManagement">Data Management</span></h2>
+        
+        <!-- Export Data -->
+        <div class="data-management-item">
+          <div class="data-action">
+            <button id="exportDataBtn" class="data-btn export-btn">
+              <i class="fas fa-file-export"></i>
+              <span data-i18n="settings.exportData">Export Data</span>
+            </button>
+            <p class="hint"><i class="fas fa-info-circle"></i> <span data-i18n="settings.exportHint">Download all your events and settings as a JSON file.</span></p>
+          </div>
+        </div>
+        
+        <!-- Import Data -->
+        <div class="data-management-item">
+          <div class="data-action">
+            <input type="file" id="importDataInput" accept=".json" style="display: none;">
+            <button id="importDataBtn" class="data-btn import-btn">
+              <i class="fas fa-file-import"></i>
+              <span data-i18n="settings.importData">Import Data</span>
+            </button>
+            <p class="hint"><i class="fas fa-info-circle"></i> <span data-i18n="settings.importHint">Upload a JSON file to restore your events and settings.</span></p>
+          </div>
+        </div>
+        
+        <!-- Backup Options -->
+        <div class="data-management-item">
+          <div class="data-action">
+            <button id="createBackupBtn" class="data-btn backup-btn">
+              <i class="fas fa-shield-alt"></i>
+              <span data-i18n="settings.createBackup">Create Backup</span>
+            </button>
+            <p class="hint"><i class="fas fa-info-circle"></i> <span data-i18n="settings.backupHint">Create a local backup of your data for safety.</span></p>
+          </div>
+        </div>
+        
+        <!-- Import Options Modal Trigger -->
+        <div class="data-management-item" id="importOptionsSection" style="display: none;">
+          <div class="import-options">
+            <h4><i class="fas fa-cog"></i> <span data-i18n="settings.importOptions">Import Options</span></h4>
+            <label class="import-option-label">
+              <input type="radio" name="importMode" value="replace" checked>
+              <span data-i18n="settings.replaceData">Replace existing data</span>
+            </label>
+            <label class="import-option-label">
+              <input type="radio" name="importMode" value="merge">
+              <span data-i18n="settings.mergeData">Merge with existing data</span>
+            </label>
+            <div class="import-actions">
+              <button id="confirmImportBtn" class="data-btn confirm-btn">
+                <i class="fas fa-check"></i>
+                <span data-i18n="settings.confirmImport">Confirm Import</span>
+              </button>
+              <button id="cancelImportBtn" class="data-btn cancel-btn">
+                <i class="fas fa-times"></i>
+                <span data-i18n="settings.cancel">Cancel</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Preferences Section -->
       <section class="settings-block">
         <h2><i class="fas fa-sliders-h"></i> <span data-i18n="settings.preferences">Preferences</span></h2>
         <div class="preference-item">
@@ -65,12 +165,6 @@
         </div>
       </section>
 
-      <!-- New Settings Blocks -->
-      <section class="settings-block">
-        <h2><i class="fas fa-user"></i> <span data-i18n="settings.account">Account</span></h2>
-        <p class="hint"><i class="fas fa-clock"></i> <span data-i18n="settings.accountHint">Account management features are coming soon.</span></p>
-      </section>
-
       <section class="settings-block">
         <h2><i class="fas fa-database"></i> <span data-i18n="settings.data">Data</span></h2>
         <div class="preference-item">
@@ -84,4 +178,47 @@
       </section>
     </div>
   </div>
+
+  <!-- Delete Account Confirmation Modal -->
+  <div id="deleteAccountModal" class="delete-modal" style="display: none;">
+    <div class="delete-modal-content">
+      <div class="delete-modal-header">
+        <h2><i class="fas fa-exclamation-triangle"></i> <span data-i18n="settings.deleteAccountTitle">Delete Account</span></h2>
+        <span class="delete-modal-close" id="deleteModalClose">&times;</span>
+      </div>
+      
+      <div class="delete-modal-body">
+        <div class="warning-message">
+          <i class="fas fa-warning"></i>
+          <p><strong data-i18n="settings.deleteWarning">Warning: This action cannot be undone!</strong></p>
+          <p data-i18n="settings.deleteDescription">Deleting your account will permanently remove all your data, including:</p>
+          <ul>
+            <li data-i18n="settings.deleteItem1">All your calendar events and tasks</li>
+            <li data-i18n="settings.deleteItem2">Personal settings and preferences</li>
+            <li data-i18n="settings.deleteItem3">Account information and profile</li>
+          </ul>
+        </div>
+        
+        <div class="confirmation-input">
+          <label for="deleteConfirmInput" data-i18n="settings.typeDelete">Type "DELETE" to confirm:</label>
+          <input type="text" id="deleteConfirmInput" class="delete-confirm-input" placeholder="DELETE">
+        </div>
+      </div>
+      
+      <div class="delete-modal-footer">
+        <button id="cancelDeleteBtn" class="cancel-btn">
+          <i class="fas fa-times"></i>
+          <span data-i18n="settings.cancel">Cancel</span>
+        </button>
+        <button id="confirmDeleteBtn" class="confirm-delete-btn" disabled>
+          <i class="fas fa-trash-alt"></i>
+          <span data-i18n="settings.confirmDelete">Delete Account</span>
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
+
+<!-- Data Management Scripts -->
+<script src="/js/user-data-manager.js"></script>
+<script src="/js/data-management-ui.js"></script>
