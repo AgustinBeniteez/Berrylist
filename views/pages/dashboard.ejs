@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="dark">
+<html lang="en" data-theme="dark">
 <head>
   <%- include('../partials/head'); %>
   <link rel="stylesheet" href="/css/dashboard.css">
@@ -31,20 +31,15 @@
         <li><a href="#" class="nav-btn" data-section="leisure"><i class="fas fa-gamepad"></i> <span>Leisure</span></a></li>
       </ul>
       
-      <!-- Home Button in sidebar footer -->
+      <!-- Settings and Home Button in sidebar footer -->
       <div class="sidebar-footer">
-        <!-- Theme Switch moved to just above home button -->
-        <div class="theme-switch-wrapper">
-          <span class="slider-icon"><i class="fas fa-sun"></i></span>
-          <label class="theme-switch">
-            <input type="checkbox">
-            <span class="slider"></span>
-          </label>
-          <span class="slider-icon"><i class="fas fa-moon"></i></span>
-        </div>
+        <a href="#" class="settings-button nav-btn" data-section="settings">
+          <i class="fas fa-cog"></i>
+          <span>Settings</span>
+        </a>
         <a href="/" class="home-button">
           <i class="fas fa-home"></i>
-          <span>Inicio</span>
+          <span>Home</span>
         </a>
       </div>
     </div>
@@ -102,5 +97,6 @@
   <script src="/js/dashboard.js"></script>
   <script src="/js/nav-section-links.js"></script>
   <script src="/js/calendar.js"></script>
+  <script src="/js/settings.js"></script>
 </body>
 </html>

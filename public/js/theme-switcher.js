@@ -36,16 +36,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // Si el usuario ha seleccionado un tema manualmente, usamos ese
     document.documentElement.setAttribute('data-theme', userSelectedTheme);
     
-    if (userSelectedTheme === 'dark') {
-      themeSwitch.checked = true;
-    } else {
-      themeSwitch.checked = false;
+    if (themeSwitch) {
+      themeSwitch.checked = userSelectedTheme === 'dark';
     }
   } else if (currentTheme) {
     // Si hay un tema guardado en cookie pero no fue seleccionado manualmente
     document.documentElement.setAttribute('data-theme', currentTheme);
     
-    if (currentTheme === 'dark') {
+    if (themeSwitch && currentTheme === 'dark') {
       themeSwitch.checked = true;
     }
   } else {
@@ -54,11 +52,11 @@ document.addEventListener('DOMContentLoaded', () => {
     
     if (prefersDarkScheme.matches) {
       document.documentElement.setAttribute('data-theme', 'dark');
-      themeSwitch.checked = true;
+      if (themeSwitch) themeSwitch.checked = true;
       setCookie('theme', 'dark', 730); // Guardar en cookie por 2 años
     } else {
       document.documentElement.setAttribute('data-theme', 'light');
-      themeSwitch.checked = false;
+      if (themeSwitch) themeSwitch.checked = false;
       setCookie('theme', 'light', 730); // Guardar en cookie por 2 años
     }
   }
@@ -82,6 +80,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Escuchar el evento de cambio en el switch
-  themeSwitch.addEventListener('change', switchTheme, false);
+  // Escuchar el evento de cambio en el switch si existe en la página
+  if (themeSwitch) {
+    themeSwitch.addEventListener('change', switchTheme, false);
+  }
 });

@@ -37,6 +37,13 @@ document.addEventListener('DOMContentLoaded', function() {
       localStorage.removeItem('activeSection');
     }
   }
+
+  // Al cargar directamente una ruta de sección (/dashboard/<section>), activar esa sección
+  const pathParts = window.location.pathname.split('/');
+  if (pathParts.length === 3 && pathParts[1] === 'dashboard' && pathParts[2]) {
+    const directSection = pathParts[2];
+    activateSection(directSection);
+  }
   
   // Función para actualizar la URL sin recargar la página
   function updateUrlWithoutReload(section) {
@@ -81,6 +88,20 @@ document.addEventListener('DOMContentLoaded', function() {
       const sectionElement = mainContent.querySelector('.section-content');
       if (sectionElement) {
         sectionElement.classList.add('active');
+      }
+
+      // Inicializaciones específicas por sección
+      if (section === 'calendar' && window.berryCalendar) {
+        // Re-render calendar when switching back
+        window.berryCalendar.render();
+        window.berryCalendar.attachEventListeners();
+      }
+
+      if (section === 'settings') {
+        // Initialize settings script if needed
+        if (window.initSettingsSection) {
+          window.initSettingsSection();
+        }
       }
     } catch (error) {
       console.error('Error al cargar la sección:', error);

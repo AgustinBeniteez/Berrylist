@@ -17,6 +17,11 @@ app.get('/', (req, res) => {
     res.render('pages/index');
 });
 
+// Redirect plain /settings to dashboard settings section
+app.get('/settings', (req, res) => {
+    res.redirect('/dashboard/settings');
+});
+
 // Ruta principal del dashboard
 app.get('/dashboard', (req, res) => {
     // Detectar si es una solicitud AJAX o una carga de página normal
@@ -33,7 +38,7 @@ app.get('/dashboard', (req, res) => {
 
 // Rutas específicas para cada sección del dashboard
 app.get('/dashboard/:section', (req, res) => {
-    const validSections = ['calendar', 'work', 'study', 'leisure'];
+    const validSections = ['calendar', 'work', 'study', 'leisure', 'settings'];
     const section = req.params.section;
     
     if (validSections.includes(section)) {
@@ -70,6 +75,10 @@ app.get('/partials/sections/study-section', (req, res) => {
 
 app.get('/partials/sections/leisure-section', (req, res) => {
     res.render('partials/sections/leisure-section');
+});
+
+app.get('/partials/sections/settings-section', (req, res) => {
+    res.render('partials/sections/settings-section');
 });
 
 // Middleware para manejar rutas no encontradas (error 404)

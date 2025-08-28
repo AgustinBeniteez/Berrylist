@@ -141,13 +141,8 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
     
-    // Botones de añadir evento (para la sección de calendario)
-    const addEventButtons = document.querySelectorAll('.add-event-btn');
-    addEventButtons.forEach(btn => {
-      btn.addEventListener('click', function() {
-        alert('Funcionalidad para añadir evento en desarrollo');
-      });
-    });
+    // Los botones de añadir evento son manejados por la clase Calendar
+    // No necesitamos sobrescribir sus event listeners aquí
     
     // Inicializar calendario si existe el elemento
     if (document.getElementById('calendar-widget')) {
