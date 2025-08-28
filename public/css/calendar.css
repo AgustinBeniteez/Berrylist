@@ -469,6 +469,33 @@
 
 
 
+/* Específico para la sección del calendario */
+.calendar-section {
+  min-height: 100vh;
+  width: 100%;
+}
+
+.calendar-section.active {
+  display: block !important;
+  opacity: 1 !important;
+}
+
+/* Asegurar visibilidad del widget del calendario */
+#calendar-widget {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  width: 100% !important;
+  min-height: 100vh !important;
+}
+
+/* Prevenir que el calendario desaparezca en producción */
+#calendar-widget .calendar-container {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .calendar-container {

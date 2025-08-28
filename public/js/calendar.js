@@ -170,6 +170,23 @@ class Calendar {
             </div>
         `;
         this.container.innerHTML = calendarHTML;
+        
+        // Asegurar que el contenedor esté visible después del renderizado
+        setTimeout(() => {
+            const container = this.container;
+            if (container) {
+                container.style.display = 'block';
+                container.style.visibility = 'visible';
+                container.style.opacity = '1';
+                
+                const calendarContainer = container.querySelector('.calendar-container');
+                if (calendarContainer) {
+                    calendarContainer.style.display = 'block';
+                    calendarContainer.style.visibility = 'visible';
+                    calendarContainer.style.opacity = '1';
+                }
+            }
+        }, 10);
     }
 
     getMonthYear() {
@@ -557,8 +574,15 @@ class Calendar {
 }
 
 // Initialize calendar when DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
-    if (document.getElementById('calendar-widget')) {
+// This function can be called from dashboard.js to avoid conflicts
+function initializeCalendar() {
+    const calendarWidget = document.getElementById('calendar-widget');
+    if (calendarWidget && !window.berryCalendar) {
+        // Ensure the calendar container is visible
+        calendarWidget.style.display = 'block';
+        calendarWidget.style.visibility = 'visible';
+        calendarWidget.style.opacity = '1';
+        
         window.berryCalendar = new Calendar('calendar-widget');
         
         // Set current date in the activities form
@@ -567,5 +591,89 @@ document.addEventListener('DOMContentLoaded', function() {
         if (activityDateInput && !activityDateInput.value) {
             activityDateInput.value = today;
         }
+        
+        return true;
+    }
+    return false;
+}
+
+// Auto-initialize if not in dashboard context
+document.addEventListener('DOMContentLoaded', function() {
+    // Only auto-initialize if we're not in a dashboard context
+    if (!document.querySelector('.dashboard-page')) {
+        initializeCalendar();
     }
 });
+
+// Verificación adicional para Vercel: monitorear si el calendario desaparece
+if (typeof window !== 'undefined') {
+    let calendarCheckInterval;
+    let reinitializationCount = 0;
+    const MAX_REINITIALIZATIONS = 3;
+    
+    function startCalendarMonitoring() {
+        // Resetear contador al iniciar monitoreo
+        reinitializationCount = 0;
+        
+        calendarCheckInterval = setInterval(() => {
+            const calendarWidget = document.getElementById('calendar-widget');
+            const calendarSection = document.querySelector('.calendar-section');
+            
+            // Solo verificar si estamos en la sección del calendario
+            if (!calendarSection || !calendarSection.classList.contains('active')) {
+                return;
+            }
+            
+            if (calendarWidget && (!calendarWidget.innerHTML.trim() || calendarWidget.style.display === 'none')) {
+                if (reinitializationCount >= MAX_REINITIALIZATIONS) {
+                    console.warn('Maximum reinitializations reached, stopping monitoring');
+                    stopCalendarMonitoring();
+                    return;
+                }
+                
+                console.warn(`Calendar widget disappeared, reinitializing... (${reinitializationCount + 1}/${MAX_REINITIALIZATIONS})`);
+                reinitializationCount++;
+                
+                // Forzar visibilidad antes de reinicializar
+                calendarWidget.style.display = 'block';
+                calendarWidget.style.visibility = 'visible';
+                calendarWidget.style.opacity = '1';
+                
+                if (window.berryCalendar) {
+                    window.berryCalendar.render();
+                    window.berryCalendar.attachEventListeners();
+                } else {
+                    initializeCalendar();
+                }
+            }
+        }, 2000); // Aumentar intervalo a 2 segundos
+    }
+    
+    function stopCalendarMonitoring() {
+        if (calendarCheckInterval) {
+            clearInterval(calendarCheckInterval);
+            calendarCheckInterval = null;
+            reinitializationCount = 0;
+            console.log('Calendar monitoring stopped');
+        }
+    }
+    
+    // Exponer funciones globalmente
+    window.startCalendarMonitoring = startCalendarMonitoring;
+    window.stopCalendarMonitoring = stopCalendarMonitoring;
+    
+    // Iniciar monitoreo cuando se carga la página (solo si no es dashboard)
+    document.addEventListener('DOMContentLoaded', () => {
+        const calendarWidget = document.getElementById('calendar-widget');
+        const isDashboard = document.querySelector('.dashboard-container') || document.querySelector('#content-area');
+        
+        // Solo iniciar monitoreo automático si no estamos en dashboard
+        if (calendarWidget && !isDashboard) {
+            startCalendarMonitoring();
+        }
+    });
+    
+    // Exponer funciones globalmente para uso en dashboard.js
+    window.startCalendarMonitoring = startCalendarMonitoring;
+    window.stopCalendarMonitoring = stopCalendarMonitoring;
+}

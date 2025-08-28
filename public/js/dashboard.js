@@ -67,6 +67,11 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Función para mostrar el dashboard original
   function showDashboard() {
+    // Detener monitoreo del calendario si está activo
+    if (typeof window.stopCalendarMonitoring === 'function') {
+      window.stopCalendarMonitoring();
+    }
+    
     mainContent.innerHTML = dashboardContent;
     
     // Quitar la clase activa de todos los botones de navegación
@@ -89,6 +94,11 @@ document.addEventListener('DOMContentLoaded', function() {
   // Función para cargar una sección
   async function loadSection(sectionName) {
     try {
+      // Detener monitoreo del calendario si está activo
+      if (typeof window.stopCalendarMonitoring === 'function') {
+        window.stopCalendarMonitoring();
+      }
+      
       // Hacer una petición para obtener el contenido de la sección
       const response = await fetch(`/partials/sections/${sectionName}-section`);
       
@@ -111,6 +121,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // Asegurar que el elemento sea visible inmediatamente
         sectionElement.style.display = 'block';
       }
+      
+      // Remover clase active de todas las secciones existentes
+      document.querySelectorAll('.section-content').forEach(section => {
+        section.classList.remove('active');
+      });
       
       // Actualizar la clase activa en los botones de navegación
       navButtons.forEach(btn => {
@@ -147,20 +162,50 @@ document.addEventListener('DOMContentLoaded', function() {
     // No necesitamos sobrescribir sus event listeners aquí
     
     // Inicializar calendario si existe el elemento
-    if (document.getElementById('calendar-widget')) {
+    const calendarWidget = document.getElementById('calendar-widget');
+    if (calendarWidget) {
       // Asegurar que la sección del calendario esté visible
       const calendarSection = document.querySelector('.calendar-section');
       if (calendarSection) {
         calendarSection.classList.add('active');
         calendarSection.style.display = 'block';
+        calendarSection.style.visibility = 'visible';
+        calendarSection.style.opacity = '1';
       }
+      
+      // Asegurar que el widget del calendario esté visible
+      calendarWidget.style.display = 'block';
+      calendarWidget.style.visibility = 'visible';
+      calendarWidget.style.opacity = '1';
       
       // Destruir instancia anterior si existe
       if (window.berryCalendar) {
         window.berryCalendar = null;
       }
-      // Crear nueva instancia del calendario
-      window.berryCalendar = new Calendar('calendar-widget');
+      
+      // Usar la función de inicialización del calendario si está disponible
+      if (typeof initializeCalendar === 'function') {
+        initializeCalendar();
+      } else {
+        // Fallback: crear nueva instancia del calendario directamente
+        window.berryCalendar = new Calendar('calendar-widget');
+      }
+      
+      // Verificación adicional para Vercel: asegurar que el contenido se mantenga
+       setTimeout(() => {
+         if (calendarWidget && !calendarWidget.innerHTML.trim()) {
+           console.warn('Calendar widget is empty, reinitializing...');
+           if (window.berryCalendar) {
+             window.berryCalendar.render();
+             window.berryCalendar.attachEventListeners();
+           }
+         }
+         
+         // Iniciar monitoreo del calendario si está disponible
+         if (typeof window.startCalendarMonitoring === 'function') {
+           window.startCalendarMonitoring();
+         }
+       }, 100);
     }
     
     // Botones de editar tarea
@@ -234,6 +279,11 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Función para mostrar el contenido principal con las cards
   function showMainCards() {
+    // Detener monitoreo del calendario si está activo
+    if (typeof window.stopCalendarMonitoring === 'function') {
+      window.stopCalendarMonitoring();
+    }
+    
     // Obtener el contenido original del dashboard con las cards
     fetch('/dashboard')
       .then(response => response.text())

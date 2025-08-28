@@ -566,16 +566,7 @@ input:checked + .slider:before {
   animation: fadeIn 0.3s ease-in-out;
 }
 
-/* Específico para la sección del calendario */
-.calendar-section {
-  min-height: 100vh;
-  width: 100%;
-}
 
-.calendar-section.active {
-  display: block !important;
-  opacity: 1 !important;
-}
 
 @keyframes fadeIn {
   from { opacity: 0; }
