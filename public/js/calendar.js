@@ -1,6 +1,11 @@
 class Calendar {
     constructor(containerId) {
         this.container = document.getElementById(containerId);
+        if (!this.container) {
+            console.error(`Calendar container with ID '${containerId}' not found`);
+            return;
+        }
+        
         this.currentDate = new Date();
         this.events = [];
         this.draggedEvent = null;
@@ -8,7 +13,11 @@ class Calendar {
         this.weekStart = this.detectInitialWeekStart();
         // Load saved events
         this.loadEventsFromStorage();
-        this.init();
+        
+        // Renderizar con un pequeño delay para asegurar que el DOM esté listo
+        setTimeout(() => {
+            this.init();
+        }, 50);
     }
 
     detectInitialWeekStart(){
@@ -577,13 +586,25 @@ class Calendar {
 // This function can be called from dashboard.js to avoid conflicts
 function initializeCalendar() {
     const calendarWidget = document.getElementById('calendar-widget');
-    if (calendarWidget && !window.berryCalendar) {
+    
+    // Destruir instancia existente si existe
+    if (window.berryCalendar) {
+        console.log('Destroying existing calendar instance');
+        window.berryCalendar = null;
+    }
+    
+    if (calendarWidget) {
+        // Limpiar contenido existente
+        calendarWidget.innerHTML = '';
+        
         // Ensure the calendar container is visible
         calendarWidget.style.display = 'block';
         calendarWidget.style.visibility = 'visible';
         calendarWidget.style.opacity = '1';
         
+        // Crear nueva instancia
         window.berryCalendar = new Calendar('calendar-widget');
+        console.log('Calendar initialized successfully');
         
         // Set current date in the activities form
         const today = new Date().toISOString().split('T')[0];
@@ -594,6 +615,7 @@ function initializeCalendar() {
         
         return true;
     }
+    console.warn('Calendar widget not found');
     return false;
 }
 
@@ -614,6 +636,7 @@ if (typeof window !== 'undefined') {
     function startCalendarMonitoring() {
         // Resetear contador al iniciar monitoreo
         reinitializationCount = 0;
+        let lastCheckTime = Date.now();
         
         calendarCheckInterval = setInterval(() => {
             const calendarWidget = document.getElementById('calendar-widget');
@@ -624,29 +647,35 @@ if (typeof window !== 'undefined') {
                 return;
             }
             
-            if (calendarWidget && (!calendarWidget.innerHTML.trim() || calendarWidget.style.display === 'none')) {
-                if (reinitializationCount >= MAX_REINITIALIZATIONS) {
-                    console.warn('Maximum reinitializations reached, stopping monitoring');
-                    stopCalendarMonitoring();
-                    return;
-                }
+            // Verificar si el widget existe y está realmente vacío (no solo durante renderizado)
+            if (calendarWidget) {
+                const isEmpty = !calendarWidget.innerHTML.trim();
+                const isHidden = calendarWidget.style.display === 'none';
+                const hasCalendarContent = calendarWidget.querySelector('.calendar-container');
                 
-                console.warn(`Calendar widget disappeared, reinitializing... (${reinitializationCount + 1}/${MAX_REINITIALIZATIONS})`);
-                reinitializationCount++;
-                
-                // Forzar visibilidad antes de reinicializar
-                calendarWidget.style.display = 'block';
-                calendarWidget.style.visibility = 'visible';
-                calendarWidget.style.opacity = '1';
-                
-                if (window.berryCalendar) {
-                    window.berryCalendar.render();
-                    window.berryCalendar.attachEventListeners();
-                } else {
+                // Solo reinicializar si está realmente vacío Y no tiene contenido del calendario
+                if ((isEmpty || isHidden) && !hasCalendarContent) {
+                    // Esperar un poco más para evitar reinicializaciones durante el renderizado
+                    const timeSinceLastCheck = Date.now() - lastCheckTime;
+                    if (timeSinceLastCheck < 3000) {
+                        return; // Muy pronto para verificar
+                    }
+                    
+                    if (reinitializationCount >= MAX_REINITIALIZATIONS) {
+                        console.warn('Maximum reinitializations reached, stopping monitoring');
+                        stopCalendarMonitoring();
+                        return;
+                    }
+                    
+                    console.warn(`Calendar widget disappeared, reinitializing... (${reinitializationCount + 1}/${MAX_REINITIALIZATIONS})`);
+                    reinitializationCount++;
+                    lastCheckTime = Date.now();
+                    
+                    // Reinicializar completamente
                     initializeCalendar();
                 }
             }
-        }, 2000); // Aumentar intervalo a 2 segundos
+        }, 3000); // Aumentar intervalo a 3 segundos
     }
     
     function stopCalendarMonitoring() {

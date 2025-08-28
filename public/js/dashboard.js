@@ -201,9 +201,11 @@ document.addEventListener('DOMContentLoaded', function() {
            }
          }
          
-         // Iniciar monitoreo del calendario si está disponible
+         // Iniciar monitoreo del calendario después de un delay para permitir renderizado completo
          if (typeof window.startCalendarMonitoring === 'function') {
-           window.startCalendarMonitoring();
+           setTimeout(() => {
+             window.startCalendarMonitoring();
+           }, 2000);
          }
        }, 100);
     }
