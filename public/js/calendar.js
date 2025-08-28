@@ -25,7 +25,7 @@ class Calendar {
         this.container.innerHTML = `
             <div class="calendar-loading">
                 <div class="loading-spinner"></div>
-                <p>Cargando calendario...</p>
+                <p>Loading calendar...</p>
             </div>
         `;
     }
@@ -188,6 +188,8 @@ class Calendar {
                 </div>
             </div>
         `;
+        
+        // Eliminar el loading indicator y mostrar el calendario
         this.container.innerHTML = calendarHTML;
         
         // Asegurar visibilidad inmediata
@@ -204,6 +206,8 @@ class Calendar {
                 calendarContainer.style.opacity = '1';
             }
         }
+        
+        console.log('Calendar rendered successfully, loading indicator removed');
     }
 
     getMonthYear() {
@@ -602,24 +606,35 @@ function initializeCalendar() {
     }
     
     if (calendarWidget) {
+        // Mostrar loading indicator inmediatamente
+        calendarWidget.innerHTML = `
+            <div class="calendar-loading">
+                <div class="loading-spinner"></div>
+                <p>Loading calendar...</p>
+            </div>
+        `;
+        
         // Ensure the calendar container is visible
         calendarWidget.style.display = 'block';
         calendarWidget.style.visibility = 'visible';
         calendarWidget.style.opacity = '1';
         
-        // Crear nueva instancia (el constructor ya maneja el loading)
-        window.berryCalendar = new Calendar('calendar-widget');
-        console.log('Calendar initialized successfully');
-        
-        // Set current date in the activities form
-        const today = new Date().toISOString().split('T')[0];
-        const activityDateInput = document.getElementById('activity-date');
-        if (activityDateInput && !activityDateInput.value) {
-            activityDateInput.value = today;
-        }
+        // Crear nueva instancia después de un pequeño delay para que se vea el loading
+        setTimeout(() => {
+            window.berryCalendar = new Calendar('calendar-widget');
+            console.log('Calendar initialized successfully');
+            
+            // Set current date in the activities form
+            const today = new Date().toISOString().split('T')[0];
+            const activityDateInput = document.getElementById('activity-date');
+            if (activityDateInput && !activityDateInput.value) {
+                activityDateInput.value = today;
+            }
+        }, 100);
         
         return true;
     }
+    
     console.warn('Calendar widget not found');
     return false;
 }
