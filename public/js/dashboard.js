@@ -108,6 +108,8 @@ document.addEventListener('DOMContentLoaded', function() {
       const sectionElement = mainContent.querySelector('.section-content');
       if (sectionElement) {
         sectionElement.classList.add('active');
+        // Asegurar que el elemento sea visible inmediatamente
+        sectionElement.style.display = 'block';
       }
       
       // Actualizar la clase activa en los botones de navegación
@@ -146,6 +148,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Inicializar calendario si existe el elemento
     if (document.getElementById('calendar-widget')) {
+      // Asegurar que la sección del calendario esté visible
+      const calendarSection = document.querySelector('.calendar-section');
+      if (calendarSection) {
+        calendarSection.classList.add('active');
+        calendarSection.style.display = 'block';
+      }
+      
       // Destruir instancia anterior si existe
       if (window.berryCalendar) {
         window.berryCalendar = null;

@@ -10,9 +10,9 @@
   padding: 2rem;
   width: 100%;
   font-family: 'Arial', sans-serif;
-  opacity: 1;
-  visibility: visible;
-  display: block;
+  opacity: 1 !important;
+  visibility: visible !important;
+  display: block !important;
   min-height: 95dvh;
   transition: all 0.3s ease;
   overflow: hidden;
