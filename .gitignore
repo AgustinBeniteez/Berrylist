@@ -31,3 +31,4 @@ Thumbs.db
 
 # No ignorar vercel.json
 !vercel.json
+.vercel
