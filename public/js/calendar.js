@@ -193,6 +193,7 @@ class Calendar {
                         <button class="calendar-nav-btn" id="nextMonth"><i class="fas fa-chevron-right"></i></button>
                     </div>
                     <div class="calendar-right-section">
+                        <button class="calendar-nav-btn" id="monthTasksBtn" title="Ver Tareas del Mes"><i class="fas fa-tasks"></i></button>
                         <button class="calendar-nav-btn" id="todayViewBtn" title="Ver día de hoy"><i class="fas fa-calendar-day"></i></button>
                     </div>
                 </div>
@@ -329,6 +330,44 @@ class Calendar {
                         
 
                     </form>
+                </div>
+            </div>
+            
+            <!-- Modal para mostrar tareas del mes -->
+            <div class="month-tasks-modal" id="monthTasksModal" style="display: none;">
+                <div class="month-tasks-modal-content">
+                    <div class="month-tasks-modal-header">
+                        <h3 class="month-tasks-modal-title">${window.i18n ? window.i18n.t('monthlyTasks') : 'Tareas del Mes'}</h3>
+                        <button type="button" class="month-tasks-modal-close" id="closeMonthTasksModal">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="month-tasks-modal-body">
+                        <div class="month-tasks-filter">
+                            <button class="filter-btn active" data-filter="all">${window.i18n ? window.i18n.t('all') : 'Todas'}</button>
+                            <button class="filter-btn" data-filter="pending">${window.i18n ? window.i18n.t('pending') : 'Pendientes'}</button>
+                            <button class="filter-btn" data-filter="completed">${window.i18n ? window.i18n.t('completed') : 'Completadas'}</button>
+                        </div>
+                        <div class="month-tasks-list" id="monthTasksList">
+                            <!-- Las tareas se cargarán aquí dinámicamente -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Menú contextual para eventos -->
+            <div class="event-context-menu" id="eventContextMenu" style="display: none;">
+                <div class="context-menu-item" id="toggleCompleteMenuItem">
+                    <i class="fas fa-check"></i>
+                    <span>${window.i18n ? window.i18n.t('markAsCompleted') : 'Marcar como completado'}</span>
+                </div>
+                <div class="context-menu-item" id="editEventMenuItem">
+                    <i class="fa-solid fa-pencil"></i>
+                    <span>${window.i18n ? window.i18n.t('edit') : 'editar Evento'}</span>
+                </div>
+                <div class="context-menu-item" id="deleteEventMenuItem">
+                    <i class="fas fa-trash"></i>
+                    <span>${window.i18n ? window.i18n.t('delete') : 'Eliminar evento'}</span>
                 </div>
             </div>
         `;
@@ -476,13 +515,15 @@ class Calendar {
                 colorClass = `color-${eventColor}`;
             }
             
-            return `<div class="calendar-event ${colorClass}" draggable="true" data-event-id="${event.id}" 
+            return `<div class="calendar-event ${colorClass} ${event.completed ? 'completed' : ''}" draggable="true" data-event-id="${event.id}" 
                  onclick="event.stopPropagation(); window.berryCalendar.editEvent('${event.id}')" 
+                 oncontextmenu="event.stopPropagation(); window.berryCalendar.showEventContextMenu(event, '${event.id}'); return false;"
                  onmouseenter="window.berryCalendar.showEventTooltip(event, '${event.id}')" 
                  onmouseleave="window.berryCalendar.hideEventTooltip()">
                  <i class="calendar-event-icon ${eventIcon}"></i>
                  <span class="calendar-event-title">${event.title}</span>
                  ${timeDisplay ? `<span class="calendar-event-time">${timeDisplay}</span>` : ''}
+                 ${event.completed ? '<i class="fa-solid fa-circle-check" style="color: #0dc991;"></i>' : ''}
              </div>`;
         }).join('');
 
@@ -522,6 +563,85 @@ class Calendar {
         if (todayViewBtn) {
             todayViewBtn.addEventListener('click', () => {
                 this.showTodayDetailView();
+            });
+        }
+        
+        // Month tasks button
+        const monthTasksBtn = document.getElementById('monthTasksBtn');
+        if (monthTasksBtn) {
+            monthTasksBtn.addEventListener('click', () => {
+                this.showMonthTasksModal();
+            });
+        }
+        
+        // Month tasks modal close button
+        const closeMonthTasksModal = document.getElementById('closeMonthTasksModal');
+        if (closeMonthTasksModal) {
+            closeMonthTasksModal.addEventListener('click', () => {
+                this.hideMonthTasksModal();
+            });
+        }
+        
+        // Month tasks modal filter buttons
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                // Add active class to clicked button
+                btn.classList.add('active');
+                
+                // Update tasks view with new filter
+                const currentYear = this.currentDate.getFullYear();
+                const currentMonth = this.currentDate.getMonth();
+                
+                const monthEvents = this.events.filter(event => {
+                    const eventDate = new Date(event.date + 'T00:00:00');
+                    return eventDate.getFullYear() === currentYear && eventDate.getMonth() === currentMonth;
+                });
+                
+                this.renderMonthTasks(monthEvents, btn.dataset.filter);
+            });
+        });
+        
+        // Context menu event listeners
+        const toggleCompleteMenuItem = document.getElementById('toggleCompleteMenuItem');
+        const deleteEventMenuItem = document.getElementById('deleteEventMenuItem');
+        const editEventMenuItem = document.getElementById('editEventMenuItem');
+
+        if (toggleCompleteMenuItem) {
+            toggleCompleteMenuItem.addEventListener('click', () => {
+                const contextMenu = document.getElementById('eventContextMenu');
+                const eventId = contextMenu.dataset.eventId;
+                if (eventId) {
+                    this.toggleEventCompleted(eventId);
+                    this.updateMonthTasksView();
+                }
+                this.hideEventContextMenu();
+            });
+        }
+        
+        if (editEventMenuItem) {
+            editEventMenuItem.addEventListener('click', () => {
+                const contextMenu = document.getElementById('eventContextMenu');
+                const eventId = contextMenu.dataset.eventId;
+                if (eventId) {
+                    this.editEvent(eventId);
+                }
+                this.hideEventContextMenu();
+            });
+        
+        }
+        
+        if (deleteEventMenuItem) {
+            deleteEventMenuItem.addEventListener('click', () => {
+                const contextMenu = document.getElementById('eventContextMenu');
+                const eventId = contextMenu.dataset.eventId;
+                if (eventId) {
+                    this.deleteEvent(eventId);
+                    this.updateMonthTasksView();
+                }
+                this.hideEventContextMenu();
             });
         }
 
@@ -750,6 +870,24 @@ class Calendar {
         // Set default icon selection
         if (iconOptions.length > 0) {
             iconOptions[0].classList.add('active');
+        }
+        
+        // Close context menu when clicking outside
+        document.addEventListener('click', (e) => {
+            const contextMenu = document.getElementById('eventContextMenu');
+            if (contextMenu && !contextMenu.contains(e.target)) {
+                this.hideEventContextMenu();
+            }
+        });
+        
+        // Close month tasks modal when clicking outside
+        const monthTasksModal = document.getElementById('monthTasksModal');
+        if (monthTasksModal) {
+            monthTasksModal.addEventListener('click', (e) => {
+                if (e.target === monthTasksModal) {
+                    this.hideMonthTasksModal();
+                }
+            });
         }
     }
 
@@ -1277,7 +1415,8 @@ class Calendar {
             description: description,
             type: type,
             icon: icon,
-            color: color
+            color: color,
+            completed: false
         };
         
         this.events.push(event);
@@ -1322,6 +1461,23 @@ class Calendar {
         }
     }
     
+    toggleEventCompleted(eventId) {
+        const eventIndex = this.events.findIndex(e => e.id === eventId);
+        if (eventIndex !== -1) {
+            this.events[eventIndex].completed = !this.events[eventIndex].completed;
+            
+            // Guardar en Firebase y localStorage
+            this.saveEventsToStorage();
+            
+            // Actualizar la vista principal del calendario
+            this.render();
+            this.attachEventListeners();
+            
+            // Actualizar la vista del modal si está abierto
+            this.updateMonthTasksView();
+        }
+    }
+    
     deleteEvent(eventId) {
         if (confirm('¿Estás seguro de que quieres eliminar este evento?')) {
             this.removeEvent(eventId);
@@ -1333,6 +1489,136 @@ class Calendar {
         if (this.currentEditingEventId) {
             this.deleteEvent(this.currentEditingEventId);
         }
+    }
+    
+    showMonthTasksModal() {
+        const modal = document.getElementById('monthTasksModal');
+        const tasksList = document.getElementById('monthTasksList');
+        
+        // Obtener eventos del mes actual
+        const currentYear = this.currentDate.getFullYear();
+        const currentMonth = this.currentDate.getMonth();
+        
+        const monthEvents = this.events.filter(event => {
+            const eventDate = new Date(event.date + 'T00:00:00');
+            return eventDate.getFullYear() === currentYear && eventDate.getMonth() === currentMonth;
+        });
+        
+        // Generar HTML de las tareas
+        this.renderMonthTasks(monthEvents, 'all');
+        
+        modal.style.display = 'flex';
+    }
+    
+    hideMonthTasksModal() {
+        const modal = document.getElementById('monthTasksModal');
+        modal.style.display = 'none';
+    }
+    
+    renderMonthTasks(events, filter = 'all') {
+        const tasksList = document.getElementById('monthTasksList');
+        
+        let filteredEvents = events;
+        if (filter === 'pending') {
+            filteredEvents = events.filter(event => !event.completed);
+        } else if (filter === 'completed') {
+            filteredEvents = events.filter(event => event.completed);
+        }
+        
+        if (filteredEvents.length === 0) {
+            tasksList.innerHTML = `<div class="no-tasks">${window.i18n ? window.i18n.t('noTasksToShow') : 'No hay tareas para mostrar'}</div>`;
+            return;
+        }
+        
+        const tasksHTML = filteredEvents.map(event => {
+            const eventDate = new Date(event.date + 'T00:00:00');
+            const formattedDate = eventDate.toLocaleDateString('es-ES', {
+                day: 'numeric',
+                month: 'short'
+            });
+            
+            return `
+                <div class="task-item ${event.completed ? 'completed' : ''}" data-event-id="${event.id}">
+                    <div class="task-checkbox">
+                        <input type="checkbox" ${event.completed ? 'checked' : ''} 
+                               onchange="window.calendar.toggleEventCompleted('${event.id}'); window.calendar.updateMonthTasksView();">
+                    </div>
+                    <div class="task-content">
+                        <div class="task-title">${event.title}</div>
+                        <div class="task-details">
+                            <span class="task-date">${formattedDate}</span>
+                            ${event.time ? `<span class="task-time">${event.time}</span>` : ''}
+                            <span class="task-type">${this.getTypeDisplayName(event.type)}</span>
+                        </div>
+                        ${event.description ? `<div class="task-description">${event.description}</div>` : ''}
+                    </div>
+                    <div class="task-actions">
+                        <button class="task-action-btn" onclick="window.calendar.editEvent('${event.id}')" title="Editar">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="task-action-btn delete" onclick="window.calendar.deleteEvent('${event.id}')" title="Eliminar">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `;
+        }).join('');
+        
+        tasksList.innerHTML = tasksHTML;
+    }
+    
+    updateMonthTasksView() {
+        const modal = document.getElementById('monthTasksModal');
+        if (modal.style.display === 'flex') {
+            // Obtener el filtro activo
+            const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+            
+            // Obtener eventos del mes actual
+            const currentYear = this.currentDate.getFullYear();
+            const currentMonth = this.currentDate.getMonth();
+            
+            const monthEvents = this.events.filter(event => {
+                const eventDate = new Date(event.date + 'T00:00:00');
+                return eventDate.getFullYear() === currentYear && eventDate.getMonth() === currentMonth;
+            });
+            
+            this.renderMonthTasks(monthEvents, activeFilter);
+        }
+    }
+    
+    showEventContextMenu(event, eventId) {
+        event.preventDefault();
+        
+        const contextMenu = document.getElementById('eventContextMenu');
+        const toggleMenuItem = document.getElementById('toggleCompleteMenuItem');
+        
+        // Actualizar texto del menú según el estado del evento
+        const eventObj = this.events.find(e => e.id === eventId);
+        if (eventObj) {
+            const toggleText = eventObj.completed ? 
+                (window.i18n ? window.i18n.t('markAsPending') : 'Marcar como pendiente') : 
+                (window.i18n ? window.i18n.t('markAsCompleted') : 'Marcar como completado');
+            const toggleIcon = eventObj.completed ? 'fas fa-undo' : 'fas fa-check';
+            toggleMenuItem.innerHTML = `<i class="${toggleIcon}"></i><span>${toggleText}</span>`;
+        }
+        
+        // Posicionar el menú
+        contextMenu.style.left = event.pageX + 'px';
+        contextMenu.style.top = event.pageY + 'px';
+        contextMenu.style.display = 'block';
+        
+        // Guardar el ID del evento para las acciones
+        contextMenu.dataset.eventId = eventId;
+        
+        // Cerrar menú al hacer clic fuera
+        setTimeout(() => {
+            document.addEventListener('click', this.hideEventContextMenu.bind(this), { once: true });
+        }, 10);
+    }
+    
+    hideEventContextMenu() {
+        const contextMenu = document.getElementById('eventContextMenu');
+        contextMenu.style.display = 'none';
     }
     
     showMoreEvents(date) {

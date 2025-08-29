@@ -49,6 +49,23 @@
   --danger-color: #e74c3c;
   --heading-color: #333;
   
+  /* Variables específicas para modal y menú contextual (modo claro) */
+  --modal-backdrop: rgba(0, 0, 0, 0.5);
+  --header-background: #fff;
+  --border-light: #e9ecef;
+  --hover-background: #f8f9fa;
+  --text-secondary: #6c757d;
+  --success-bg: rgba(212, 237, 218, 0.3);
+  --success-border: #c3e6cb;
+  --success-color: #28a745;
+  --error-color: #dc3545;
+  --error-bg: rgba(248, 215, 218, 0.3);
+  --shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --shadow-large: 0 8px 32px rgba(0, 0, 0, 0.15);
+  --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --hover-overlay: rgba(255, 255, 255, 0.2);
+  --primary-color-hover: #5a6fd8;
+  
   /* Colores para tipos de eventos */
   --event-work-color: #3498db;
   --event-study-color: #9b59b6;
@@ -124,6 +141,26 @@
   --info-color: #3498db;
   --danger-color: #e74c3c;
   --heading-color: #f4f4f4;
+  
+  /* Variables específicas para modal y menú contextual (modo oscuro) */
+  --modal-backdrop: rgba(0, 0, 0, 0.7);
+  --feature-background: #2c2c2c;
+  --header-background: #1a1a1a;
+  --border-light: #555;
+  --hover-background: #3a3a3a;
+  --text-secondary: #bbb;
+  --success-bg: rgba(46, 125, 50, 0.2);
+  --success-border: #4caf50;
+  --success-color: #66bb6a;
+  --error-color: #f44336;
+  --error-bg: rgba(244, 67, 54, 0.2);
+  --shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.4);
+  --shadow-large: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --primary-gradient: linear-gradient(135deg, #7D1045 0%, #5d0c33 100%);
+  --text-on-primary: #f4f4f4;
+  --hover-overlay: rgba(255, 255, 255, 0.1);
+  --primary-color-hover: #9d1a55;
+  --card-background: #2c2c2c;
   
   /* Colores para tipos de eventos (modo oscuro) */
   --event-work-color: #5dade2;
