@@ -21,7 +21,7 @@ class Calendar {
         // Week start preference: 'sunday' or 'monday'
         this.weekStart = this.detectInitialWeekStart();
         // Current view state: 'month' or 'day'
-        this.currentView = 'day';
+        this.currentView = 'month';
         this.currentDetailDate = null;
         // Load saved events asynchronously
         this.initializeCalendar();
@@ -153,18 +153,9 @@ class Calendar {
     }
 
     init() {
-        // Por defecto mostrar la vista del día actual
-        if (this.currentView === 'day') {
-            const today = new Date();
-            const todayStr = today.getFullYear() + '-' + 
-                           String(today.getMonth() + 1).padStart(2, '0') + '-' + 
-                           String(today.getDate()).padStart(2, '0');
-            this.currentDetailDate = todayStr;
-            this.showDayDetailView(todayStr);
-        } else {
-            this.render();
-            this.attachEventListeners();
-        }
+        // Por defecto mostrar la vista del calendario mensual
+        this.render();
+        this.attachEventListeners();
     }
 
     render() {
