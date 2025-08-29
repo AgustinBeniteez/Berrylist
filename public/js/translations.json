@@ -144,6 +144,8 @@
       "noTasksToShow": "No tasks to show",
       "markAsCompleted": "Mark as completed",
       "markAsPending": "Mark as pending",
+      "edit": "Edit",
+      "delete": "Delete",
       "editTask": "Edit",
       "deleteTask": "Delete"
     },
@@ -361,6 +363,8 @@
       "noTasksToShow": "No hay tareas para mostrar",
       "markAsCompleted": "Marcar como completada",
       "markAsPending": "Marcar como pendiente",
+      "edit": "Editar",
+      "delete": "Eliminar",
       "editTask": "Editar",
       "deleteTask": "Eliminar"
     },
@@ -578,6 +582,8 @@
       "noTasksToShow": "Aucune tâche à afficher",
       "markAsCompleted": "Marquer comme terminée",
       "markAsPending": "Marquer comme en attente",
+      "edit": "Modifier",
+      "delete": "Supprimer",
       "editTask": "Modifier",
       "deleteTask": "Supprimer"
     },
