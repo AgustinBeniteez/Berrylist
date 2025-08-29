@@ -366,6 +366,13 @@
   margin-top: 8px;
   border-top: 1px solid var(--border-color);
   padding-top: 8px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  max-height: calc(1.4em * 11);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 11;
+  -webkit-box-orient: vertical;
 }
 
 .event-tooltip-arrow {
