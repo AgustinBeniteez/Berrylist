@@ -343,10 +343,50 @@ class Calendar {
                         </button>
                     </div>
                     <div class="month-tasks-modal-body">
-                        <div class="month-tasks-filter">
-                            <button class="filter-btn active" data-filter="all">${window.i18n ? window.i18n.t('all') : 'Todas'}</button>
-                            <button class="filter-btn" data-filter="pending">${window.i18n ? window.i18n.t('pending') : 'Pendientes'}</button>
-                            <button class="filter-btn" data-filter="completed">${window.i18n ? window.i18n.t('completed') : 'Completadas'}</button>
+                        <div class="month-tasks-filters">
+                            <div class="date-filters">
+                                <div class="filter-group">
+                                    <label for="monthFilter">${window.i18n ? window.i18n.t('calendar.month') : 'Mes'}:</label>
+                                    <select id="monthFilter" class="filter-select">
+                                        <option value="all">${window.i18n ? window.i18n.t('calendar.all') : 'Todos'}</option>
+                                        <option value="0">${window.i18n ? window.i18n.t('calendar.january') : 'Enero'}</option>
+                                        <option value="1">${window.i18n ? window.i18n.t('calendar.february') : 'Febrero'}</option>
+                                        <option value="2">${window.i18n ? window.i18n.t('calendar.march') : 'Marzo'}</option>
+                                        <option value="3">${window.i18n ? window.i18n.t('calendar.april') : 'Abril'}</option>
+                                        <option value="4">${window.i18n ? window.i18n.t('calendar.may') : 'Mayo'}</option>
+                                        <option value="5">${window.i18n ? window.i18n.t('calendar.june') : 'Junio'}</option>
+                                        <option value="6">${window.i18n ? window.i18n.t('calendar.july') : 'Julio'}</option>
+                                        <option value="7">${window.i18n ? window.i18n.t('calendar.august') : 'Agosto'}</option>
+                                        <option value="8">${window.i18n ? window.i18n.t('calendar.september') : 'Septiembre'}</option>
+                                        <option value="9">${window.i18n ? window.i18n.t('calendar.october') : 'Octubre'}</option>
+                                        <option value="10">${window.i18n ? window.i18n.t('calendar.november') : 'Noviembre'}</option>
+                                        <option value="11">${window.i18n ? window.i18n.t('calendar.december') : 'Diciembre'}</option>
+                                    </select>
+                                </div>
+                                <div class="filter-group">
+                                    <label for="yearFilter">${window.i18n ? window.i18n.t('calendar.year') : 'Año'}:</label>
+                                    <select id="yearFilter" class="filter-select">
+                                        <!-- Se llenarán dinámicamente -->
+                                    </select>
+                                </div>
+                                <div class="filter-group">
+                                    <label for="typeFilter">${window.i18n ? window.i18n.t('calendar.type') : 'Tipo'}:</label>
+                                    <select id="typeFilter" class="filter-select">
+                                        <option value="all">${window.i18n ? window.i18n.t('calendar.all') : 'Todos'}</option>
+                                        <option value="work">${window.i18n ? window.i18n.t('calendar.eventTypes.work') : 'Trabajo'}</option>
+                                        <option value="personal">${window.i18n ? window.i18n.t('calendar.eventTypes.personal') : 'Personal'}</option>
+                                        <option value="health">${window.i18n ? window.i18n.t('calendar.eventTypes.health') : 'Salud'}</option>
+                                        <option value="education">${window.i18n ? window.i18n.t('calendar.eventTypes.education') : 'Educación'}</option>
+                                        <option value="social">${window.i18n ? window.i18n.t('calendar.eventTypes.social') : 'Social'}</option>
+                                        <option value="other">${window.i18n ? window.i18n.t('calendar.eventTypes.other') : 'Otro'}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="status-filters">
+                                <button class="filter-btn active" data-filter="all">${window.i18n ? window.i18n.t('calendar.all') : 'Todas'}</button>
+                                <button class="filter-btn" data-filter="pending"><i class="fa-solid fa-thumbtack"></i> ${window.i18n ? window.i18n.t('calendar.pending') : 'Pendientes'}</button>
+                                <button class="filter-btn" data-filter="completed"><i class="fa-solid fa-circle-check"></i> ${window.i18n ? window.i18n.t('calendar.completed') : 'Completadas'}</button>
+                            </div>
                         </div>
                         <div class="month-tasks-list" id="monthTasksList">
                             <!-- Las tareas se cargarán aquí dinámicamente -->
@@ -359,15 +399,15 @@ class Calendar {
             <div class="event-context-menu" id="eventContextMenu" style="display: none;">
                 <div class="context-menu-item" id="toggleCompleteMenuItem">
                     <i class="fas fa-check"></i>
-                    <span>${window.i18n ? window.i18n.t('markAsCompleted') : 'Marcar como completado'}</span>
+                    <span>${window.i18n ? window.i18n.t('calendar.markAsCompleted') : 'Marcar como completado'}</span>
                 </div>
                 <div class="context-menu-item" id="editEventMenuItem">
                     <i class="fa-solid fa-pencil"></i>
-                    <span>${window.i18n ? window.i18n.t('edit') : 'editar Evento'}</span>
+                    <span>${window.i18n ? window.i18n.t('calendar.edit') : 'editar Evento'}</span>
                 </div>
                 <div class="context-menu-item" id="deleteEventMenuItem">
                     <i class="fas fa-trash"></i>
-                    <span>${window.i18n ? window.i18n.t('delete') : 'Eliminar evento'}</span>
+                    <span>${window.i18n ? window.i18n.t('calendar.delete') : 'Eliminar evento'}</span>
                 </div>
             </div>
         `;
@@ -1259,6 +1299,9 @@ class Calendar {
         
         // Update modal texts if it's open
         this.updateModalTranslations();
+        
+        // Update monthly tasks modal if it's open
+        this.updateMonthTasksModalTranslations();
     }
     
     // Method to update modal translations
@@ -1317,6 +1360,69 @@ class Calendar {
                 modalTitle.textContent = window.i18n.t('calendar.createEvent');
             }
         }
+    }
+    
+    // Method to update monthly tasks modal translations
+    updateMonthTasksModalTranslations() {
+        if (!window.i18n) return;
+        
+        const modal = document.getElementById('monthTasksModal');
+        if (!modal || modal.style.display === 'none') return;
+        
+        // Update modal title
+        const modalTitle = modal.querySelector('.month-tasks-modal-title');
+        if (modalTitle) {
+            modalTitle.textContent = window.i18n.t('calendar.monthlyTasks');
+        }
+        
+        // Update filter labels
+        const monthLabel = modal.querySelector('label[for="monthFilter"]');
+        const yearLabel = modal.querySelector('label[for="yearFilter"]');
+        const typeLabel = modal.querySelector('label[for="typeFilter"]');
+        
+        if (monthLabel) monthLabel.textContent = window.i18n.t('calendar.month') + ':';
+         if (yearLabel) yearLabel.textContent = window.i18n.t('calendar.year') + ':';
+         if (typeLabel) typeLabel.textContent = window.i18n.t('calendar.type') + ':';
+        
+        // Update month filter options
+         const monthFilter = document.getElementById('monthFilter');
+         if (monthFilter) {
+             const options = monthFilter.options;
+             options[0].textContent = window.i18n.t('calendar.all'); // "Todos"
+             options[1].textContent = window.i18n.t('calendar.january');
+             options[2].textContent = window.i18n.t('calendar.february');
+             options[3].textContent = window.i18n.t('calendar.march');
+             options[4].textContent = window.i18n.t('calendar.april');
+             options[5].textContent = window.i18n.t('calendar.may');
+             options[6].textContent = window.i18n.t('calendar.june');
+             options[7].textContent = window.i18n.t('calendar.july');
+             options[8].textContent = window.i18n.t('calendar.august');
+             options[9].textContent = window.i18n.t('calendar.september');
+             options[10].textContent = window.i18n.t('calendar.october');
+             options[11].textContent = window.i18n.t('calendar.november');
+             options[12].textContent = window.i18n.t('calendar.december');
+         }
+        
+        // Update type filter options
+          const typeFilter = document.getElementById('typeFilter');
+          if (typeFilter) {
+              const options = typeFilter.options;
+              options[0].textContent = window.i18n.t('calendar.all');
+              options[1].textContent = window.i18n.t('calendar.eventTypes.work');
+              options[2].textContent = window.i18n.t('calendar.eventTypes.personal');
+              options[3].textContent = window.i18n.t('calendar.eventTypes.health');
+              options[4].textContent = window.i18n.t('calendar.eventTypes.education');
+              options[5].textContent = window.i18n.t('calendar.eventTypes.social');
+              options[6].textContent = window.i18n.t('calendar.eventTypes.other');
+          }
+         
+         // Update status filter buttons
+         const statusButtons = modal.querySelectorAll('.status-filters .filter-btn');
+         if (statusButtons.length >= 3) {
+             statusButtons[0].innerHTML = window.i18n.t('calendar.all');
+             statusButtons[1].innerHTML = '<i class="fa-solid fa-thumbtack"></i> ' + window.i18n.t('calendar.pending');
+             statusButtons[2].innerHTML = '<i class="fa-solid fa-circle-check"></i> ' + window.i18n.t('calendar.completed');
+         }
     }
     
     // Setup periodic sync as backup to real-time listener
@@ -1493,19 +1599,18 @@ class Calendar {
     
     showMonthTasksModal() {
         const modal = document.getElementById('monthTasksModal');
-        const tasksList = document.getElementById('monthTasksList');
         
-        // Obtener eventos del mes actual
-        const currentYear = this.currentDate.getFullYear();
-        const currentMonth = this.currentDate.getMonth();
+        // Inicializar filtros
+        this.initializeTaskFilters();
         
-        const monthEvents = this.events.filter(event => {
-            const eventDate = new Date(event.date + 'T00:00:00');
-            return eventDate.getFullYear() === currentYear && eventDate.getMonth() === currentMonth;
-        });
+        // Configurar event listeners para filtros
+        this.attachTaskFilterListeners();
         
-        // Generar HTML de las tareas
-        this.renderMonthTasks(monthEvents, 'all');
+        // Actualizar traducciones del modal
+        this.updateMonthTasksModalTranslations();
+        
+        // Aplicar filtros y mostrar tareas
+        this.applyTaskFilters();
         
         modal.style.display = 'flex';
     }
@@ -1515,13 +1620,13 @@ class Calendar {
         modal.style.display = 'none';
     }
     
-    renderMonthTasks(events, filter = 'all') {
+    renderMonthTasks(events, statusFilter = 'all') {
         const tasksList = document.getElementById('monthTasksList');
         
         let filteredEvents = events;
-        if (filter === 'pending') {
+        if (statusFilter === 'pending') {
             filteredEvents = events.filter(event => !event.completed);
-        } else if (filter === 'completed') {
+        } else if (statusFilter === 'completed') {
             filteredEvents = events.filter(event => event.completed);
         }
         
@@ -1567,22 +1672,110 @@ class Calendar {
         tasksList.innerHTML = tasksHTML;
     }
     
+    initializeTaskFilters() {
+        // Poblar selector de años
+        const yearFilter = document.getElementById('yearFilter');
+        const monthFilter = document.getElementById('monthFilter');
+        
+        // Obtener años únicos de los eventos
+        const eventYears = [...new Set(this.events.map(event => {
+            const eventDate = new Date(event.date + 'T00:00:00');
+            return eventDate.getFullYear();
+        }))];
+        
+        // Asegurar que siempre tengamos el año actual y 2 más
+        const currentYear = new Date().getFullYear();
+        const yearsToShow = new Set([...eventYears, currentYear, currentYear + 1, currentYear + 2]);
+        const sortedYears = [...yearsToShow].sort((a, b) => b - a);
+        
+        // Limpiar y poblar selector de años
+        yearFilter.innerHTML = `<option value="all">${window.i18n ? window.i18n.t('all') : 'Todos'}</option>`;
+        sortedYears.forEach(year => {
+            yearFilter.innerHTML += `<option value="${year}">${year}</option>`;
+        });
+        
+        // Establecer valores por defecto (mes y año actual)
+        const currentMonth = this.currentDate.getMonth();
+        
+        yearFilter.value = currentYear;
+        monthFilter.value = currentMonth;
+    }
+    
+    attachTaskFilterListeners() {
+        // Event listeners para selectores de filtro
+        const monthFilter = document.getElementById('monthFilter');
+        const yearFilter = document.getElementById('yearFilter');
+        const typeFilter = document.getElementById('typeFilter');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        
+        // Listeners para selectores
+        if (monthFilter) {
+            monthFilter.addEventListener('change', () => this.applyTaskFilters());
+        }
+        if (yearFilter) {
+            yearFilter.addEventListener('change', () => this.applyTaskFilters());
+        }
+        if (typeFilter) {
+            typeFilter.addEventListener('change', () => this.applyTaskFilters());
+        }
+        
+        // Listeners para botones de estado
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                // Remover clase active de todos los botones
+                filterButtons.forEach(b => b.classList.remove('active'));
+                // Agregar clase active al botón clickeado
+                e.target.classList.add('active');
+                // Aplicar filtros
+                this.applyTaskFilters();
+            });
+        });
+    }
+    
+    applyTaskFilters() {
+        const monthFilter = document.getElementById('monthFilter');
+        const yearFilter = document.getElementById('yearFilter');
+        const typeFilter = document.getElementById('typeFilter');
+        const activeStatusFilter = document.querySelector('.filter-btn.active');
+        
+        const selectedMonth = monthFilter.value;
+        const selectedYear = yearFilter.value;
+        const selectedType = typeFilter.value;
+        const selectedStatus = activeStatusFilter ? activeStatusFilter.dataset.filter : 'all';
+        
+        // Filtrar eventos
+        let filteredEvents = this.events.filter(event => {
+            const eventDate = new Date(event.date + 'T00:00:00');
+            const eventYear = eventDate.getFullYear();
+            const eventMonth = eventDate.getMonth();
+            
+            // Filtro por año
+            if (selectedYear !== 'all' && eventYear !== parseInt(selectedYear)) {
+                return false;
+            }
+            
+            // Filtro por mes
+            if (selectedMonth !== 'all' && eventMonth !== parseInt(selectedMonth)) {
+                return false;
+            }
+            
+            // Filtro por tipo
+            if (selectedType !== 'all' && event.type !== selectedType) {
+                return false;
+            }
+            
+            return true;
+        });
+        
+        // Renderizar tareas con filtro de estado
+        this.renderMonthTasks(filteredEvents, selectedStatus);
+    }
+    
     updateMonthTasksView() {
         const modal = document.getElementById('monthTasksModal');
         if (modal.style.display === 'flex') {
-            // Obtener el filtro activo
-            const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
-            
-            // Obtener eventos del mes actual
-            const currentYear = this.currentDate.getFullYear();
-            const currentMonth = this.currentDate.getMonth();
-            
-            const monthEvents = this.events.filter(event => {
-                const eventDate = new Date(event.date + 'T00:00:00');
-                return eventDate.getFullYear() === currentYear && eventDate.getMonth() === currentMonth;
-            });
-            
-            this.renderMonthTasks(monthEvents, activeFilter);
+            // Aplicar filtros actuales
+            this.applyTaskFilters();
         }
     }
     
@@ -1596,8 +1789,8 @@ class Calendar {
         const eventObj = this.events.find(e => e.id === eventId);
         if (eventObj) {
             const toggleText = eventObj.completed ? 
-                (window.i18n ? window.i18n.t('markAsPending') : 'Marcar como pendiente') : 
-                (window.i18n ? window.i18n.t('markAsCompleted') : 'Marcar como completado');
+                (window.i18n ? window.i18n.t('calendar.markAsPending') : 'Marcar como pendiente') : 
+                (window.i18n ? window.i18n.t('calendar.markAsCompleted') : 'Marcar como completado');
             const toggleIcon = eventObj.completed ? 'fas fa-undo' : 'fas fa-check';
             toggleMenuItem.innerHTML = `<i class="${toggleIcon}"></i><span>${toggleText}</span>`;
         }
