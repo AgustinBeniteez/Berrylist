@@ -377,11 +377,12 @@ class Calendar {
             const dateStr = `${prevYear}-${String(prevMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
             const dayEvents = this.events.filter(event => event.date === dateStr);
             const eventsHTML = this.generateEventsHTML(dayEvents, dateStr);
+            const scrollingClass = dayEvents.length > 3 ? 'scrolling' : '';
             daysHTML += `
                 <div class="calendar-day calendar-day-other-month" data-date="${dateStr}">
                     <button class="add-event-btn" data-date="${dateStr}">+</button>
                     <span class="calendar-day-number">${day}</span>
-                    <div class="calendar-day-events">${eventsHTML}</div>
+                    <div class="calendar-day-events ${scrollingClass}">${eventsHTML}</div>
                 </div>
             `;
         }
@@ -391,12 +392,13 @@ class Calendar {
             const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
             const dayEvents = this.events.filter(event => event.date === dateStr);
             const eventsHTML = this.generateEventsHTML(dayEvents, dateStr);
+            const scrollingClass = dayEvents.length > 3 ? 'scrolling' : '';
             
             daysHTML += `
                 <div class="calendar-day" data-date="${dateStr}">
                     <button class="add-event-btn" data-date="${dateStr}">+</button>
                     <span class="calendar-day-number">${day}</span>
-                    <div class="calendar-day-events">${eventsHTML}</div>
+                    <div class="calendar-day-events ${scrollingClass}">${eventsHTML}</div>
                 </div>
             `;
         }
@@ -410,11 +412,12 @@ class Calendar {
             const dateStr = `${nextYear}-${String(nextMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
             const dayEvents = this.events.filter(event => event.date === dateStr);
             const eventsHTML = this.generateEventsHTML(dayEvents, dateStr);
+            const scrollingClass = dayEvents.length > 3 ? 'scrolling' : '';
             daysHTML += `
                 <div class="calendar-day calendar-day-other-month" data-date="${dateStr}">
                     <button class="add-event-btn" data-date="${dateStr}">+</button>
                     <span class="calendar-day-number">${day}</span>
-                    <div class="calendar-day-events">${eventsHTML}</div>
+                    <div class="calendar-day-events ${scrollingClass}">${eventsHTML}</div>
                 </div>
             `;
         }
@@ -427,7 +430,8 @@ class Calendar {
             return '';
         }
 
-        const maxVisibleEvents = 3;
+        // Si hay más de 3 eventos, mostrar todos para el carrusel
+        const maxVisibleEvents = dayEvents.length > 3 ? dayEvents.length : 3;
         const visibleEvents = dayEvents.slice(0, maxVisibleEvents);
         const hiddenEvents = dayEvents.slice(maxVisibleEvents);
 
@@ -471,7 +475,8 @@ class Calendar {
              </div>`;
         }).join('');
 
-        if (hiddenEvents.length > 0) {
+        // Solo mostrar "more" si no hay carrusel activo
+        if (hiddenEvents.length > 0 && dayEvents.length <= 3) {
             eventsHTML += `<div class="calendar-more-events" onclick="event.stopPropagation(); window.berryCalendar.showMoreEvents('${dateStr}')">
                 +${hiddenEvents.length} more
             </div>`;
