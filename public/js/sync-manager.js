@@ -393,7 +393,7 @@ class SyncManager {
                 indicator.style.opacity = '1';
                 break;
             case 'synced':
-                indicator.innerHTML = '<i class="fa-solid fa-circle-check"></i> Sincronizado';
+                indicator.innerHTML = '<i class="fas fa-check"></i> Sincronizado';
                 indicator.style.backgroundColor = '#28a745';
                 indicator.style.color = 'white';
                 indicator.style.opacity = '1';

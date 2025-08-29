@@ -127,9 +127,7 @@
       "markAsCompleted": "Mark as completed",
       "markAsPending": "Mark as pending",
       "editTask": "Edit",
-      "deleteTask": "Delete",
-      "taskCompleted": "✅ Task completed",
-      "taskPending": "⏳ Task marked as pending"
+      "deleteTask": "Delete"
     },
     "sections": {
       "workSection": "Work Section",
@@ -326,9 +324,7 @@
       "markAsCompleted": "Marcar como completada",
       "markAsPending": "Marcar como pendiente",
       "editTask": "Editar",
-      "deleteTask": "Eliminar",
-      "taskCompleted": "✅ Tarea completada",
-      "taskPending": "⏳ Tarea marcada como pendiente"
+      "deleteTask": "Eliminar"
     },
     "sections": {
       "workSection": "Sección Trabajo",
