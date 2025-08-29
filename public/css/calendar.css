@@ -27,6 +27,18 @@
     padding: 0 1rem;
 }
 
+.calendar-left-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.calendar-right-section {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .calendar-title-container {
   position: relative;
   display: flex;
@@ -88,32 +100,42 @@
   color: white;
   border: none;
   border-radius: 6px;
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem;
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
+  min-width: 40px;
+  height: 40px;
 }
 
 .calendar-nav-btn:hover {
   background: var(--hover-primary-color, #2980b9);
+  transform: translateY(-2px);
 }
 
-.calendar-nav-btn#todayViewBtn {
-  background: var(--primary-color, #e74c3c);
+.calendar-nav-btn#prevMonth,
+.calendar-nav-btn#nextMonth {
   border-radius: 50%;
   width: 40px;
   height: 40px;
   padding: 0;
-  font-size: 1.2rem;
+}
+
+.calendar-nav-btn#todayViewBtn {
+  background: var(--primary-color, #e74c3c);
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  min-width: auto;
 }
 
 .calendar-nav-btn#todayViewBtn:hover {
   background: var(--primary-color-hover, #c0392b);
-  transform: scale(1.1);
+  transform: translateY(-2px);
 }
 
 /* Calendar Weekdays */

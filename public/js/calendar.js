@@ -177,29 +177,33 @@ class Calendar {
         const calendarHTML = `
             <div class="calendar-container">
                 <div class="calendar-header">
-                    <button class="calendar-nav-btn" id="prevMonth"><i class="fas fa-chevron-up"></i></button>
-                    <div class="calendar-title-container">
-                        <h2 class="calendar-title" id="calendarTitle">${this.getMonthYear()}</h2>
-                        <div class="calendar-date-selectors" id="dateSelectors" style="display: none;">
-                            <select id="monthSelector" class="calendar-selector">
-                                <option value="0">January</option>
-                                <option value="1">February</option>
-                                <option value="2">March</option>
-                                <option value="3">April</option>
-                                <option value="4">May</option>
-                                <option value="5">June</option>
-                                <option value="6">July</option>
-                                <option value="7">August</option>
-                                <option value="8">September</option>
-                                <option value="9">October</option>
-                                <option value="10">November</option>
-                                <option value="11">December</option>
-                            </select>
-                            <select id="yearSelector" class="calendar-selector"></select>
+                    <div class="calendar-left-section">
+                        <button class="calendar-nav-btn" id="prevMonth"><i class="fas fa-chevron-left"></i></button>
+                        <div class="calendar-title-container">
+                            <h2 class="calendar-title" id="calendarTitle">${this.getMonthYear()}</h2>
+                            <div class="calendar-date-selectors" id="dateSelectors" style="display: none;">
+                                <select id="monthSelector" class="calendar-selector">
+                                    <option value="0">January</option>
+                                    <option value="1">February</option>
+                                    <option value="2">March</option>
+                                    <option value="3">April</option>
+                                    <option value="4">May</option>
+                                    <option value="5">June</option>
+                                    <option value="6">July</option>
+                                    <option value="7">August</option>
+                                    <option value="8">September</option>
+                                    <option value="9">October</option>
+                                    <option value="10">November</option>
+                                    <option value="11">December</option>
+                                </select>
+                                <select id="yearSelector" class="calendar-selector"></select>
+                            </div>
                         </div>
+                        <button class="calendar-nav-btn" id="nextMonth"><i class="fas fa-chevron-right"></i></button>
                     </div>
-                    <button class="calendar-nav-btn" id="todayViewBtn" title="Ver día de hoy"><i class="fas fa-calendar-day"></i></button>
-                    <button class="calendar-nav-btn" id="nextMonth"><i class="fas fa-chevron-down"></i></button>
+                    <div class="calendar-right-section">
+                        <button class="calendar-nav-btn" id="todayViewBtn" title="Ver día de hoy"><i class="fas fa-calendar-day"></i></button>
+                    </div>
                 </div>
                 <div class="calendar-weekdays">
                     ${weekdaysHTML}
