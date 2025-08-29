@@ -337,7 +337,7 @@ class Calendar {
             <div class="month-tasks-modal" id="monthTasksModal" style="display: none;">
                 <div class="month-tasks-modal-content">
                     <div class="month-tasks-modal-header">
-                        <h3 class="month-tasks-modal-title">${window.i18n ? window.i18n.t('monthlyTasks') : 'Tareas del Mes'}</h3>
+                        <h3 class="month-tasks-modal-title">${window.i18n ? window.i18n.t('calendar.monthlyTasks') : 'Monthly Tasks'}</h3>
                         <button type="button" class="month-tasks-modal-close" id="closeMonthTasksModal">
                             <i class="fas fa-times"></i>
                         </button>
