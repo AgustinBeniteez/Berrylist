@@ -1468,7 +1468,7 @@ body:has(.section-content.calendar-section) .footer {
   display: flex;
   align-items: center;
   gap: 1rem;
-  cursor: pointer;
+  cursor: grab;
   transition: all 0.3s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 100%;
@@ -1688,6 +1688,13 @@ body:has(.section-content.calendar-section) .footer {
   opacity: 0.5;
   transform: rotate(5deg);
   z-index: 1000;
+}
+
+.all-day-event.dragging {
+  opacity: 0.5;
+  transform: rotate(3deg);
+  z-index: 1000;
+  cursor: grabbing;
 }
 
 .hour-slot.drag-over {

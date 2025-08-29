@@ -1842,8 +1842,8 @@ class Calendar {
         const dayEvents = this.events.filter(event => event.date === date);
         
         // Separate all-day events from timed events
-        const allDayEvents = dayEvents.filter(event => !event.time || event.time === '' || event.time === '00:00');
-        const timedEvents = dayEvents.filter(event => event.time && event.time !== '' && event.time !== '00:00');
+        const allDayEvents = dayEvents.filter(event => !event.time || event.time === '');
+        const timedEvents = dayEvents.filter(event => event.time && event.time !== '');
         
         // Format date for display
         const dateObj = new Date(date + 'T00:00:00');
@@ -2234,11 +2234,26 @@ class Calendar {
             });
         });
         
-        // Add drag and drop functionality to events
+        // Add drag and drop functionality to hour events
         const hourEvents = document.querySelectorAll('.hour-event');
         hourEvents.forEach(event => {
             event.draggable = true;
             event.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', event.getAttribute('data-event-id'));
+                event.classList.add('dragging');
+            });
+            
+            event.addEventListener('dragend', (e) => {
+                event.classList.remove('dragging');
+            });
+        });
+        
+        // Add drag and drop functionality to all-day events
+        const allDayEvents = document.querySelectorAll('.all-day-event');
+        allDayEvents.forEach(event => {
+            event.draggable = true;
+            event.addEventListener('dragstart', (e) => {
+                e.stopPropagation();
                 e.dataTransfer.setData('text/plain', event.getAttribute('data-event-id'));
                 event.classList.add('dragging');
             });
@@ -2307,7 +2322,9 @@ class Calendar {
     updateEventTime(eventId, newTime) {
         const event = this.events.find(e => e.id === eventId);
         if (event) {
+            // Siempre asignar la nueva hora, sin conversiones automáticas a todo el día
             event.time = newTime;
+            
             this.saveEventsToStorage();
             
             // Refresh the day view to show the updated event
