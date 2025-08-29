@@ -50,7 +50,7 @@ body{
   display: none;
   position: fixed;
   top: 1rem;
-  right: 1rem;
+  left: 1rem;
   z-index: 101;
 }
 
@@ -179,6 +179,7 @@ body{
   width: calc(100% - var(--sidebar-width));
   box-sizing: border-box;
   display: flex;
+  justify-content: center;
 }
 
 /* Responsive styles */
@@ -790,6 +791,14 @@ input:checked + .slider:before {
 .footer {
   margin-top: auto;
   margin-left: var(--sidebar-width);
+}
+
+/* Ocultar footer en la sección del calendario y configuración */
+.dashboard-page[data-active-section="calendar"] .footer,
+.dashboard-page[data-active-section="settings"] .footer,
+body:has(.calendar-section.active) .footer,
+body:has(.settings-section.active) .footer {
+  display: none !important;
 }
 
 /* Responsive Design */

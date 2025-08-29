@@ -973,6 +973,18 @@
   opacity: 1 !important;
 }
 
+/* Ocultar footer cuando la sección del calendario está activa */
+.calendar-section.active ~ .footer,
+.section-content.calendar-section ~ .footer {
+  display: none !important;
+}
+
+/* Alternativa: ocultar footer cuando hay una sección de calendario visible */
+body:has(.calendar-section.active) .footer,
+body:has(.section-content.calendar-section) .footer {
+  display: none !important;
+}
+
 /* Asegurar visibilidad del widget del calendario */
 #calendar-widget {
   display: block !important;
@@ -1070,6 +1082,7 @@
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    padding-top: 4rem;
   }
   
   .calendar-title {
@@ -1143,6 +1156,7 @@
   .calendar-container {
     padding: 0.25rem;
     min-height: 100vh;
+    padding-top: 4rem;
   }
   
   .calendar-header {

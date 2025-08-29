@@ -399,6 +399,18 @@ input:checked.theme-switch input:active + .slider:before {
   }
 }
 
+/* Ocultar footer cuando la sección de configuración está activa */
+.settings-section.active ~ .footer,
+.section-content.settings-section ~ .footer {
+  display: none !important;
+}
+
+/* Alternativa: ocultar footer cuando hay una sección de configuración visible */
+body:has(.settings-section.active) .footer,
+body:has(.section-content.settings-section) .footer {
+  display: none !important;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .settings-section {

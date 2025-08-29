@@ -74,6 +74,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     mainContent.innerHTML = dashboardContent;
     
+    // Remover el atributo data-active-section del body
+    document.body.removeAttribute('data-active-section');
+    
     // Quitar la clase activa de todos los botones de navegación
     navButtons.forEach(btn => {
       btn.classList.remove('active');
@@ -121,6 +124,9 @@ document.addEventListener('DOMContentLoaded', function() {
         // Asegurar que el elemento sea visible inmediatamente
         sectionElement.style.display = 'block';
       }
+      
+      // Establecer el atributo data-active-section en el body
+      document.body.setAttribute('data-active-section', sectionName);
       
       // Remover clase active de todas las secciones existentes
       document.querySelectorAll('.section-content').forEach(section => {
