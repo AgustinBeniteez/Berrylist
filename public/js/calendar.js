@@ -454,7 +454,7 @@ class Calendar {
             const timeDisplay = event.time && event.time !== '00:00' ? event.time : '';
             
             // Convert color to class name
-            let colorClass = 'color-custom-1'; // default
+            let colorClass = 'color-color-1'; // default
             if (eventColor.startsWith('var(--event-color-')) {
                 // Extract number from var(--event-color-X)
                 const colorNumber = eventColor.match(/--event-color-(\d+)/);
@@ -467,6 +467,9 @@ class Calendar {
                 if (customNumber) {
                     colorClass = `color-custom-${customNumber[1]}`;
                 }
+            } else if (eventColor === 'var(--event-default-color)') {
+                // Handle default color
+                colorClass = 'color-color-1';
             } else if (eventColor.startsWith('var(--event-') && eventColor.includes('-color)')) {
                 // Handle var(--event-work-color), var(--event-study-color), etc.
                 const typeMatch = eventColor.match(/--event-(\w+)-color/);
@@ -823,18 +826,28 @@ class Calendar {
                 descriptionInput.value = '';
                 typeSelect.value = 'other';
                 iconInput.value = 'fas fa-calendar';
-                colorInput.value = 'var(--event-default-color)';
+                
+                // Reset color and icon selections
+                document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
+                const firstColorOption = document.querySelector('.color-option');
+                if (firstColorOption) {
+                    firstColorOption.classList.add('active');
+                    colorInput.value = firstColorOption.getAttribute('data-color') || 'var(--event-color-1)';
+                } else {
+                    colorInput.value = 'var(--event-color-1)';
+                }
+                
+                document.querySelectorAll('.icon-option').forEach(opt => opt.classList.remove('active'));
+                const firstIconOption = document.querySelector('.icon-option');
+                if (firstIconOption) {
+                    firstIconOption.classList.add('active');
+                }
+                
                 hasTimeCheckbox.checked = presetTime ? true : true;
                 timeInput.style.display = 'block';
                 // Use i18n for Create Event button text with icon
                 submitBtn.innerHTML = '<i class="fas fa-plus-circle"></i> ' + (window.i18n ? window.i18n.t('calendar.createEvent') : 'Create Event');
                 submitBtn.classList.remove('event-modal-btn-save');
-                
-                // Reset color and icon selections
-                document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
-                document.querySelector('.color-option').classList.add('active');
-                document.querySelectorAll('.icon-option').forEach(opt => opt.classList.remove('active'));
-                document.querySelector('.icon-option').classList.add('active');
                 
                 deleteBtn.style.display = 'none';
                 // Already set above, no need to set again
@@ -880,7 +893,7 @@ class Calendar {
             // Reset hidden inputs
             const colorInput = document.getElementById('selectedEventColor');
             const iconInput = document.getElementById('selectedEventIcon');
-            if (colorInput) colorInput.value = colorOptions[0]?.getAttribute('data-color') || 'var(--accent-color)';
+            if (colorInput) colorInput.value = colorOptions[0]?.getAttribute('data-color') || 'var(--event-color-1)';
             if (iconInput) iconInput.value = iconOptions[0]?.getAttribute('data-icon') || 'fas fa-calendar';
         }
     }
@@ -1387,7 +1400,7 @@ class Calendar {
                 const eventIcon = event.icon || 'fas fa-calendar';
                 
                 // Convert color to class name
-                let colorClass = 'color-custom-1';
+                let colorClass = 'color-color-1';
                 if (eventColor.startsWith('var(--event-color-')) {
                     const colorNumber = eventColor.match(/--event-color-(\d+)/);
                     if (colorNumber) {
@@ -1398,6 +1411,9 @@ class Calendar {
                     if (customNumber) {
                         colorClass = `color-custom-${customNumber[1]}`;
                     }
+                } else if (eventColor === 'var(--event-default-color)') {
+                    // Handle default color
+                    colorClass = 'color-color-1';
                 } else if (eventColor.startsWith('var(--event-') && eventColor.includes('-color)')) {
                     const typeMatch = eventColor.match(/--event-(\w+)-color/);
                     if (typeMatch) {
@@ -1438,7 +1454,7 @@ class Calendar {
                 const eventIcon = event.icon || 'fas fa-calendar';
                 
                 // Convert color to class name
-                let colorClass = 'color-custom-1';
+                let colorClass = 'color-color-1';
                 if (eventColor.startsWith('var(--event-color-')) {
                     const colorNumber = eventColor.match(/--event-color-(\d+)/);
                     if (colorNumber) {
@@ -1449,6 +1465,9 @@ class Calendar {
                     if (customNumber) {
                         colorClass = `color-custom-${customNumber[1]}`;
                     }
+                } else if (eventColor === 'var(--event-default-color)') {
+                    // Handle default color
+                    colorClass = 'color-color-1';
                 } else if (eventColor.startsWith('var(--event-') && eventColor.includes('-color)')) {
                     const typeMatch = eventColor.match(/--event-(\w+)-color/);
                     if (typeMatch) {

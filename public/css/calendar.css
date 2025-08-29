@@ -1032,6 +1032,9 @@
 .color-custom-7 { background-color: var(--event-custom-7); }
 .color-custom-8 { background-color: var(--event-custom-8); }
 .color-custom-9 { background-color: var(--event-custom-9); }
+.color-custom-10 { background-color: var(--event-custom-10); }
+.color-custom-11 { background-color: var(--event-custom-11); }
+.color-custom-12 { background-color: var(--event-custom-12); }
 
 /* Numbered Colors */
 .color-color-1 { background-color: var(--event-color-1); }
@@ -1043,6 +1046,9 @@
 .color-color-7 { background-color: var(--event-color-7); }
 .color-color-8 { background-color: var(--event-color-8); }
 .color-color-9 { background-color: var(--event-color-9); }
+.color-color-10 { background-color: var(--event-color-10); }
+.color-color-11 { background-color: var(--event-color-11); }
+.color-color-12 { background-color: var(--event-color-12); }
 
 
 
@@ -1447,6 +1453,33 @@ body:has(.section-content.calendar-section) .footer {
   position: relative;
 }
 
+/* Color classes for all-day events */
+.all-day-event.color-color-1 { background: var(--event-color-1) !important; }
+.all-day-event.color-color-2 { background: var(--event-color-2) !important; }
+.all-day-event.color-color-3 { background: var(--event-color-3) !important; }
+.all-day-event.color-color-4 { background: var(--event-color-4) !important; }
+.all-day-event.color-color-5 { background: var(--event-color-5) !important; }
+.all-day-event.color-color-6 { background: var(--event-color-6) !important; }
+.all-day-event.color-color-7 { background: var(--event-color-7) !important; }
+.all-day-event.color-color-8 { background: var(--event-color-8) !important; }
+.all-day-event.color-color-9 { background: var(--event-color-9) !important; }
+.all-day-event.color-color-10 { background: var(--event-color-10) !important; }
+.all-day-event.color-color-11 { background: var(--event-color-11) !important; }
+.all-day-event.color-color-12 { background: var(--event-color-12) !important; }
+
+.all-day-event.color-custom-1 { background: var(--event-custom-1) !important; }
+.all-day-event.color-custom-2 { background: var(--event-custom-2) !important; }
+.all-day-event.color-custom-3 { background: var(--event-custom-3) !important; }
+.all-day-event.color-custom-4 { background: var(--event-custom-4) !important; }
+.all-day-event.color-custom-5 { background: var(--event-custom-5) !important; }
+.all-day-event.color-custom-6 { background: var(--event-custom-6) !important; }
+.all-day-event.color-custom-7 { background: var(--event-custom-7) !important; }
+.all-day-event.color-custom-8 { background: var(--event-custom-8) !important; }
+.all-day-event.color-custom-9 { background: var(--event-custom-9) !important; }
+.all-day-event.color-custom-10 { background: var(--event-custom-10) !important; }
+.all-day-event.color-custom-11 { background: var(--event-custom-11) !important; }
+.all-day-event.color-custom-12 { background: var(--event-custom-12) !important; }
+
 .all-day-event:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
@@ -1569,6 +1602,33 @@ body:has(.section-content.calendar-section) .footer {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   font-size: 0.9rem;
 }
+
+/* Color classes for hour events */
+.hour-event.color-color-1 { background: var(--event-color-1) !important; }
+.hour-event.color-color-2 { background: var(--event-color-2) !important; }
+.hour-event.color-color-3 { background: var(--event-color-3) !important; }
+.hour-event.color-color-4 { background: var(--event-color-4) !important; }
+.hour-event.color-color-5 { background: var(--event-color-5) !important; }
+.hour-event.color-color-6 { background: var(--event-color-6) !important; }
+.hour-event.color-color-7 { background: var(--event-color-7) !important; }
+.hour-event.color-color-8 { background: var(--event-color-8) !important; }
+.hour-event.color-color-9 { background: var(--event-color-9) !important; }
+.hour-event.color-color-10 { background: var(--event-color-10) !important; }
+.hour-event.color-color-11 { background: var(--event-color-11) !important; }
+.hour-event.color-color-12 { background: var(--event-color-12) !important; }
+
+.hour-event.color-custom-1 { background: var(--event-custom-1) !important; }
+.hour-event.color-custom-2 { background: var(--event-custom-2) !important; }
+.hour-event.color-custom-3 { background: var(--event-custom-3) !important; }
+.hour-event.color-custom-4 { background: var(--event-custom-4) !important; }
+.hour-event.color-custom-5 { background: var(--event-custom-5) !important; }
+.hour-event.color-custom-6 { background: var(--event-custom-6) !important; }
+.hour-event.color-custom-7 { background: var(--event-custom-7) !important; }
+.hour-event.color-custom-8 { background: var(--event-custom-8) !important; }
+.hour-event.color-custom-9 { background: var(--event-custom-9) !important; }
+.hour-event.color-custom-10 { background: var(--event-custom-10) !important; }
+.hour-event.color-custom-11 { background: var(--event-custom-11) !important; }
+.hour-event.color-custom-12 { background: var(--event-custom-12) !important; }
 
 .hour-event:hover {
   transform: translateY(-1px);
