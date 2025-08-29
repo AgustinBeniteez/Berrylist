@@ -8,6 +8,7 @@ let auth, database;
 class AuthManager {
     constructor() {
         this.currentUser = null;
+        this.authInitialized = false;
         this.init();
     }
 
@@ -27,9 +28,6 @@ class AuthManager {
         
         // Initialize UI
         this.updateUI();
-        
-        // Check if we should open login modal from URL parameter
-        this.checkForLoginParameter();
     }
 
     async waitForFirebase() {
@@ -47,6 +45,7 @@ class AuthManager {
             .then(({ onAuthStateChanged }) => {
                 onAuthStateChanged(window.firebaseAuth, (user) => {
                     this.currentUser = user;
+                    this.authInitialized = true;
                     this.updateUI();
                     
                     if (user) {
@@ -81,6 +80,9 @@ class AuthManager {
                             window.berryCalendar.render();
                             window.berryCalendar.attachEventListeners();
                         }
+                        // Check if we should open login modal from URL parameter
+                        // Solo verificamos el parámetro cuando no hay usuario autenticado
+                        this.checkForLoginParameter();
                     }
                 });
             });
@@ -156,6 +158,11 @@ class AuthManager {
     }
 
     showLoginModal() {
+        // No mostrar el modal si ya hay una sesión iniciada
+        if (this.currentUser) {
+            return;
+        }
+        
         const modal = document.getElementById('loginModal');
         if (modal) {
             modal.style.display = 'flex';
@@ -352,9 +359,12 @@ class AuthManager {
             const newUrl = window.location.pathname;
             window.history.replaceState({}, document.title, newUrl);
             
-            // Open the login modal
+            // Open the login modal only if user is not authenticated
             setTimeout(() => {
-                this.showLoginModal();
+                // showLoginModal() ya tiene la verificación, pero lo hacemos explícito aquí también
+                if (!this.currentUser) {
+                    this.showLoginModal();
+                }
             }, 500); // Small delay to ensure everything is loaded
         }
     }

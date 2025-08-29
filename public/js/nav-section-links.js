@@ -78,7 +78,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Para todas las demás secciones, verificar autenticación
-    return window.authManager && window.authManager.currentUser;
+    // Si Firebase está cargando (authManager existe pero currentUser aún no está definido),
+    // permitimos el acceso temporalmente y dejamos que la UI se actualice después
+    if (window.authManager) {
+      // Si authManager existe pero aún no ha terminado de inicializarse, permitir acceso
+      // La UI se actualizará cuando el estado de autenticación esté listo
+      return true;
+    }
+    
+    // Si no hay authManager, no permitir acceso
+    return false;
   }
   
   // Función para mostrar mensaje cuando se requiere autenticación
@@ -161,6 +170,25 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Cargar el contenido de la sección
       loadSectionContent(section);
+      
+      // Si es una sección que requiere autenticación y authManager existe,
+      // verificamos periódicamente el estado de autenticación para actualizar la UI si es necesario
+      if (section !== 'settings' && window.authManager) {
+        const authCheckInterval = setInterval(() => {
+          // Si el usuario no está autenticado después de que Firebase haya cargado completamente,
+          // y la sección requiere autenticación, mostrar el modal de login
+          if (window.authManager.authInitialized && !window.authManager.currentUser) {
+            clearInterval(authCheckInterval);
+            showAuthenticationRequiredMessage(section);
+          } else if (window.authManager.currentUser) {
+            // Si el usuario está autenticado, limpiar el intervalo
+            clearInterval(authCheckInterval);
+          }
+        }, 500); // Verificar cada 500ms
+        
+        // Limpiar el intervalo después de 5 segundos para evitar verificaciones infinitas
+        setTimeout(() => clearInterval(authCheckInterval), 5000);
+      }
     }
   }
   

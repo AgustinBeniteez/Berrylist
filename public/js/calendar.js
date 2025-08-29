@@ -43,6 +43,16 @@ class Calendar {
         `;
     }
 
+    hideLoadingIndicator() {
+        // Si el calendario ya está renderizado, no hacemos nada
+        if (this.container.querySelector('.calendar-container')) {
+            return;
+        }
+        // Si no, re-renderizamos el calendario
+        this.render();
+        this.attachEventListeners();
+    }
+
     clearLocalStorage() {
         try {
             // Remove old calendar data from localStorage to prevent conflicts
