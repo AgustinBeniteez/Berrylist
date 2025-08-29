@@ -20,6 +20,9 @@ class Calendar {
         this.syncInterval = null;
         // Week start preference: 'sunday' or 'monday'
         this.weekStart = this.detectInitialWeekStart();
+        // Current view state: 'month' or 'day'
+        this.currentView = 'day';
+        this.currentDetailDate = null;
         // Load saved events asynchronously
         this.initializeCalendar();
     }
@@ -150,9 +153,18 @@ class Calendar {
     }
 
     init() {
-        this.render();
-         this.attachEventListeners();
-
+        // Por defecto mostrar la vista del día actual
+        if (this.currentView === 'day') {
+            const today = new Date();
+            const todayStr = today.getFullYear() + '-' + 
+                           String(today.getMonth() + 1).padStart(2, '0') + '-' + 
+                           String(today.getDate()).padStart(2, '0');
+            this.currentDetailDate = todayStr;
+            this.showDayDetailView(todayStr);
+        } else {
+            this.render();
+            this.attachEventListeners();
+        }
     }
 
     render() {
@@ -186,6 +198,7 @@ class Calendar {
                             <select id="yearSelector" class="calendar-selector"></select>
                         </div>
                     </div>
+                    <button class="calendar-nav-btn" id="todayViewBtn" title="Ver día de hoy"><i class="fas fa-calendar-day"></i></button>
                     <button class="calendar-nav-btn" id="nextMonth"><i class="fas fa-chevron-down"></i></button>
                 </div>
                 <div class="calendar-weekdays">
@@ -505,6 +518,14 @@ class Calendar {
                 this.attachEventListeners();
             });
         }
+        
+        // Today view button
+        const todayViewBtn = document.getElementById('todayViewBtn');
+        if (todayViewBtn) {
+            todayViewBtn.addEventListener('click', () => {
+                this.showTodayDetailView();
+            });
+        }
 
         // Navegación con scroll del mouse
         const calendarContainer = this.container.querySelector('.calendar-container');
@@ -602,6 +623,13 @@ class Calendar {
                         this.editEvent(eventId);
                     } else if (window.authManager && typeof window.authManager.showLoginModal === 'function') {
                         window.authManager.showLoginModal();
+                    }
+                } else if (e.target.classList.contains('calendar-day') || e.target.closest('.calendar-day')) {
+                    // Click on day - show detailed hourly view
+                    const dayElement = e.target.classList.contains('calendar-day') ? e.target : e.target.closest('.calendar-day');
+                    const date = dayElement.getAttribute('data-date');
+                    if (date && !e.target.classList.contains('add-event-btn') && !e.target.classList.contains('calendar-event')) {
+                        this.showDayDetailView(date);
                     }
                 }
             });
@@ -1315,6 +1343,224 @@ class Calendar {
                 moreEventsBtn.style.display = 'none';
             }
         }
+    }
+
+    showDayDetailView(date) {
+        // Store current view state
+        this.previousView = this.currentView;
+        this.currentView = 'day';
+        this.currentDetailDate = date;
+        
+        // Get events for this date
+        const dayEvents = this.events.filter(event => event.date === date);
+        
+        // Separate all-day events from timed events
+        const allDayEvents = dayEvents.filter(event => !event.time || event.time === '' || event.time === '00:00');
+        const timedEvents = dayEvents.filter(event => event.time && event.time !== '' && event.time !== '00:00');
+        
+        // Format date for display
+        const dateObj = new Date(date + 'T00:00:00');
+        const formattedDate = dateObj.toLocaleDateString(undefined, { 
+            weekday: 'long', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+        
+        // Generate hours HTML (00:00 to 23:59)
+        let hoursHTML = '';
+        for (let hour = 0; hour < 24; hour++) {
+            const hourStr = String(hour).padStart(2, '0');
+            const hourDisplay = hour === 0 ? '12:00 AM' : 
+                               hour < 12 ? `${hour}:00 AM` : 
+                               hour === 12 ? '12:00 PM' : 
+                               `${hour - 12}:00 PM`;
+            
+            // Find events for this hour
+            const hourEvents = timedEvents.filter(event => {
+                const eventHour = parseInt(event.time.split(':')[0]);
+                return eventHour === hour;
+            });
+            
+            let hourEventsHTML = '';
+            hourEvents.forEach(event => {
+                const eventColor = event.color || 'custom-1';
+                const eventIcon = event.icon || 'fas fa-calendar';
+                
+                // Convert color to class name
+                let colorClass = 'color-custom-1';
+                if (eventColor.startsWith('var(--event-color-')) {
+                    const colorNumber = eventColor.match(/--event-color-(\d+)/);
+                    if (colorNumber) {
+                        colorClass = `color-color-${colorNumber[1]}`;
+                    }
+                } else if (eventColor.startsWith('var(--event-custom-')) {
+                    const customNumber = eventColor.match(/--event-custom-(\d+)/);
+                    if (customNumber) {
+                        colorClass = `color-custom-${customNumber[1]}`;
+                    }
+                } else if (eventColor.startsWith('var(--event-') && eventColor.includes('-color)')) {
+                    const typeMatch = eventColor.match(/--event-(\w+)-color/);
+                    if (typeMatch) {
+                        colorClass = `color-${typeMatch[1]}`;
+                    }
+                } else if (!eventColor.startsWith('var(')) {
+                    colorClass = `color-${eventColor}`;
+                }
+                
+                hourEventsHTML += `
+                    <div class="hour-event ${colorClass}" data-event-id="${event.id}" 
+                         onclick="event.stopPropagation(); window.berryCalendar.editEvent('${event.id}')" 
+                         onmouseenter="window.berryCalendar.showEventTooltip(event, '${event.id}')" 
+                         onmouseleave="window.berryCalendar.hideEventTooltip()">
+                        <i class="hour-event-icon ${eventIcon}"></i>
+                        <span class="hour-event-title">${event.title}</span>
+                        <span class="hour-event-time">${event.time}</span>
+                    </div>
+                `;
+            });
+            
+            hoursHTML += `
+                <div class="hour-slot" data-hour="${hourStr}">
+                    <div class="hour-label">${hourDisplay}</div>
+                    <div class="hour-content">
+                        <div class="hour-events">${hourEventsHTML}</div>
+                        <button class="add-hour-event-btn" data-date="${date}" data-time="${hourStr}:00" title="Agregar evento a las ${hourDisplay}">+</button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Generate all-day events HTML with stacking
+        let allDayHTML = '';
+        if (allDayEvents.length > 0) {
+            allDayEvents.forEach((event, index) => {
+                const eventColor = event.color || 'custom-1';
+                const eventIcon = event.icon || 'fas fa-calendar';
+                
+                // Convert color to class name
+                let colorClass = 'color-custom-1';
+                if (eventColor.startsWith('var(--event-color-')) {
+                    const colorNumber = eventColor.match(/--event-color-(\d+)/);
+                    if (colorNumber) {
+                        colorClass = `color-color-${colorNumber[1]}`;
+                    }
+                } else if (eventColor.startsWith('var(--event-custom-')) {
+                    const customNumber = eventColor.match(/--event-custom-(\d+)/);
+                    if (customNumber) {
+                        colorClass = `color-custom-${customNumber[1]}`;
+                    }
+                } else if (eventColor.startsWith('var(--event-') && eventColor.includes('-color)')) {
+                    const typeMatch = eventColor.match(/--event-(\w+)-color/);
+                    if (typeMatch) {
+                        colorClass = `color-${typeMatch[1]}`;
+                    }
+                } else if (!eventColor.startsWith('var(')) {
+                    colorClass = `color-${eventColor}`;
+                }
+                
+                allDayHTML += `
+                    <div class="all-day-event ${colorClass}" data-event-id="${event.id}" 
+                         onclick="event.stopPropagation(); window.berryCalendar.editEvent('${event.id}')" 
+                         onmouseenter="window.berryCalendar.showEventTooltip(event, '${event.id}')" 
+                         onmouseleave="window.berryCalendar.hideEventTooltip()">
+                        <i class="all-day-event-icon ${eventIcon}"></i>
+                        <span class="all-day-event-title">${event.title}</span>
+                        <span class="all-day-badge">Todo el día</span>
+                    </div>
+                `;
+            });
+        }
+        
+        // Generate the complete day detail view HTML
+        const dayDetailHTML = `
+            <div class="day-detail-container">
+                <div class="day-detail-header">
+                    <button class="back-to-calendar-btn" onclick="window.berryCalendar.backToMonthView()">
+                        <i class="fas fa-arrow-left"></i> Volver al calendario
+                    </button>
+                    <div class="day-detail-title-section">
+                        <div class="day-navigation">
+                            <button class="day-nav-btn" onclick="window.berryCalendar.navigateDay('${date}', -1)">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <h2 class="day-detail-title">${formattedDate}</h2>
+                            <button class="day-nav-btn" onclick="window.berryCalendar.navigateDay('${date}', 1)">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                        <input type="date" id="dayDateSelector" class="day-date-selector" value="${date}" onchange="window.berryCalendar.showDayDetailView(this.value)">
+                    </div>
+                    <button class="add-event-btn-header" onclick="window.berryCalendar.showEventModal('${date}')">
+                        <i class="fas fa-plus"></i> Agregar evento
+                    </button>
+                </div>
+                
+                ${allDayEvents.length > 0 ? `
+                    <div class="all-day-section">
+                        <h3 class="all-day-title">Eventos de todo el día</h3>
+                        <div class="all-day-events-container">
+                            ${allDayHTML}
+                        </div>
+                    </div>
+                ` : ''}
+                
+                <div class="hours-section">
+                    <div class="hours-container-scrollable">
+                        ${hoursHTML}
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        // Replace calendar content with day detail view
+        this.container.innerHTML = dayDetailHTML;
+        
+        // Add event listeners for the new buttons
+        this.attachDayDetailEventListeners();
+    }
+    
+    attachDayDetailEventListeners() {
+        // Add event listeners for hour event buttons
+        const addHourEventBtns = document.querySelectorAll('.add-hour-event-btn');
+        addHourEventBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const date = btn.getAttribute('data-date');
+                const time = btn.getAttribute('data-time');
+                this.showEventModal(date, null, time);
+            });
+        });
+    }
+    
+    backToMonthView() {
+        // Return to the monthly calendar view
+        this.currentView = 'month';
+        this.currentDetailDate = null;
+        this.render();
+        this.attachEventListeners();
+    }
+    
+    showTodayDetailView() {
+        // Show today's detail view
+        const today = new Date();
+        const todayStr = today.getFullYear() + '-' + 
+                       String(today.getMonth() + 1).padStart(2, '0') + '-' + 
+                       String(today.getDate()).padStart(2, '0');
+        this.currentView = 'day';
+        this.currentDetailDate = todayStr;
+        this.showDayDetailView(todayStr);
+    }
+
+    navigateDay(currentDate, direction) {
+        // Navigate to previous or next day
+        const date = new Date(currentDate + 'T00:00:00');
+        date.setDate(date.getDate() + direction);
+        
+        const newDateStr = date.getFullYear() + '-' + 
+                          String(date.getMonth() + 1).padStart(2, '0') + '-' + 
+                          String(date.getDate()).padStart(2, '0');
+        
+        this.showDayDetailView(newDateStr);
     }
     
     showEventTooltip(mouseEvent, eventId) {
