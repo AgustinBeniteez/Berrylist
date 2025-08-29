@@ -1207,7 +1207,7 @@ class Calendar {
         const typeDisplay = this.getTypeDisplayName(event.type || 'other');
         
         tooltip.innerHTML = `
-            <div class="event-tooltip-arrow"></div>
+            <div class="event-tooltip-arrow top"></div>
             <div class="event-tooltip-title">
                 <i class="${event.icon || 'fas fa-calendar'}"></i>
                 ${event.title}
@@ -1223,19 +1223,28 @@ class Calendar {
         const rect = mouseEvent.target.closest('.calendar-event').getBoundingClientRect();
         const tooltipRect = tooltip.getBoundingClientRect();
         
-        let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
-        let top = rect.top - tooltipRect.height - 10;
+        // Considerar el scroll de la página para posicionar correctamente
+        const scrollX = window.scrollX || window.pageXOffset;
+        const scrollY = window.scrollY || window.pageYOffset;
         
-        // Adjust if tooltip goes off screen
-        if (left < 10) left = 10;
-        if (left + tooltipRect.width > window.innerWidth - 10) {
-            left = window.innerWidth - tooltipRect.width - 10;
+        let left = rect.left + scrollX + (rect.width / 2) - (tooltipRect.width / 2);
+        // Posicionar el tooltip por encima del evento por defecto
+        let top = rect.bottom + scrollY + 10;
+        
+        // Ajustar si el tooltip se sale de la pantalla
+        if (left < scrollX + 10) left = scrollX + 10;
+        if (left + tooltipRect.width > window.innerWidth + scrollX - 10) {
+            left = window.innerWidth + scrollX - tooltipRect.width - 10;
         }
-        if (top < 10) {
-            top = rect.bottom + 10;
-            tooltip.querySelector('.event-tooltip-arrow').style.transform = 'translateX(-50%) rotate(180deg)';
-            tooltip.querySelector('.event-tooltip-arrow').style.top = '-6px';
+        
+        // Si el tooltip se sale por abajo, mostrarlo encima del evento
+        if (top + tooltipRect.height > window.innerHeight + scrollY - 10) {
+            top = rect.top + scrollY - tooltipRect.height - 10;
         }
+        
+        // Mantener siempre la flecha arriba
+        tooltip.querySelector('.event-tooltip-arrow').classList.add('top');
+        tooltip.querySelector('.event-tooltip-arrow').classList.remove('bottom');
         
         tooltip.style.left = left + 'px';
         tooltip.style.top = top + 'px';

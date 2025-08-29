@@ -345,13 +345,27 @@
 
 .event-tooltip-arrow {
   position: absolute;
-  top: -6px;
   left: 50%;
   transform: translateX(-50%);
   width: 0;
   height: 0;
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
+  border-bottom: 6px solid var(--background-color);
+}
+
+/* Cuando el tooltip está debajo del evento, la flecha apunta hacia arriba */
+.event-tooltip-arrow.bottom {
+  bottom: -6px;
+  top: auto;
+  transform: translateX(-50%) rotate(180deg);
+  border-bottom: 6px solid var(--background-color);
+}
+
+/* Cuando el tooltip está encima del evento, la flecha apunta hacia abajo */
+.event-tooltip-arrow.top {
+  top: -6px;
+  bottom: auto;
   border-bottom: 6px solid var(--background-color);
 }
 
