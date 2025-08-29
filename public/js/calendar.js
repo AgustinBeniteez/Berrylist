@@ -755,7 +755,7 @@ class Calendar {
         }
     }
 
-    showEventModal(date, eventId = null) {
+    showEventModal(date, eventId = null, presetTime = null) {
         const modal = document.getElementById('eventModal');
         const dateInput = document.getElementById('modalEventDate');
         const titleInput = document.getElementById('modalEventTitle');
@@ -819,12 +819,12 @@ class Calendar {
                 // Creating new event
                 titleInput.value = '';
                 dateInput.value = date;
-                timeInput.value = '';
+                timeInput.value = presetTime || '';
                 descriptionInput.value = '';
                 typeSelect.value = 'other';
                 iconInput.value = 'fas fa-calendar';
                 colorInput.value = 'var(--event-default-color)';
-                hasTimeCheckbox.checked = true;
+                hasTimeCheckbox.checked = presetTime ? true : true;
                 timeInput.style.display = 'block';
                 // Use i18n for Create Event button text with icon
                 submitBtn.innerHTML = '<i class="fas fa-plus-circle"></i> ' + (window.i18n ? window.i18n.t('calendar.createEvent') : 'Create Event');
@@ -1515,8 +1515,205 @@ class Calendar {
         // Replace calendar content with day detail view
         this.container.innerHTML = dayDetailHTML;
         
+        // Add the event modal HTML to the container
+        const modalHTML = `
+ <!-- Modal for creating events -->
+            <div class="event-modal" id="eventModal">
+                <div class="event-modal-content">
+                    <div class="event-modal-header">
+                        <h3 class="event-modal-title">Create Event</h3>
+                        <div class="event-modal-actions">
+                            <button type="submit" class="event-modal-btn event-modal-btn-primary" id="submitEventModal"><i class="fas fa-save"></i> ${window.i18n ? window.i18n.t('calendar.save') : 'Guardar'}</button>
+                            <button type="button" class="event-modal-btn event-modal-btn-danger" id="deleteEventModal" style="display: none;" title="${window.i18n ? window.i18n.t('calendar.deleteEvent') : 'Delete Event'}"><i class="fas fa-trash-alt"></i></button>
+                            <button type="button" class="event-modal-btn event-modal-btn-secondary" id="cancelEventModal" title="${window.i18n ? window.i18n.t('calendar.cancel') : 'Cancel'}"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                    <form class="event-modal-form" id="eventModalForm">
+                        <input type="text" id="modalEventTitle" placeholder="${window.i18n ? window.i18n.t('calendar.eventTitle') : 'Event title'}" required>
+                        <textarea id="modalEventDescription" placeholder="${window.i18n ? window.i18n.t('calendar.eventDescription') : 'Description (optional)'}" rows="3"></textarea>
+                        
+                        <div class="event-date-type-container">
+                            <div class="event-type-container">
+                                <label>${window.i18n ? window.i18n.t('calendar.eventType') : 'Event type'}:</label>
+                                <select id="modalEventType">
+                                    <option value="other">${window.i18n ? window.i18n.t('calendar.eventTypes.other') : 'Other'}</option>
+                                    <option value="work">${window.i18n ? window.i18n.t('calendar.eventTypes.work') : 'Work'}</option>
+                                    <option value="study">${window.i18n ? window.i18n.t('calendar.eventTypes.study') : 'Study'}</option>
+                                    <option value="leisure">${window.i18n ? window.i18n.t('calendar.eventTypes.leisure') : 'Leisure'}</option>
+                                    <option value="meeting">Meeting</option>
+                                    <option value="appointment">Appointment</option>
+                                    <option value="birthday">Birthday</option>
+                                    <option value="holiday">Holiday</option>
+                                </select>
+                            </div>
+                            <div class="event-date-container">
+                                <label>${window.i18n ? window.i18n.t('calendar.date') : 'Date'}:</label>
+                                <input type="date" id="modalEventDate" required>
+                            </div>
+                        </div>
+                        
+                        <div class="event-time-container">
+                            <div class="time-checkbox-wrapper">
+                                <input type="checkbox" id="eventHasTime" checked>
+                                <label for="eventHasTime">${window.i18n ? window.i18n.t('calendar.setSpecificTime') : 'Set specific time'}</label>
+                            </div>
+                            <input type="time" id="modalEventTime">
+                        </div>
+                        
+                        <div class="icon-picker-container">
+                            <label>${window.i18n ? window.i18n.t('calendar.eventIcon') : 'Icon'}:</label>
+                            <div class="icon-picker-grid">
+                                <div class="icon-option active" data-icon="fas fa-calendar"><i class="fas fa-calendar"></i></div>
+                                <div class="icon-option" data-icon="fas fa-briefcase"><i class="fas fa-briefcase"></i></div>
+                                <div class="icon-option" data-icon="fas fa-book"><i class="fas fa-book"></i></div>
+                                <div class="icon-option" data-icon="fas fa-gamepad"><i class="fas fa-gamepad"></i></div>
+                                <div class="icon-option" data-icon="fas fa-coffee"><i class="fas fa-coffee"></i></div>
+                                <div class="icon-option" data-icon="fas fa-heart"><i class="fas fa-heart"></i></div>
+                                <div class="icon-option" data-icon="fas fa-star"><i class="fas fa-star"></i></div>
+                                <div class="icon-option" data-icon="fas fa-music"><i class="fas fa-music"></i></div>
+                                <div class="icon-option" data-icon="fas fa-film"><i class="fas fa-film"></i></div>
+                                <div class="icon-option" data-icon="fas fa-plane"><i class="fas fa-plane"></i></div>
+                                <div class="icon-option" data-icon="fas fa-utensils"><i class="fas fa-utensils"></i></div>
+                                <div class="icon-option" data-icon="fas fa-dumbbell"><i class="fas fa-dumbbell"></i></div>
+                                <div class="icon-option" data-icon="fas fa-birthday-cake"><i class="fas fa-birthday-cake"></i></div>
+                                <div class="icon-option" data-icon="fas fa-code"><i class="fas fa-code"></i></div>
+                                <div class="icon-option" data-icon="fas fa-laptop-code"><i class="fas fa-laptop-code"></i></div>
+                                <div class="icon-option" data-icon="fas fa-graduation-cap"><i class="fas fa-graduation-cap"></i></div>
+                                <div class="icon-option" data-icon="fas fa-users"><i class="fas fa-users"></i></div>
+                                <div class="icon-option" data-icon="fas fa-shopping-cart"><i class="fas fa-shopping-cart"></i></div>
+                                <div class="icon-option" data-icon="fas fa-medkit"><i class="fas fa-medkit"></i></div>
+                                <div class="icon-option" data-icon="fas fa-gift"><i class="fas fa-gift"></i></div>
+                                <div class="icon-option" data-icon="fas fa-car"><i class="fas fa-car"></i></div>
+                                <div class="icon-option" data-icon="fas fa-home"><i class="fas fa-home"></i></div>
+                                <div class="icon-option" data-icon="fas fa-glass-cheers"><i class="fas fa-glass-cheers"></i></div>
+                                <div class="icon-option" data-icon="fas fa-baby"><i class="fas fa-baby"></i></div>
+                                <div class="icon-option" data-icon="fas fa-trophy"><i class="fas fa-trophy"></i></div>
+                                <div class="icon-option" data-icon="fas fa-camera"><i class="fas fa-camera"></i></div>
+                                <div class="icon-option" data-icon="fas fa-bell"><i class="fas fa-bell"></i></div>
+                                <div class="icon-option" data-icon="fas fa-paint-brush"><i class="fas fa-paint-brush"></i></div>
+                                <div class="icon-option" data-icon="fas fa-bug"><i class="fas fa-bug"></i></div>
+                                <div class="icon-option" data-icon="fas fa-cart-plus"><i class="fas fa-cart-plus"></i></div>
+                                <div class="icon-option" data-icon="fas fa-truck"><i class="fas fa-truck"></i></div>
+                                <div class="icon-option" data-icon="fas fa-stethoscope"><i class="fas fa-stethoscope"></i></div>
+                                <div class="icon-option" data-icon="fas fa-wifi"><i class="fas fa-wifi"></i></div>
+                                <div class="icon-option" data-icon="fas fa-phone"><i class="fas fa-phone"></i></div>
+                                <div class="icon-option" data-icon="fas fa-keyboard"><i class="fas fa-keyboard"></i></div>
+                            </div>
+                            <input type="hidden" id="selectedEventIcon" value="fas fa-calendar">
+                        </div>
+                        
+                        <div class="event-color-container">
+                            <label>${window.i18n ? window.i18n.t('calendar.eventColor') : 'Color'}:</label>
+                            <div class="color-picker-grid">
+                                <div class="color-option" data-color="var(--event-color-1)" style="background-color: var(--event-color-1);"></div>
+                                <div class="color-option" data-color="var(--event-color-2)" style="background-color: var(--event-color-2);"></div>
+                                <div class="color-option" data-color="var(--event-color-3)" style="background-color: var(--event-color-3);"></div>
+                                <div class="color-option" data-color="var(--event-color-4)" style="background-color: var(--event-color-4);"></div>
+                                <div class="color-option" data-color="var(--event-color-5)" style="background-color: var(--event-color-5);"></div>
+                                <div class="color-option" data-color="var(--event-color-6)" style="background-color: var(--event-color-6);"></div>
+                                <div class="color-option" data-color="var(--event-color-7)" style="background-color: var(--event-color-7);"></div>
+                                <div class="color-option" data-color="var(--event-color-8)" style="background-color: var(--event-color-8);"></div>
+                                <div class="color-option" data-color="var(--event-color-9)" style="background-color: var(--event-color-9);"></div>
+                                <div class="color-option" data-color="var(--event-color-10)" style="background-color: var(--event-color-10);"></div>
+                                <div class="color-option" data-color="var(--event-color-11)" style="background-color: var(--event-color-11);"></div>
+                                <div class="color-option" data-color="var(--event-color-12)" style="background-color: var(--event-color-12);"></div>
+                                <div class="color-option" data-color="var(--event-custom-1)" style="background-color: var(--event-custom-1);"></div>
+                                <div class="color-option" data-color="var(--event-custom-2)" style="background-color: var(--event-custom-2);"></div>
+                                <div class="color-option" data-color="var(--event-custom-3)" style="background-color: var(--event-custom-3);"></div>
+                                <div class="color-option" data-color="var(--event-custom-4)" style="background-color: var(--event-custom-4);"></div>
+                                <div class="color-option" data-color="var(--event-custom-5)" style="background-color: var(--event-custom-5);"></div>
+                                <div class="color-option" data-color="var(--event-custom-6)" style="background-color: var(--event-custom-6);"></div>
+                                <div class="color-option" data-color="var(--event-custom-7)" style="background-color: var(--event-custom-7);"></div>
+                                <div class="color-option" data-color="var(--event-custom-8)" style="background-color: var(--event-custom-8);"></div>
+                                <div class="color-option" data-color="var(--event-custom-9)" style="background-color: var(--event-custom-9);"></div>
+                                <div class="color-option" data-color="var(--event-custom-10)" style="background-color: var(--event-custom-10);"></div>
+                                <div class="color-option" data-color="var(--event-custom-11)" style="background-color: var(--event-custom-11);"></div>
+                                <div class="color-option" data-color="var(--event-custom-12)" style="background-color: var(--event-custom-12);"></div>
+                            </div>
+                            <input type="hidden" id="selectedEventColor" value="var(--event-default-color)">
+                        </div>
+                        
+
+                    </form>
+                </div>
+            </div>
+        `;
+        
+        this.container.insertAdjacentHTML('beforeend', modalHTML);
+        
         // Add event listeners for the new buttons
         this.attachDayDetailEventListeners();
+        
+        // Attach modal event listeners
+        this.attachModalEventListeners();
+    }
+    
+    attachModalEventListeners() {
+        // Modal events
+        const modal = document.getElementById('eventModal');
+        const cancelEventModalBtn = document.getElementById('cancelEventModal');
+        const deleteEventModalBtn = document.getElementById('deleteEventModal');
+        const submitEventModalBtn = document.getElementById('submitEventModal');
+        const eventModalForm = document.getElementById('eventModalForm');
+        const eventHasTimeCheckbox = document.getElementById('eventHasTime');
+        const eventTimeInput = document.getElementById('modalEventTime');
+
+        if (cancelEventModalBtn) cancelEventModalBtn.addEventListener('click', () => this.hideEventModal());
+        if (deleteEventModalBtn) deleteEventModalBtn.addEventListener('click', () => this.deleteCurrentEvent());
+        if (submitEventModalBtn) submitEventModalBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.saveEventFromModal();
+            this.hideEventModal();
+        });
+        if (eventModalForm) eventModalForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            this.saveEventFromModal();
+        });
+        
+        // Time checkbox handler
+        if (eventHasTimeCheckbox && eventTimeInput) {
+            eventHasTimeCheckbox.addEventListener('change', (e) => {
+                eventTimeInput.style.display = e.target.checked ? 'block' : 'none';
+                if (!e.target.checked) {
+                    eventTimeInput.value = '';
+                }
+            });
+        }
+        
+        // Color picker events
+        const colorOptions = document.querySelectorAll('.color-option');
+        colorOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                // Remove active class from all options
+                colorOptions.forEach(opt => opt.classList.remove('active'));
+                // Add active class to clicked option
+                option.classList.add('active');
+                // Set selected color
+                document.getElementById('selectedEventColor').value = option.getAttribute('data-color');
+            });
+        });
+        
+        // Icon picker events
+        const iconOptions = document.querySelectorAll('.icon-option');
+        iconOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                // Remove active class from all options
+                iconOptions.forEach(opt => opt.classList.remove('active'));
+                // Add active class to clicked option
+                option.classList.add('active');
+                // Set selected icon
+                document.getElementById('selectedEventIcon').value = option.getAttribute('data-icon');
+            });
+        });
+        
+        // Click outside modal to close
+        if (modal) {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    this.hideEventModal();
+                }
+            });
+        }
     }
     
     attachDayDetailEventListeners() {
@@ -1528,6 +1725,57 @@ class Calendar {
                 const date = btn.getAttribute('data-date');
                 const time = btn.getAttribute('data-time');
                 this.showEventModal(date, null, time);
+            });
+        });
+        
+        // Add click listeners to hour slots for creating events
+        const hourSlots = document.querySelectorAll('.hour-slot');
+        hourSlots.forEach(slot => {
+            slot.addEventListener('click', (e) => {
+                // Only trigger if clicking on empty space, not on events or buttons
+                if (e.target === slot || e.target.classList.contains('hour-label') || e.target.classList.contains('hour-content')) {
+                    const hour = slot.getAttribute('data-hour');
+                    const date = document.getElementById('dayDateSelector').value;
+                    this.showEventModal(date, null, `${hour}:00`);
+                }
+            });
+        });
+        
+        // Add drag and drop functionality to events
+        const hourEvents = document.querySelectorAll('.hour-event');
+        hourEvents.forEach(event => {
+            event.draggable = true;
+            event.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('text/plain', event.getAttribute('data-event-id'));
+                event.classList.add('dragging');
+            });
+            
+            event.addEventListener('dragend', (e) => {
+                event.classList.remove('dragging');
+            });
+        });
+        
+        // Add drop zones to hour slots
+        hourSlots.forEach(slot => {
+            slot.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                slot.classList.add('drag-over');
+            });
+            
+            slot.addEventListener('dragleave', (e) => {
+                slot.classList.remove('drag-over');
+            });
+            
+            slot.addEventListener('drop', (e) => {
+                e.preventDefault();
+                slot.classList.remove('drag-over');
+                
+                const eventId = e.dataTransfer.getData('text/plain');
+                const newHour = slot.getAttribute('data-hour');
+                const newTime = `${newHour}:00`;
+                
+                // Update event time
+                this.updateEventTime(eventId, newTime);
             });
         });
     }
@@ -1561,6 +1809,18 @@ class Calendar {
                           String(date.getDate()).padStart(2, '0');
         
         this.showDayDetailView(newDateStr);
+    }
+    
+    updateEventTime(eventId, newTime) {
+        const event = this.events.find(e => e.id === eventId);
+        if (event) {
+            event.time = newTime;
+            this.saveEventsToStorage();
+            
+            // Refresh the day view to show the updated event
+            const currentDate = document.getElementById('dayDateSelector').value;
+            this.showDayDetailView(currentDate);
+        }
     }
     
     showEventTooltip(mouseEvent, eventId) {
