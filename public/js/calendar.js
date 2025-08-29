@@ -358,7 +358,7 @@ class Calendar {
             <!-- Menú contextual para eventos -->
             <div class="event-context-menu" id="eventContextMenu" style="display: none;">
                 <div class="context-menu-item" id="toggleCompleteMenuItem">
-                    <i class="fas fa-check"></i>
+                    <i class="fa-solid fa-circle-check"></i>
                     <span>${window.i18n ? window.i18n.t('markAsCompleted') : 'Marcar como completado'}</span>
                 </div>
                 <div class="context-menu-item" id="editEventMenuItem">
@@ -1437,6 +1437,8 @@ class Calendar {
     editEvent(eventId) {
         const event = this.events.find(e => e.id === eventId);
         if (event) {
+            // Cerrar el modal de tareas mensuales si está abierto
+            this.hideMonthTasksModal();
             this.showEventModal(event.date, eventId);
         }
     }
@@ -1458,6 +1460,11 @@ class Calendar {
             this.render();
             this.attachEventListeners();
             this.hideEventModal();
+            
+            // Mostrar el modal de tareas mensuales nuevamente si se editó desde ahí
+            setTimeout(() => {
+                this.showMonthTasksModal();
+            }, 100);
         }
     }
     
@@ -1469,19 +1476,21 @@ class Calendar {
             // Guardar en Firebase y localStorage
             this.saveEventsToStorage();
             
-            // Actualizar la vista principal del calendario
-            this.render();
-            this.attachEventListeners();
-            
-            // Actualizar la vista del modal si está abierto
-            this.updateMonthTasksView();
+            // No regenerar la vista para evitar cerrar el modal
+            // La actualización visual se maneja desde attachMonthTasksEventListeners
         }
     }
     
     deleteEvent(eventId) {
-        if (confirm('¿Estás seguro de que quieres eliminar este evento?')) {
+        const event = this.events.find(e => e.id === eventId);
+        const eventTitle = event ? event.title : 'este evento';
+        
+        if (confirm(`¿Estás seguro de que quieres eliminar "${eventTitle}"?`)) {
             this.removeEvent(eventId);
             this.hideEventModal();
+            
+            // Actualizar la vista del modal de tareas mensuales si está abierto
+            this.updateMonthTasksView();
         }
     }
     
@@ -1513,6 +1522,13 @@ class Calendar {
     hideMonthTasksModal() {
         const modal = document.getElementById('monthTasksModal');
         modal.style.display = 'none';
+        
+        // Actualizar la vista del calendario cuando se cierre el modal
+        // para reflejar los cambios realizados
+        setTimeout(() => {
+            this.render();
+            this.attachEventListeners();
+        }, 100);
     }
     
     renderMonthTasks(events, filter = 'all') {
@@ -1541,7 +1557,7 @@ class Calendar {
                 <div class="task-item ${event.completed ? 'completed' : ''}" data-event-id="${event.id}">
                     <div class="task-checkbox">
                         <input type="checkbox" ${event.completed ? 'checked' : ''} 
-                               onchange="window.calendar.toggleEventCompleted('${event.id}'); window.calendar.updateMonthTasksView();">
+                               data-event-id="${event.id}">
                     </div>
                     <div class="task-content">
                         <div class="task-title">${event.title}</div>
@@ -1553,10 +1569,10 @@ class Calendar {
                         ${event.description ? `<div class="task-description">${event.description}</div>` : ''}
                     </div>
                     <div class="task-actions">
-                        <button class="task-action-btn" onclick="window.calendar.editEvent('${event.id}')" title="Editar">
+                        <button class="task-action-btn edit-btn" data-event-id="${event.id}" title="${window.i18n ? window.i18n.t('edit') : 'Editar'}">
                             <i class="fas fa-edit"></i>
                         </button>
-                        <button class="task-action-btn delete" onclick="window.calendar.deleteEvent('${event.id}')" title="Eliminar">
+                        <button class="task-action-btn delete-btn" data-event-id="${event.id}" title="${window.i18n ? window.i18n.t('delete') : 'Eliminar'}">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
@@ -1565,6 +1581,9 @@ class Calendar {
         }).join('');
         
         tasksList.innerHTML = tasksHTML;
+        
+        // Agregar event listeners para los botones y checkboxes
+        this.attachMonthTasksEventListeners();
     }
     
     updateMonthTasksView() {
@@ -1583,6 +1602,103 @@ class Calendar {
             });
             
             this.renderMonthTasks(monthEvents, activeFilter);
+        }
+    }
+    
+    attachMonthTasksEventListeners() {
+        // Event listeners para checkboxes de completar tareas
+        const checkboxes = document.querySelectorAll('#monthTasksList .task-checkbox input[type="checkbox"]');
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', (e) => {
+                const eventId = e.target.dataset.eventId;
+                if (eventId) {
+                    this.toggleEventCompleted(eventId);
+                    
+                    // Actualizar solo el elemento visual sin regenerar todo el HTML
+                    const taskItem = e.target.closest('.task-item');
+                    const event = this.events.find(ev => ev.id === eventId);
+                    
+                    if (event && taskItem) {
+                        if (event.completed) {
+                            taskItem.classList.add('completed');
+                        } else {
+                            taskItem.classList.remove('completed');
+                        }
+                    }
+                    
+                    // Guardar cambios sin regenerar la vista
+                    this.saveEventsToStorage();
+                }
+            });
+        });
+        
+        // Event listeners para botones de editar
+        const editButtons = document.querySelectorAll('#monthTasksList .edit-btn');
+        editButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const eventId = e.currentTarget.dataset.eventId;
+                if (eventId) {
+                    this.editEvent(eventId);
+                    this.hideMonthTasksModal();
+                }
+            });
+        });
+        
+        // Event listeners para botones de eliminar
+        const deleteButtons = document.querySelectorAll('#monthTasksList .delete-btn');
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const eventId = e.currentTarget.dataset.eventId;
+                if (eventId) {
+                    const event = this.events.find(ev => ev.id === eventId);
+                    const eventTitle = event ? event.title : 'esta tarea';
+                    
+                    if (confirm(`¿Estás seguro de que quieres eliminar "${eventTitle}"?`)) {
+                        this.removeEvent(eventId);
+                        this.updateMonthTasksView();
+                        // Actualizar la vista del calendario también
+                        this.render();
+                        this.attachEventListeners();
+                    }
+                }
+            });
+        });
+    }
+    
+    showTaskStatusMessage(eventId) {
+        const event = this.events.find(e => e.id === eventId);
+        if (event) {
+            const message = event.completed ? 
+                (window.i18n ? window.i18n.t('taskCompleted') : '✅ Tarea completada') : 
+                (window.i18n ? window.i18n.t('taskPending') : '⏳ Tarea marcada como pendiente');
+            
+            // Crear elemento de notificación temporal
+            const notification = document.createElement('div');
+            notification.className = 'task-status-notification';
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${event.completed ? 'var(--success-color, #28a745)' : 'var(--warning-color, #ffc107)'};
+                color: white;
+                padding: 12px 20px;
+                border-radius: 8px;
+                z-index: 10000;
+                font-weight: 500;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                animation: slideInRight 0.3s ease, fadeOut 0.3s ease 2.7s;
+                pointer-events: none;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Remover después de 3 segundos
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 3000);
         }
     }
     
