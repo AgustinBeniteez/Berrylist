@@ -3,11 +3,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Proyecto Berry cargado correctamente');
     
-    // Inicializar sistema de internacionalización
-    if (window.I18n) {
-        window.i18n = new I18n();
-        window.i18n.init();
-    }
+    // El sistema de internacionalización se inicializa automáticamente
+    // cuando se carga i18n.js desde head.ejs
     
     // Funcionalidad del menú hamburguesa para móviles
     const menuToggle = document.querySelector('.menu-toggle');
