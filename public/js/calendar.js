@@ -208,32 +208,46 @@ class Calendar {
                 <div class="event-modal-content">
                     <div class="event-modal-header">
                         <h3 class="event-modal-title">Create Event</h3>
-                        <button class="event-modal-close" id="closeEventModal">&times;</button>
+                        <div class="event-modal-actions">
+                            <button type="submit" class="event-modal-btn event-modal-btn-primary" id="submitEventModal"><i class="fas fa-save"></i> ${window.i18n ? window.i18n.t('calendar.save') : 'Guardar'}</button>
+                            <button type="button" class="event-modal-btn event-modal-btn-danger" id="deleteEventModal" style="display: none;" title="${window.i18n ? window.i18n.t('calendar.deleteEvent') : 'Delete Event'}"><i class="fas fa-trash-alt"></i></button>
+                            <button type="button" class="event-modal-btn event-modal-btn-secondary" id="cancelEventModal" title="${window.i18n ? window.i18n.t('calendar.cancel') : 'Cancel'}"><i class="fas fa-times"></i></button>
+                        </div>
                     </div>
                     <form class="event-modal-form" id="eventModalForm">
-                        <input type="text" id="modalEventTitle" placeholder="Event title" required>
-                        <input type="date" id="modalEventDate" required>
+                        <input type="text" id="modalEventTitle" placeholder="${window.i18n ? window.i18n.t('calendar.eventTitle') : 'Event title'}" required>
+                        <textarea id="modalEventDescription" placeholder="${window.i18n ? window.i18n.t('calendar.eventDescription') : 'Description (optional)'}" rows="3"></textarea>
+                        
+                        <div class="event-date-type-container">
+                            <div class="event-type-container">
+                                <label>${window.i18n ? window.i18n.t('calendar.eventType') : 'Event type'}:</label>
+                                <select id="modalEventType">
+                                    <option value="other">${window.i18n ? window.i18n.t('calendar.eventTypes.other') : 'Other'}</option>
+                                    <option value="work">${window.i18n ? window.i18n.t('calendar.eventTypes.work') : 'Work'}</option>
+                                    <option value="study">${window.i18n ? window.i18n.t('calendar.eventTypes.study') : 'Study'}</option>
+                                    <option value="leisure">${window.i18n ? window.i18n.t('calendar.eventTypes.leisure') : 'Leisure'}</option>
+                                    <option value="meeting">Meeting</option>
+                                    <option value="appointment">Appointment</option>
+                                    <option value="birthday">Birthday</option>
+                                    <option value="holiday">Holiday</option>
+                                </select>
+                            </div>
+                            <div class="event-date-container">
+                                <label>${window.i18n ? window.i18n.t('calendar.date') : 'Date'}:</label>
+                                <input type="date" id="modalEventDate" required>
+                            </div>
+                        </div>
                         
                         <div class="event-time-container">
-                            <label class="event-time-label">
+                            <div class="time-checkbox-wrapper">
                                 <input type="checkbox" id="eventHasTime" checked>
-                                <span>Set specific time</span>
-                            </label>
+                                <label for="eventHasTime">${window.i18n ? window.i18n.t('calendar.setSpecificTime') : 'Set specific time'}</label>
+                            </div>
                             <input type="time" id="modalEventTime">
                         </div>
                         
-                        <div class="event-type-container">
-                            <label>Event type:</label>
-                            <select id="modalEventType">
-                                <option value="other">Other</option>
-                                <option value="work">Work</option>
-                                <option value="study">Study</option>
-                                <option value="leisure">Leisure</option>
-                            </select>
-                        </div>
-                        
                         <div class="icon-picker-container">
-                            <label>Icon:</label>
+                            <label>${window.i18n ? window.i18n.t('calendar.eventIcon') : 'Icon'}:</label>
                             <div class="icon-picker-grid">
                                 <div class="icon-option active" data-icon="fas fa-calendar"><i class="fas fa-calendar"></i></div>
                                 <div class="icon-option" data-icon="fas fa-briefcase"><i class="fas fa-briefcase"></i></div>
@@ -247,12 +261,35 @@ class Calendar {
                                 <div class="icon-option" data-icon="fas fa-plane"><i class="fas fa-plane"></i></div>
                                 <div class="icon-option" data-icon="fas fa-utensils"><i class="fas fa-utensils"></i></div>
                                 <div class="icon-option" data-icon="fas fa-dumbbell"><i class="fas fa-dumbbell"></i></div>
+                                <div class="icon-option" data-icon="fas fa-birthday-cake"><i class="fas fa-birthday-cake"></i></div>
+                                <div class="icon-option" data-icon="fas fa-code"><i class="fas fa-code"></i></div>
+                                <div class="icon-option" data-icon="fas fa-laptop-code"><i class="fas fa-laptop-code"></i></div>
+                                <div class="icon-option" data-icon="fas fa-graduation-cap"><i class="fas fa-graduation-cap"></i></div>
+                                <div class="icon-option" data-icon="fas fa-users"><i class="fas fa-users"></i></div>
+                                <div class="icon-option" data-icon="fas fa-shopping-cart"><i class="fas fa-shopping-cart"></i></div>
+                                <div class="icon-option" data-icon="fas fa-medkit"><i class="fas fa-medkit"></i></div>
+                                <div class="icon-option" data-icon="fas fa-gift"><i class="fas fa-gift"></i></div>
+                                <div class="icon-option" data-icon="fas fa-car"><i class="fas fa-car"></i></div>
+                                <div class="icon-option" data-icon="fas fa-home"><i class="fas fa-home"></i></div>
+                                <div class="icon-option" data-icon="fas fa-glass-cheers"><i class="fas fa-glass-cheers"></i></div>
+                                <div class="icon-option" data-icon="fas fa-baby"><i class="fas fa-baby"></i></div>
+                                <div class="icon-option" data-icon="fas fa-trophy"><i class="fas fa-trophy"></i></div>
+                                <div class="icon-option" data-icon="fas fa-camera"><i class="fas fa-camera"></i></div>
+                                <div class="icon-option" data-icon="fas fa-bell"><i class="fas fa-bell"></i></div>
+                                <div class="icon-option" data-icon="fas fa-paint-brush"><i class="fas fa-paint-brush"></i></div>
+                                <div class="icon-option" data-icon="fas fa-bug"><i class="fas fa-bug"></i></div>
+                                <div class="icon-option" data-icon="fas fa-cart-plus"><i class="fas fa-cart-plus"></i></div>
+                                <div class="icon-option" data-icon="fas fa-truck"><i class="fas fa-truck"></i></div>
+                                <div class="icon-option" data-icon="fas fa-stethoscope"><i class="fas fa-stethoscope"></i></div>
+                                <div class="icon-option" data-icon="fas fa-wifi"><i class="fas fa-wifi"></i></div>
+                                <div class="icon-option" data-icon="fas fa-phone"><i class="fas fa-phone"></i></div>
+                                <div class="icon-option" data-icon="fas fa-keyboard"><i class="fas fa-keyboard"></i></div>
                             </div>
                             <input type="hidden" id="selectedEventIcon" value="fas fa-calendar">
                         </div>
                         
                         <div class="event-color-container">
-                            <label>Color:</label>
+                            <label>${window.i18n ? window.i18n.t('calendar.eventColor') : 'Color'}:</label>
                             <div class="color-picker-grid">
                                 <div class="color-option" data-color="var(--event-color-1)" style="background-color: var(--event-color-1);"></div>
                                 <div class="color-option" data-color="var(--event-color-2)" style="background-color: var(--event-color-2);"></div>
@@ -266,16 +303,23 @@ class Calendar {
                                 <div class="color-option" data-color="var(--event-color-10)" style="background-color: var(--event-color-10);"></div>
                                 <div class="color-option" data-color="var(--event-color-11)" style="background-color: var(--event-color-11);"></div>
                                 <div class="color-option" data-color="var(--event-color-12)" style="background-color: var(--event-color-12);"></div>
+                                <div class="color-option" data-color="var(--event-custom-1)" style="background-color: var(--event-custom-1);"></div>
+                                <div class="color-option" data-color="var(--event-custom-2)" style="background-color: var(--event-custom-2);"></div>
+                                <div class="color-option" data-color="var(--event-custom-3)" style="background-color: var(--event-custom-3);"></div>
+                                <div class="color-option" data-color="var(--event-custom-4)" style="background-color: var(--event-custom-4);"></div>
+                                <div class="color-option" data-color="var(--event-custom-5)" style="background-color: var(--event-custom-5);"></div>
+                                <div class="color-option" data-color="var(--event-custom-6)" style="background-color: var(--event-custom-6);"></div>
+                                <div class="color-option" data-color="var(--event-custom-7)" style="background-color: var(--event-custom-7);"></div>
+                                <div class="color-option" data-color="var(--event-custom-8)" style="background-color: var(--event-custom-8);"></div>
+                                <div class="color-option" data-color="var(--event-custom-9)" style="background-color: var(--event-custom-9);"></div>
+                                <div class="color-option" data-color="var(--event-custom-10)" style="background-color: var(--event-custom-10);"></div>
+                                <div class="color-option" data-color="var(--event-custom-11)" style="background-color: var(--event-custom-11);"></div>
+                                <div class="color-option" data-color="var(--event-custom-12)" style="background-color: var(--event-custom-12);"></div>
                             </div>
                             <input type="hidden" id="selectedEventColor" value="var(--event-default-color)">
                         </div>
                         
-                        <textarea id="modalEventDescription" placeholder="Description (optional)" rows="4"></textarea>
-                        <div class="event-modal-buttons">
-                            <button type="button" class="event-modal-btn event-modal-btn-danger" id="deleteEventModal" style="display: none;">Delete</button>
-                            <button type="button" class="event-modal-btn event-modal-btn-secondary" id="cancelEventModal">Cancel</button>
-                            <button type="submit" class="event-modal-btn event-modal-btn-primary" id="submitEventModal">Create Event</button>
-                        </div>
+
                     </form>
                 </div>
             </div>
@@ -612,16 +656,20 @@ class Calendar {
 
         // Modal events
         const modal = document.getElementById('eventModal');
-        const closeModalBtn = document.getElementById('closeEventModal');
         const cancelEventModalBtn = document.getElementById('cancelEventModal');
         const deleteEventModalBtn = document.getElementById('deleteEventModal');
+        const submitEventModalBtn = document.getElementById('submitEventModal');
         const eventModalForm = document.getElementById('eventModalForm');
         const eventHasTimeCheckbox = document.getElementById('eventHasTime');
         const eventTimeInput = document.getElementById('modalEventTime');
 
-        if (closeModalBtn) closeModalBtn.addEventListener('click', () => this.hideEventModal());
         if (cancelEventModalBtn) cancelEventModalBtn.addEventListener('click', () => this.hideEventModal());
         if (deleteEventModalBtn) deleteEventModalBtn.addEventListener('click', () => this.deleteCurrentEvent());
+        if (submitEventModalBtn) submitEventModalBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.saveEventFromModal();
+            this.hideEventModal();
+        });
         if (eventModalForm) eventModalForm.addEventListener('submit', (e) => {
             e.preventDefault();
             this.saveEventFromModal();
@@ -729,8 +777,10 @@ class Calendar {
                     });
                     
                     deleteBtn.style.display = 'inline-block';
-                    submitBtn.textContent = 'Update Event';
-                    modalTitle.textContent = 'Edit Event';
+                    // Use i18n for Save button text with icon
+                    submitBtn.innerHTML = '<i class="fas fa-save"></i> ' + (window.i18n ? window.i18n.t('calendar.saveEvent') : 'Save');
+                    submitBtn.classList.add('event-modal-btn-save');
+                    modalTitle.textContent = window.i18n ? window.i18n.t('calendar.editEvent') : 'Edit Event';
                 }
             } else {
                 // Creating new event
@@ -743,6 +793,9 @@ class Calendar {
                 colorInput.value = 'var(--event-default-color)';
                 hasTimeCheckbox.checked = true;
                 timeInput.style.display = 'block';
+                // Use i18n for Create Event button text with icon
+                submitBtn.innerHTML = '<i class="fas fa-plus-circle"></i> ' + (window.i18n ? window.i18n.t('calendar.createEvent') : 'Create Event');
+                submitBtn.classList.remove('event-modal-btn-save');
                 
                 // Reset color and icon selections
                 document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
@@ -751,8 +804,8 @@ class Calendar {
                 document.querySelector('.icon-option').classList.add('active');
                 
                 deleteBtn.style.display = 'none';
-                submitBtn.textContent = 'Create Event';
-                modalTitle.textContent = 'Create Event';
+                // Already set above, no need to set again
+                modalTitle.textContent = window.i18n ? window.i18n.t('calendar.createEvent') : 'Create Event';
             }
             
             modal.classList.add('show');
@@ -1019,6 +1072,74 @@ class Calendar {
         }
     }
 
+    // Method to update calendar language
+    updateLanguage() {
+        // Update month names and weekday labels
+        this.render();
+        this.attachEventListeners();
+        
+        // Update modal texts if it's open
+        this.updateModalTranslations();
+    }
+    
+    // Method to update modal translations
+    updateModalTranslations() {
+        if (!window.i18n) return;
+        
+        // Update placeholders and labels
+        const modalEventTitle = document.getElementById('modalEventTitle');
+        const modalEventDescription = document.getElementById('modalEventDescription');
+        const eventTypeLabel = document.querySelector('.event-type-container label');
+        const dateLabel = document.querySelector('.event-date-container label');
+        const timeLabel = document.querySelector('.time-checkbox-wrapper label');
+        const iconLabel = document.querySelector('.icon-picker-container label');
+        const colorLabel = document.querySelector('.event-color-container label');
+        const deleteBtn = document.getElementById('deleteEventModal');
+        const cancelBtn = document.getElementById('cancelEventModal');
+        const submitBtn = document.getElementById('submitEventModal');
+        const modalTitle = document.querySelector('.event-modal-title');
+        
+        // Update input placeholders
+        if (modalEventTitle) modalEventTitle.placeholder = window.i18n.t('calendar.eventTitle');
+        if (modalEventDescription) modalEventDescription.placeholder = window.i18n.t('calendar.eventDescription');
+        
+        // Update labels
+        if (eventTypeLabel) eventTypeLabel.textContent = window.i18n.t('calendar.eventType') + ':';
+        if (dateLabel) dateLabel.textContent = window.i18n.t('calendar.date') + ':';
+        if (timeLabel) timeLabel.textContent = window.i18n.t('calendar.setSpecificTime');
+        if (iconLabel) iconLabel.textContent = window.i18n.t('calendar.eventIcon') + ':';
+        if (colorLabel) colorLabel.textContent = window.i18n.t('calendar.eventColor') + ':';
+        
+        // Update buttons
+        if (deleteBtn) deleteBtn.title = window.i18n.t('calendar.deleteEvent');
+        if (cancelBtn) cancelBtn.title = window.i18n.t('calendar.cancel');
+        
+        // Update event type options
+        const eventTypeSelect = document.getElementById('modalEventType');
+        if (eventTypeSelect) {
+            const options = eventTypeSelect.options;
+            for (let i = 0; i < options.length; i++) {
+                const option = options[i];
+                const type = option.value;
+                if (type === 'other' || type === 'work' || type === 'study' || type === 'leisure') {
+                    option.textContent = window.i18n.t(`calendar.eventTypes.${type}`);
+                }
+            }
+        }
+        
+        // Update submit button and modal title based on edit mode
+        if (submitBtn && modalTitle) {
+            const isEditMode = submitBtn.classList.contains('event-modal-btn-save');
+            if (isEditMode) {
+                submitBtn.innerHTML = '<i class="fas fa-save"></i> ' + window.i18n.t('calendar.saveEvent');
+                modalTitle.textContent = window.i18n.t('calendar.editEvent');
+            } else {
+                submitBtn.innerHTML = '<i class="fas fa-plus-circle"></i> ' + window.i18n.t('calendar.createEvent');
+                modalTitle.textContent = window.i18n.t('calendar.createEvent');
+            }
+        }
+    }
+    
     // Setup periodic sync as backup to real-time listener
      setupPeriodicSync() {
          if (!window.firebaseAuth || !window.firebaseAuth.currentUser) {

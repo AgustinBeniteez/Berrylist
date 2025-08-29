@@ -70,15 +70,18 @@
   --event-color-12: #4caf50; /* Verde claro */
   
   /* Colores personalizados para eventos */
-  --event-custom-1: #e74c3c;  /* Rojo */
-  --event-custom-2: #e67e22;  /* Naranja */
-  --event-custom-3: #f1c40f;  /* Amarillo */
-  --event-custom-4: #27ae60;  /* Verde */
-  --event-custom-5: #16a085;  /* Verde azulado */
-  --event-custom-6: #3498db;  /* Azul */
-  --event-custom-7: #9b59b6;  /* Púrpura */
-  --event-custom-8: #e91e63;  /* Rosa */
-  --event-custom-9: #795548;  /* Marrón */
+  --event-custom-1: #d35400;  /* Naranja oscuro */
+  --event-custom-2: #8e44ad;  /* Púrpura oscuro */
+  --event-custom-3: #2980b9;  /* Azul oscuro */
+  --event-custom-4: #c0392b;  /* Rojo oscuro */
+  --event-custom-5: #1abc9c;  /* Turquesa */
+  --event-custom-6: #f39c12;  /* Ámbar */
+  --event-custom-7: #7f8c8d;  /* Gris */
+  --event-custom-8: #2c3e50;  /* Azul marino */
+  --event-custom-9: #9c88ff;  /* Púrpura claro */
+  --event-custom-10: #00cec9; /* Turquesa claro */
+  --event-custom-11: #6c5ce7; /* Azul violeta */
+  --event-custom-12: #00b894; /* Menta */
 }
 
 /* Modo oscuro */
@@ -143,13 +146,16 @@
   --event-color-12: #81c784; /* Verde claro */
   
   /* Colores personalizados para eventos en modo oscuro */
-  --event-custom-1: #ec7063;  /* Rojo claro */
-  --event-custom-2: #f0b27a;  /* Naranja claro */
-  --event-custom-3: #f4d03f;  /* Amarillo claro */
-  --event-custom-4: #58d68d;  /* Verde claro */
-  --event-custom-5: #48c9b0;  /* Verde azulado claro */
-  --event-custom-6: #5dade2;  /* Azul claro */
-  --event-custom-7: #bb8fce;  /* Púrpura claro */
-  --event-custom-8: #f06292;  /* Rosa claro */
-  --event-custom-9: #a1887f;  /* Marrón claro */
+  --event-custom-1: #e67e22;  /* Naranja oscuro claro */
+  --event-custom-2: #9b59b6;  /* Púrpura oscuro claro */
+  --event-custom-3: #3498db;  /* Azul oscuro claro */
+  --event-custom-4: #e74c3c;  /* Rojo oscuro claro */
+  --event-custom-5: #48c9b0;  /* Turquesa claro */
+  --event-custom-6: #f5b041;  /* Ámbar claro */
+  --event-custom-7: #95a5a6;  /* Gris claro */
+  --event-custom-8: #34495e;  /* Azul marino claro */
+  --event-custom-9: #a29bfe;  /* Púrpura claro */
+  --event-custom-10: #81ecec; /* Turquesa claro */
+  --event-custom-11: #7d5fff; /* Azul violeta claro */
+  --event-custom-12: #55efc4; /* Menta claro */
 }

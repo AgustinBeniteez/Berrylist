@@ -48,7 +48,9 @@
       "eventColor": "Event color",
       "eventIcon": "Event icon",
       "eventTime": "Time (optional)",
-      "saveEvent": "Save Event",
+      "date": "Date",
+      "setSpecificTime": "Set specific time",
+      "saveEvent": "Save",
       "updateEvent": "Update Event",
       "deleteEvent": "Delete Event",
       "cancel": "Cancel",
@@ -60,7 +62,11 @@
         "work": "Work",
         "study": "Study",
         "leisure": "Leisure",
-        "other": "Other"
+        "other": "Other",
+        "meeting": "Meeting",
+        "appointment": "Appointment",
+        "birthday": "Birthday",
+        "holiday": "Holiday"
       },
       "confirmDelete": "Are you sure you want to delete this event?"
     },
@@ -180,7 +186,9 @@
       "eventColor": "Color del evento",
       "eventIcon": "Icono del evento",
       "eventTime": "Hora (opcional)",
-      "saveEvent": "Guardar Evento",
+      "date": "Fecha",
+      "setSpecificTime": "Establecer hora específica",
+      "saveEvent": "Guardar",
       "updateEvent": "Actualizar Evento",
       "deleteEvent": "Eliminar Evento",
       "cancel": "Cancelar",
@@ -192,7 +200,11 @@
         "work": "Trabajo",
         "study": "Estudio",
         "leisure": "Ocio",
-        "other": "Otro"
+        "other": "Otro",
+        "meeting": "Reunión",
+        "appointment": "Cita",
+        "birthday": "Cumpleaños",
+        "holiday": "Vacaciones"
       },
       "confirmDelete": "¿Estás seguro de que quieres eliminar este evento?"
     },
@@ -312,7 +324,9 @@
       "eventColor": "Couleur de l'événement",
       "eventIcon": "Icône de l'événement",
       "eventTime": "Heure (optionnelle)",
-      "saveEvent": "Sauvegarder l'Événement",
+      "date": "Date",
+      "setSpecificTime": "Définir une heure spécifique",
+      "saveEvent": "Sauvegarder",
       "updateEvent": "Mettre à jour l'Événement",
       "deleteEvent": "Supprimer l'Événement",
       "cancel": "Annuler",
@@ -324,7 +338,11 @@
         "work": "Travail",
         "study": "Étude",
         "leisure": "Loisirs",
-        "other": "Autre"
+        "other": "Autre",
+        "meeting": "Réunion",
+        "appointment": "Rendez-vous",
+        "birthday": "Anniversaire",
+        "holiday": "Vacances"
       },
       "confirmDelete": "Êtes-vous sûr de vouloir supprimer cet événement?"
     },
