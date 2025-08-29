@@ -20,9 +20,6 @@ class I18n {
                 this.currentLanguage = this.detectBrowserLanguage();
             }
             
-            // Actualizar el atributo lang del HTML
-            document.documentElement.lang = this.currentLanguage;
-            
             // Aplicar traducciones iniciales
             this.applyTranslations();
             

@@ -210,11 +210,6 @@ document.addEventListener('DOMContentLoaded', function() {
       // Actualizar el contenido principal
       mainContent.innerHTML = sectionContent;
       
-      // Aplicar traducciones al nuevo contenido
-      if (window.i18n && typeof window.i18n.applyTranslations === 'function') {
-        window.i18n.applyTranslations();
-      }
-      
       // Activar la sección cargada
       const sectionElement = mainContent.querySelector('.section-content');
       if (sectionElement) {

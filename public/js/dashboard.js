@@ -74,11 +74,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     mainContent.innerHTML = dashboardContent;
     
-    // Aplicar traducciones al contenido del dashboard
-    if (window.i18n && typeof window.i18n.applyTranslations === 'function') {
-      window.i18n.applyTranslations();
-    }
-    
     // Remover el atributo data-active-section del body
     document.body.removeAttribute('data-active-section');
     
@@ -121,11 +116,6 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Actualizar el contenido principal
       mainContent.innerHTML = sectionContent;
-      
-      // Aplicar traducciones al nuevo contenido
-      if (window.i18n && typeof window.i18n.applyTranslations === 'function') {
-        window.i18n.applyTranslations();
-      }
       
       // Activar la sección cargada
       const sectionElement = mainContent.querySelector('.section-content');
@@ -313,11 +303,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Actualizar el contenido principal
         document.getElementById('main-content').innerHTML = mainContent;
-        
-        // Aplicar traducciones al nuevo contenido
-        if (window.i18n && typeof window.i18n.applyTranslations === 'function') {
-          window.i18n.applyTranslations();
-        }
         
         // Reinicializar los eventos de los botones de las cards
         const newCardButtons = document.querySelectorAll('.card-btn');
