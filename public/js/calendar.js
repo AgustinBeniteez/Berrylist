@@ -1338,8 +1338,10 @@ class Calendar {
                 <i class="${event.icon || 'fas fa-calendar'}"></i>
                 ${event.title}
             </div>
-            <div class="event-tooltip-time">${timeDisplay}</div>
-            <div class="event-tooltip-type">${typeDisplay}</div>
+            <div class="event-tooltip-meta">
+                <div class="event-tooltip-time">${timeDisplay}</div>
+                <div class="event-tooltip-type">${typeDisplay}</div>
+            </div>
             ${event.description ? `<div class="event-tooltip-description">${event.description}</div>` : ''}
         `;
         

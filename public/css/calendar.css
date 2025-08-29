@@ -346,16 +346,21 @@
   gap: 8px;
 }
 
+.event-tooltip-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
 .event-tooltip-time {
   font-size: 12px;
   color: var(--text-secondary-color);
-  margin-bottom: 4px;
 }
 
 .event-tooltip-type {
   font-size: 12px;
   color: var(--text-secondary-color);
-  margin-bottom: 6px;
   text-transform: capitalize;
 }
 
