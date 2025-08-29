@@ -1541,7 +1541,7 @@ class Calendar {
                 <div class="task-item ${event.completed ? 'completed' : ''}" data-event-id="${event.id}">
                     <div class="task-checkbox">
                         <input type="checkbox" ${event.completed ? 'checked' : ''} 
-                               onchange="window.calendar.toggleEventCompleted('${event.id}'); window.calendar.updateMonthTasksView();">
+                               onchange="window.berryCalendar.toggleEventCompleted('${event.id}'); window.berryCalendar.updateMonthTasksView();">
                     </div>
                     <div class="task-content">
                         <div class="task-title">${event.title}</div>
@@ -1553,10 +1553,10 @@ class Calendar {
                         ${event.description ? `<div class="task-description">${event.description}</div>` : ''}
                     </div>
                     <div class="task-actions">
-                        <button class="task-action-btn" onclick="window.calendar.editEvent('${event.id}')" title="Editar">
+                        <button class="task-action-btn" onclick="window.berryCalendar.editEvent('${event.id}')" title="Editar">
                             <i class="fas fa-edit"></i>
                         </button>
-                        <button class="task-action-btn delete" onclick="window.calendar.deleteEvent('${event.id}')" title="Eliminar">
+                        <button class="task-action-btn delete" onclick="window.berryCalendar.deleteEvent('${event.id}')" title="Eliminar">
                             <i class="fas fa-trash"></i>
                         </button>
                     </div>
