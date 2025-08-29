@@ -48,6 +48,37 @@
   --info-color: #3498db;
   --danger-color: #e74c3c;
   --heading-color: #333;
+  
+  /* Colores para tipos de eventos */
+  --event-work-color: #3498db;
+  --event-study-color: #9b59b6;
+  --event-leisure-color: #e67e22;
+  --event-default-color: #7D1045;
+  
+  /* Paleta de colores personalizables para eventos */
+  --event-color-1: #e74c3c;  /* Rojo */
+  --event-color-2: #e67e22;  /* Naranja */
+  --event-color-3: #f1c40f;  /* Amarillo */
+  --event-color-4: #27ae60;  /* Verde */
+  --event-color-5: #16a085;  /* Verde azulado */
+  --event-color-6: #3498db;  /* Azul */
+  --event-color-7: #9b59b6;  /* Púrpura */
+  --event-color-8: #e91e63;  /* Rosa */
+  --event-color-9: #795548;  /* Marrón */
+  --event-color-10: #607d8b; /* Azul gris */
+  --event-color-11: #ff5722; /* Naranja profundo */
+  --event-color-12: #4caf50; /* Verde claro */
+  
+  /* Colores personalizados para eventos */
+  --event-custom-1: #e74c3c;  /* Rojo */
+  --event-custom-2: #e67e22;  /* Naranja */
+  --event-custom-3: #f1c40f;  /* Amarillo */
+  --event-custom-4: #27ae60;  /* Verde */
+  --event-custom-5: #16a085;  /* Verde azulado */
+  --event-custom-6: #3498db;  /* Azul */
+  --event-custom-7: #9b59b6;  /* Púrpura */
+  --event-custom-8: #e91e63;  /* Rosa */
+  --event-custom-9: #795548;  /* Marrón */
 }
 
 /* Modo oscuro */
@@ -90,4 +121,35 @@
   --info-color: #3498db;
   --danger-color: #e74c3c;
   --heading-color: #f4f4f4;
+  
+  /* Colores para tipos de eventos (modo oscuro) */
+  --event-work-color: #5dade2;
+  --event-study-color: #bb8fce;
+  --event-leisure-color: #f0b27a;
+  --event-default-color: #7D1045;
+  
+  /* Paleta de colores personalizables para eventos (modo oscuro) */
+  --event-color-1: #ec7063;  /* Rojo claro */
+  --event-color-2: #f0b27a;  /* Naranja claro */
+  --event-color-3: #f4d03f;  /* Amarillo claro */
+  --event-color-4: #58d68d;  /* Verde claro */
+  --event-color-5: #48c9b0;  /* Verde azulado claro */
+  --event-color-6: #5dade2;  /* Azul claro */
+  --event-color-7: #bb8fce;  /* Púrpura claro */
+  --event-color-8: #f06292;  /* Rosa claro */
+  --event-color-9: #a1887f;  /* Marrón claro */
+  --event-color-10: #90a4ae; /* Azul gris claro */
+  --event-color-11: #ff8a65; /* Naranja profundo claro */
+  --event-color-12: #81c784; /* Verde claro */
+  
+  /* Colores personalizados para eventos en modo oscuro */
+  --event-custom-1: #ec7063;  /* Rojo claro */
+  --event-custom-2: #f0b27a;  /* Naranja claro */
+  --event-custom-3: #f4d03f;  /* Amarillo claro */
+  --event-custom-4: #58d68d;  /* Verde claro */
+  --event-custom-5: #48c9b0;  /* Verde azulado claro */
+  --event-custom-6: #5dade2;  /* Azul claro */
+  --event-custom-7: #bb8fce;  /* Púrpura claro */
+  --event-custom-8: #f06292;  /* Rosa claro */
+  --event-custom-9: #a1887f;  /* Marrón claro */
 }

@@ -203,11 +203,68 @@ class Calendar {
                     <form class="event-modal-form" id="eventModalForm">
                         <input type="text" id="modalEventTitle" placeholder="Event title" required>
                         <input type="date" id="modalEventDate" required>
-                        <input type="time" id="modalEventTime">
+                        
+                        <div class="event-time-container">
+                            <label class="event-time-label">
+                                <input type="checkbox" id="eventHasTime" checked>
+                                <span>Set specific time</span>
+                            </label>
+                            <input type="time" id="modalEventTime">
+                        </div>
+                        
+                        <div class="event-type-container">
+                            <label>Event type:</label>
+                            <select id="modalEventType">
+                                <option value="other">Other</option>
+                                <option value="work">Work</option>
+                                <option value="study">Study</option>
+                                <option value="leisure">Leisure</option>
+                            </select>
+                        </div>
+                        
+                        <div class="icon-picker-container">
+                            <label>Icon:</label>
+                            <div class="icon-picker-grid">
+                                <div class="icon-option active" data-icon="fas fa-calendar"><i class="fas fa-calendar"></i></div>
+                                <div class="icon-option" data-icon="fas fa-briefcase"><i class="fas fa-briefcase"></i></div>
+                                <div class="icon-option" data-icon="fas fa-book"><i class="fas fa-book"></i></div>
+                                <div class="icon-option" data-icon="fas fa-gamepad"><i class="fas fa-gamepad"></i></div>
+                                <div class="icon-option" data-icon="fas fa-coffee"><i class="fas fa-coffee"></i></div>
+                                <div class="icon-option" data-icon="fas fa-heart"><i class="fas fa-heart"></i></div>
+                                <div class="icon-option" data-icon="fas fa-star"><i class="fas fa-star"></i></div>
+                                <div class="icon-option" data-icon="fas fa-music"><i class="fas fa-music"></i></div>
+                                <div class="icon-option" data-icon="fas fa-film"><i class="fas fa-film"></i></div>
+                                <div class="icon-option" data-icon="fas fa-plane"><i class="fas fa-plane"></i></div>
+                                <div class="icon-option" data-icon="fas fa-utensils"><i class="fas fa-utensils"></i></div>
+                                <div class="icon-option" data-icon="fas fa-dumbbell"><i class="fas fa-dumbbell"></i></div>
+                            </div>
+                            <input type="hidden" id="selectedEventIcon" value="fas fa-calendar">
+                        </div>
+                        
+                        <div class="event-color-container">
+                            <label>Color:</label>
+                            <div class="color-picker-grid">
+                                <div class="color-option" data-color="var(--event-color-1)" style="background-color: var(--event-color-1);"></div>
+                                <div class="color-option" data-color="var(--event-color-2)" style="background-color: var(--event-color-2);"></div>
+                                <div class="color-option" data-color="var(--event-color-3)" style="background-color: var(--event-color-3);"></div>
+                                <div class="color-option" data-color="var(--event-color-4)" style="background-color: var(--event-color-4);"></div>
+                                <div class="color-option" data-color="var(--event-color-5)" style="background-color: var(--event-color-5);"></div>
+                                <div class="color-option" data-color="var(--event-color-6)" style="background-color: var(--event-color-6);"></div>
+                                <div class="color-option" data-color="var(--event-color-7)" style="background-color: var(--event-color-7);"></div>
+                                <div class="color-option" data-color="var(--event-color-8)" style="background-color: var(--event-color-8);"></div>
+                                <div class="color-option" data-color="var(--event-color-9)" style="background-color: var(--event-color-9);"></div>
+                                <div class="color-option" data-color="var(--event-color-10)" style="background-color: var(--event-color-10);"></div>
+                                <div class="color-option" data-color="var(--event-color-11)" style="background-color: var(--event-color-11);"></div>
+                                <div class="color-option" data-color="var(--event-color-12)" style="background-color: var(--event-color-12);"></div>
+                            </div>
+                            <input type="hidden" id="selectedEventColor" value="var(--event-default-color)">
+                        </div>
+                        
                         <textarea id="modalEventDescription" placeholder="Description (optional)" rows="4"></textarea>
                         <div class="event-modal-buttons">
+                            <button type="button" class="event-modal-btn event-modal-btn-danger" id="deleteEventModal" style="display: none;">Delete</button>
                             <button type="button" class="event-modal-btn event-modal-btn-secondary" id="cancelEventModal">Cancel</button>
-                            <button type="submit" class="event-modal-btn event-modal-btn-primary">Create Event</button>
+                            <button type="submit" class="event-modal-btn event-modal-btn-primary" id="submitEventModal">Create Event</button>
                         </div>
                     </form>
                 </div>
@@ -265,12 +322,7 @@ class Calendar {
             const prevYear = month === 0 ? year - 1 : year;
             const dateStr = `${prevYear}-${String(prevMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
             const dayEvents = this.events.filter(event => event.date === dateStr);
-            const eventsHTML = dayEvents.map(event => 
-                `<div class="calendar-event" draggable="true" data-event-id="${event.id}">
-                    <span class="calendar-event-title">${event.title}</span>
-                    <span class="calendar-event-time">${event.time}</span>
-                </div>`
-            ).join('');
+            const eventsHTML = this.generateEventsHTML(dayEvents, dateStr);
             daysHTML += `
                 <div class="calendar-day calendar-day-other-month" data-date="${dateStr}">
                     <button class="add-event-btn" data-date="${dateStr}">+</button>
@@ -284,12 +336,7 @@ class Calendar {
         for (let day = 1; day <= daysInMonth; day++) {
             const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
             const dayEvents = this.events.filter(event => event.date === dateStr);
-            const eventsHTML = dayEvents.map(event => 
-                `<div class="calendar-event" draggable="true" data-event-id="${event.id}">
-                    <span class="calendar-event-title">${event.title}</span>
-                    <span class="calendar-event-time">${event.time}</span>
-                </div>`
-            ).join('');
+            const eventsHTML = this.generateEventsHTML(dayEvents, dateStr);
             
             daysHTML += `
                 <div class="calendar-day" data-date="${dateStr}">
@@ -308,12 +355,7 @@ class Calendar {
             const nextYear = month === 11 ? year + 1 : year;
             const dateStr = `${nextYear}-${String(nextMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
             const dayEvents = this.events.filter(event => event.date === dateStr);
-            const eventsHTML = dayEvents.map(event => 
-                `<div class="calendar-event" draggable="true" data-event-id="${event.id}">
-                    <span class="calendar-event-title">${event.title}</span>
-                    <span class="calendar-event-time">${event.time}</span>
-                </div>`
-            ).join('');
+            const eventsHTML = this.generateEventsHTML(dayEvents, dateStr);
             daysHTML += `
                 <div class="calendar-day calendar-day-other-month" data-date="${dateStr}">
                     <button class="add-event-btn" data-date="${dateStr}">+</button>
@@ -324,6 +366,64 @@ class Calendar {
         }
 
         return daysHTML;
+    }
+
+    generateEventsHTML(dayEvents, dateStr) {
+        if (dayEvents.length === 0) {
+            return '';
+        }
+
+        const maxVisibleEvents = 3;
+        const visibleEvents = dayEvents.slice(0, maxVisibleEvents);
+        const hiddenEvents = dayEvents.slice(maxVisibleEvents);
+
+        let eventsHTML = visibleEvents.map(event => {
+            const eventColor = event.color || 'custom-1';
+            const eventIcon = event.icon || 'fas fa-calendar';
+            const timeDisplay = event.time && event.time !== '00:00' ? event.time : '';
+            
+            // Convert color to class name
+            let colorClass = 'color-custom-1'; // default
+            if (eventColor.startsWith('var(--event-color-')) {
+                // Extract number from var(--event-color-X)
+                const colorNumber = eventColor.match(/--event-color-(\d+)/);
+                if (colorNumber) {
+                    colorClass = `color-color-${colorNumber[1]}`;
+                }
+            } else if (eventColor.startsWith('var(--event-custom-')) {
+                // Extract number from var(--event-custom-X)
+                const customNumber = eventColor.match(/--event-custom-(\d+)/);
+                if (customNumber) {
+                    colorClass = `color-custom-${customNumber[1]}`;
+                }
+            } else if (eventColor.startsWith('var(--event-') && eventColor.includes('-color)')) {
+                // Handle var(--event-work-color), var(--event-study-color), etc.
+                const typeMatch = eventColor.match(/--event-(\w+)-color/);
+                if (typeMatch) {
+                    colorClass = `color-${typeMatch[1]}`;
+                }
+            } else if (!eventColor.startsWith('var(')) {
+                // Direct color name like 'custom-1', 'work', etc.
+                colorClass = `color-${eventColor}`;
+            }
+            
+            return `<div class="calendar-event ${colorClass}" draggable="true" data-event-id="${event.id}" 
+                 onclick="event.stopPropagation(); window.berryCalendar.editEvent('${event.id}')" 
+                 onmouseenter="window.berryCalendar.showEventTooltip(event, '${event.id}')" 
+                 onmouseleave="window.berryCalendar.hideEventTooltip()">
+                 <i class="calendar-event-icon ${eventIcon}"></i>
+                 <span class="calendar-event-title">${event.title}</span>
+                 ${timeDisplay ? `<span class="calendar-event-time">${timeDisplay}</span>` : ''}
+             </div>`;
+        }).join('');
+
+        if (hiddenEvents.length > 0) {
+            eventsHTML += `<div class="calendar-more-events" onclick="event.stopPropagation(); window.berryCalendar.showMoreEvents('${dateStr}')">
+                +${hiddenEvents.length} more
+            </div>`;
+        }
+
+        return eventsHTML;
     }
 
     attachEventListeners() {
@@ -430,7 +530,20 @@ class Calendar {
             calendarGrid.addEventListener('click', (e) => {
                 if (e.target.classList.contains('add-event-btn')) {
                     const date = e.target.getAttribute('data-date');
-                    this.showEventModal(date);
+                    // Check if user is authenticated before showing event modal
+                    if (window.authManager && window.authManager.currentUser) {
+                        this.showEventModal(date);
+                    } else if (window.authManager && typeof window.authManager.showLoginModal === 'function') {
+                        window.authManager.showLoginModal();
+                    }
+                } else if (e.target.classList.contains('calendar-event')) {
+                    const eventId = e.target.getAttribute('data-event-id');
+                    // Check if user is authenticated before editing event
+                    if (window.authManager && window.authManager.currentUser) {
+                        this.editEvent(eventId);
+                    } else if (window.authManager && typeof window.authManager.showLoginModal === 'function') {
+                        window.authManager.showLoginModal();
+                    }
                 }
             });
             
@@ -491,27 +604,151 @@ class Calendar {
         const modal = document.getElementById('eventModal');
         const closeModalBtn = document.getElementById('closeEventModal');
         const cancelEventModalBtn = document.getElementById('cancelEventModal');
+        const deleteEventModalBtn = document.getElementById('deleteEventModal');
         const eventModalForm = document.getElementById('eventModalForm');
+        const eventHasTimeCheckbox = document.getElementById('eventHasTime');
+        const eventTimeInput = document.getElementById('modalEventTime');
 
         if (closeModalBtn) closeModalBtn.addEventListener('click', () => this.hideEventModal());
         if (cancelEventModalBtn) cancelEventModalBtn.addEventListener('click', () => this.hideEventModal());
+        if (deleteEventModalBtn) deleteEventModalBtn.addEventListener('click', () => this.deleteCurrentEvent());
         if (eventModalForm) eventModalForm.addEventListener('submit', (e) => {
             e.preventDefault();
             this.saveEventFromModal();
         });
+        
+        // Time checkbox handler
+        if (eventHasTimeCheckbox && eventTimeInput) {
+            eventHasTimeCheckbox.addEventListener('change', (e) => {
+                eventTimeInput.style.display = e.target.checked ? 'block' : 'none';
+                if (!e.target.checked) {
+                    eventTimeInput.value = '';
+                }
+            });
+        }
+        
+        // Color picker events
+        const colorOptions = document.querySelectorAll('.color-option');
+        colorOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                // Remove active class from all options
+                colorOptions.forEach(opt => opt.classList.remove('active'));
+                // Add active class to clicked option
+                option.classList.add('active');
+                // Set selected color
+                document.getElementById('selectedEventColor').value = option.getAttribute('data-color');
+            });
+        });
+        
+        // Set default color selection
+        if (colorOptions.length > 0) {
+            colorOptions[0].classList.add('active');
+        }
+        
+        // Icon picker events
+        const iconOptions = document.querySelectorAll('.icon-option');
+        iconOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                // Remove active class from all options
+                iconOptions.forEach(opt => opt.classList.remove('active'));
+                // Add active class to clicked option
+                option.classList.add('active');
+                // Set selected icon
+                document.getElementById('selectedEventIcon').value = option.getAttribute('data-icon');
+            });
+        });
+        
+        // Set default icon selection
+        if (iconOptions.length > 0) {
+            iconOptions[0].classList.add('active');
+        }
     }
 
-    showEventModal(date) {
+    showEventModal(date, eventId = null) {
         const modal = document.getElementById('eventModal');
         const dateInput = document.getElementById('modalEventDate');
+        const titleInput = document.getElementById('modalEventTitle');
+        const timeInput = document.getElementById('modalEventTime');
+        const descriptionInput = document.getElementById('modalEventDescription');
+        const typeSelect = document.getElementById('modalEventType');
+        const colorInput = document.getElementById('selectedEventColor');
+        const iconInput = document.getElementById('selectedEventIcon');
+        const hasTimeCheckbox = document.getElementById('eventHasTime');
+        const deleteBtn = document.getElementById('deleteEventModal');
+        const submitBtn = document.getElementById('submitEventModal');
+        const modalTitle = document.querySelector('.event-modal-title');
         
         if (modal && dateInput) {
-            dateInput.value = date;
+            this.currentEditingEventId = eventId;
+            
+            if (eventId) {
+                // Editing existing event
+                const event = this.events.find(e => e.id === eventId);
+                if (event) {
+                    titleInput.value = event.title || '';
+                    dateInput.value = event.date || date;
+                    timeInput.value = event.time || '';
+                    descriptionInput.value = event.description || '';
+                    typeSelect.value = event.type || 'other';
+                    iconInput.value = event.icon || 'fas fa-calendar';
+                    colorInput.value = event.color || 'var(--event-default-color)';
+                    
+                    // Set active icon in grid
+                    const iconOptions = document.querySelectorAll('.icon-option');
+                    iconOptions.forEach(opt => opt.classList.remove('active'));
+                    const activeIcon = document.querySelector(`[data-icon="${event.icon || 'fas fa-calendar'}"]`);
+                    if (activeIcon) activeIcon.classList.add('active');
+                    
+                    // Set active color in grid
+                    const colorOptions = document.querySelectorAll('.color-option');
+                    colorOptions.forEach(opt => opt.classList.remove('active'));
+                    const activeColor = document.querySelector(`[data-color="${event.color || 'var(--event-default-color)'}"]`);
+                    if (activeColor) activeColor.classList.add('active');
+                    
+                    // Set time checkbox
+                    const hasTime = event.time && event.time !== '';
+                    hasTimeCheckbox.checked = hasTime;
+                    timeInput.style.display = hasTime ? 'block' : 'none';
+                    
+                    // Set color selection
+                    document.querySelectorAll('.color-option').forEach(opt => {
+                        opt.classList.remove('active');
+                        if (opt.getAttribute('data-color') === event.color) {
+                            opt.classList.add('active');
+                        }
+                    });
+                    
+                    deleteBtn.style.display = 'inline-block';
+                    submitBtn.textContent = 'Update Event';
+                    modalTitle.textContent = 'Edit Event';
+                }
+            } else {
+                // Creating new event
+                titleInput.value = '';
+                dateInput.value = date;
+                timeInput.value = '';
+                descriptionInput.value = '';
+                typeSelect.value = 'other';
+                iconInput.value = 'fas fa-calendar';
+                colorInput.value = 'var(--event-default-color)';
+                hasTimeCheckbox.checked = true;
+                timeInput.style.display = 'block';
+                
+                // Reset color and icon selections
+                document.querySelectorAll('.color-option').forEach(opt => opt.classList.remove('active'));
+                document.querySelector('.color-option').classList.add('active');
+                document.querySelectorAll('.icon-option').forEach(opt => opt.classList.remove('active'));
+                document.querySelector('.icon-option').classList.add('active');
+                
+                deleteBtn.style.display = 'none';
+                submitBtn.textContent = 'Create Event';
+                modalTitle.textContent = 'Create Event';
+            }
+            
             modal.classList.add('show');
             modal.style.display = 'flex';
             
             // Focus on the title field
-            const titleInput = document.getElementById('modalEventTitle');
             if (titleInput) {
                 setTimeout(() => titleInput.focus(), 100);
             }
@@ -523,45 +760,57 @@ class Calendar {
         if (modal) {
             modal.classList.remove('show');
             modal.style.display = 'none';
+            this.currentEditingEventId = null;
             
             // Clear the form
             const form = document.getElementById('eventModalForm');
             if (form) {
                 form.reset();
             }
+            
+            // Reset color and icon selections to default
+            const colorOptions = document.querySelectorAll('.color-option');
+            colorOptions.forEach(opt => opt.classList.remove('active'));
+            if (colorOptions.length > 0) {
+                colorOptions[0].classList.add('active');
+            }
+            
+            const iconOptions = document.querySelectorAll('.icon-option');
+            iconOptions.forEach(opt => opt.classList.remove('active'));
+            if (iconOptions.length > 0) {
+                iconOptions[0].classList.add('active');
+            }
+            
+            // Reset hidden inputs
+            const colorInput = document.getElementById('selectedEventColor');
+            const iconInput = document.getElementById('selectedEventIcon');
+            if (colorInput) colorInput.value = colorOptions[0]?.getAttribute('data-color') || 'var(--accent-color)';
+            if (iconInput) iconInput.value = iconOptions[0]?.getAttribute('data-icon') || 'fas fa-calendar';
         }
     }
 
     saveEventFromModal() {
         const title = document.getElementById('modalEventTitle').value.trim();
         const date = document.getElementById('modalEventDate').value;
-        const time = document.getElementById('modalEventTime').value || '00:00';
+        const hasTime = document.getElementById('eventHasTime').checked;
+        const time = hasTime ? document.getElementById('modalEventTime').value : '';
         const description = document.getElementById('modalEventDescription').value.trim();
+        const type = document.getElementById('modalEventType').value;
+        const icon = document.getElementById('selectedEventIcon').value;
+        const color = document.getElementById('selectedEventColor').value;
         
         if (!title || !date) {
             alert('Please complete the event title and date.');
             return;
         }
         
-        // Create the event
-        const event = {
-            id: Date.now().toString(), // Unique ID based on timestamp
-            title: title,
-            date: date,
-            time: time,
-            description: description
-        };
-        
-        // Add the event to the list
-        this.events.push(event);
-        
-        // Save to localStorage for persistence
-        this.saveEventsToStorage();
-        
-        // Close modal and re-render calendar
-        this.hideEventModal();
-        this.render();
-        this.attachEventListeners();
+        if (this.currentEditingEventId) {
+            // Update existing event
+            this.updateEvent(this.currentEditingEventId, title, date, time, description, type, icon, color);
+        } else {
+            // Create new event
+            this.addEvent(title, date, time, description, type, icon, color);
+        }
     }
 
     moveEvent(eventId, newDate) {
@@ -847,13 +1096,16 @@ class Calendar {
          }
      }
 
-    addEvent(title, date, time = '00:00', description = '') {
+    addEvent(title, date, time = '', description = '', type = 'other', icon = 'fas fa-calendar', color = 'custom-1') {
         const event = {
             id: Date.now().toString(),
             title: title,
             date: date,
             time: time,
-            description: description
+            description: description,
+            type: type,
+            icon: icon,
+            color: color
         };
         
         this.events.push(event);
@@ -869,6 +1121,134 @@ class Calendar {
         this.saveEventsToStorage();
         this.render();
         this.attachEventListeners();
+    }
+    
+    editEvent(eventId) {
+        const event = this.events.find(e => e.id === eventId);
+        if (event) {
+            this.showEventModal(event.date, eventId);
+        }
+    }
+    
+    updateEvent(eventId, title, date, time, description, type, icon, color) {
+        const eventIndex = this.events.findIndex(e => e.id === eventId);
+        if (eventIndex !== -1) {
+            this.events[eventIndex] = {
+                ...this.events[eventIndex],
+                title,
+                date,
+                time,
+                description,
+                type,
+                icon,
+                color
+            };
+            this.saveEventsToStorage();
+            this.render();
+            this.attachEventListeners();
+            this.hideEventModal();
+        }
+    }
+    
+    deleteEvent(eventId) {
+        if (confirm('¿Estás seguro de que quieres eliminar este evento?')) {
+            this.removeEvent(eventId);
+            this.hideEventModal();
+        }
+    }
+    
+    deleteCurrentEvent() {
+        if (this.currentEditingEventId) {
+            this.deleteEvent(this.currentEditingEventId);
+        }
+    }
+    
+    showMoreEvents(date) {
+        const dayEvents = this.events.filter(event => event.date === date);
+        const eventsContainer = document.querySelector(`[data-date="${date}"] .events-container`);
+        
+        if (eventsContainer) {
+            const hiddenEvents = eventsContainer.querySelectorAll('.calendar-event.hidden');
+            const moreEventsBtn = eventsContainer.querySelector('.more-events');
+            
+            hiddenEvents.forEach(event => {
+                event.classList.remove('hidden');
+            });
+            
+            if (moreEventsBtn) {
+                moreEventsBtn.style.display = 'none';
+            }
+        }
+    }
+    
+    showEventTooltip(mouseEvent, eventId) {
+        const event = this.events.find(e => e.id === eventId);
+        if (!event) return;
+        
+        // Remove existing tooltip
+        this.hideEventTooltip();
+        
+        // Create tooltip element
+        const tooltip = document.createElement('div');
+        tooltip.className = 'event-tooltip';
+        tooltip.id = 'event-tooltip';
+        
+        const timeDisplay = event.time && event.time !== '00:00' ? event.time : 'Todo el día';
+        const typeDisplay = this.getTypeDisplayName(event.type || 'other');
+        
+        tooltip.innerHTML = `
+            <div class="event-tooltip-arrow"></div>
+            <div class="event-tooltip-title">
+                <i class="${event.icon || 'fas fa-calendar'}"></i>
+                ${event.title}
+            </div>
+            <div class="event-tooltip-time">${timeDisplay}</div>
+            <div class="event-tooltip-type">${typeDisplay}</div>
+            ${event.description ? `<div class="event-tooltip-description">${event.description}</div>` : ''}
+        `;
+        
+        document.body.appendChild(tooltip);
+        
+        // Position tooltip
+        const rect = mouseEvent.target.closest('.calendar-event').getBoundingClientRect();
+        const tooltipRect = tooltip.getBoundingClientRect();
+        
+        let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
+        let top = rect.top - tooltipRect.height - 10;
+        
+        // Adjust if tooltip goes off screen
+        if (left < 10) left = 10;
+        if (left + tooltipRect.width > window.innerWidth - 10) {
+            left = window.innerWidth - tooltipRect.width - 10;
+        }
+        if (top < 10) {
+            top = rect.bottom + 10;
+            tooltip.querySelector('.event-tooltip-arrow').style.transform = 'translateX(-50%) rotate(180deg)';
+            tooltip.querySelector('.event-tooltip-arrow').style.top = '-6px';
+        }
+        
+        tooltip.style.left = left + 'px';
+        tooltip.style.top = top + 'px';
+        
+        // Show tooltip with animation
+        setTimeout(() => tooltip.classList.add('show'), 10);
+    }
+    
+    hideEventTooltip() {
+        const tooltip = document.getElementById('event-tooltip');
+        if (tooltip) {
+            tooltip.remove();
+        }
+    }
+    
+    getTypeDisplayName(type) {
+        const typeNames = {
+            'work': 'Trabajo',
+            'study': 'Estudios',
+            'leisure': 'Ocio',
+            'other': 'Otro'
+        };
+        return typeNames[type] || 'Otro';
     }
 }
 

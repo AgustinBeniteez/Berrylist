@@ -13,6 +13,13 @@ document.addEventListener('DOMContentLoaded', function() {
       // Obtener la sección a la que se quiere navegar
       const section = this.getAttribute('data-section');
       
+      // Verificar autenticación antes de permitir acceso
+      if (!checkAuthenticationAccess(section)) {
+        e.preventDefault();
+        showAuthenticationRequiredMessage(section);
+        return;
+      }
+      
       // Si estamos en cualquier ruta de dashboard, prevenir la navegación y activar la sección
       if (window.location.pathname.startsWith('/dashboard')) {
         e.preventDefault();
@@ -45,6 +52,17 @@ document.addEventListener('DOMContentLoaded', function() {
     activateSection(directSection);
   }
   
+  // Inicializar el estado visual de los botones
+  updateNavigationButtonsState();
+  
+  // Escuchar cambios en el estado de autenticación
+  if (window.authManager) {
+    // Verificar periódicamente el estado de autenticación para actualizar la UI
+    setInterval(() => {
+      updateNavigationButtonsState();
+    }, 1000);
+  }
+  
   // Función para actualizar la URL sin recargar la página
   function updateUrlWithoutReload(section) {
     // Si estamos en el menú de selección, usar la URL especial
@@ -52,8 +70,88 @@ document.addEventListener('DOMContentLoaded', function() {
     window.history.pushState({ section: section }, '', newUrl);
   }
   
+  // Función para verificar si el usuario puede acceder a una sección
+  function checkAuthenticationAccess(section) {
+    // Permitir acceso a settings sin autenticación
+    if (section === 'settings') {
+      return true;
+    }
+    
+    // Para todas las demás secciones, verificar autenticación
+    return window.authManager && window.authManager.currentUser;
+  }
+  
+  // Función para mostrar mensaje cuando se requiere autenticación
+  function showAuthenticationRequiredMessage(section) {
+    // Crear o mostrar modal de login si no está autenticado
+    if (window.authManager && typeof window.authManager.showLoginModal === 'function') {
+      window.authManager.showLoginModal();
+    } else {
+      // Fallback: mostrar alerta
+      alert('Debes iniciar sesión para acceder a esta sección. Solo puedes usar Settings sin autenticación.');
+    }
+  }
+  
+  // Función para actualizar el estado visual de los botones de navegación
+  function updateNavigationButtonsState() {
+    const isAuthenticated = window.authManager && window.authManager.currentUser;
+    const navButtons = document.querySelectorAll('.nav-btn[data-section]');
+    
+    navButtons.forEach(button => {
+      const section = button.getAttribute('data-section');
+      
+      if (section === 'settings') {
+        // Settings siempre está disponible
+        button.classList.remove('disabled');
+        button.style.opacity = '1';
+        button.style.pointerEvents = 'auto';
+      } else {
+        // Otras secciones requieren autenticación
+        if (isAuthenticated) {
+          button.classList.remove('disabled');
+          button.style.opacity = '1';
+          button.style.pointerEvents = 'auto';
+        } else {
+          button.classList.add('disabled');
+          button.style.opacity = '0.5';
+          button.style.pointerEvents = 'none';
+        }
+      }
+    });
+    
+    // También actualizar las tarjetas del dashboard principal
+    const cards = document.querySelectorAll('.card[data-section]');
+    cards.forEach(card => {
+      const section = card.getAttribute('data-section');
+      
+      if (section === 'settings') {
+        // Settings siempre está disponible
+        card.classList.remove('disabled');
+        card.style.opacity = '1';
+        card.style.pointerEvents = 'auto';
+      } else {
+        // Otras secciones requieren autenticación
+        if (isAuthenticated) {
+          card.classList.remove('disabled');
+          card.style.opacity = '1';
+          card.style.pointerEvents = 'auto';
+        } else {
+          card.classList.add('disabled');
+          card.style.opacity = '0.5';
+          card.style.pointerEvents = 'none';
+        }
+      }
+    });
+  }
+  
   // Función para activar una sección específica en el dashboard
   function activateSection(section) {
+    // Verificar autenticación antes de activar la sección
+    if (!checkAuthenticationAccess(section)) {
+      showAuthenticationRequiredMessage(section);
+      return;
+    }
+    
     // Buscar el botón de navegación correspondiente
     const navButton = document.querySelector(`.nav-btn[data-section="${section}"]`);
     if (navButton) {

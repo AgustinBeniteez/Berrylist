@@ -154,6 +154,22 @@ body{
   transform: translateX(3px);
 }
 
+/* Estilos para botones deshabilitados */
+.sidebar-nav a.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.sidebar-nav a.disabled:hover {
+  background: transparent;
+  border-left-color: transparent;
+}
+
+.sidebar-nav a.disabled i {
+  transform: none;
+}
+
 /* Content Area */
 .content-area {
   flex: 1;
@@ -458,6 +474,26 @@ input:checked + .slider:before {
 
 .card:hover {
   transform: translateY(-4px);
+}
+
+/* Estilos para tarjetas deshabilitadas */
+.card.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.card.disabled:hover {
+  transform: none;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    0 4px 16px rgba(125, 16, 69, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.card-link.disabled {
+  pointer-events: none;
+  cursor: not-allowed;
 }
 
 .card-image {
